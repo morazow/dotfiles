@@ -4,13 +4,13 @@
 
 
 ;; set target directory for load-path
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/")
 
 ;; disable splash screen
 (custom-set-variables '(inhibit-startup-screen t))
 
 ;; disable menus
-(menu-bar-mode -1)
+;;(menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 
@@ -37,8 +37,58 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
 
+;; disable this annoying auto save while editing
+(setq auto-save-default nil)
+
 ;; make visible leading and trailing whitespaces
 (setq show-trailing-whitespace t)
+
+;; unset arrow keys -- do it!
+(global-unset-key [left])
+(global-unset-key [right])
+(global-unset-key [up])
+(global-unset-key [down])
+
+;; Programming Hooks
+(add-hook 'c-mode-common-hook
+	  (lambda()
+	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
+
+;;(add-hook 'c-mode-common-hook
+;;	  (lambda()
+;;	    (c-set-style "linux")))
+(add-to-list 'load-path "~/.emacs.d/google-c-style/")
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil
+	       '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+
+;; Erlang Mode
+(setq erlang-root-dir "/usr/lib/erlang")
+(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
+(setq erlang-man-root-dir "/usr/lib/erlang/man")
+(setq load-path (cons "/usr/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
+
+(require 'erlang-start)
+
+(add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
+
+(defun my-erlang-mode-hook ()
+        ;; when starting an Erlang shell in Emacs, default in the node name
+        (setq inferior-erlang-machine-options '("-sname" "emacs"))
+        ;; add Erlang functions to an imenu menu
+        (imenu-add-to-menubar "imenu")
+        ;; customize keys
+        (local-set-key [return] 'newline-and-indent)
+        )
+;; Some Erlang customizations
+(add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
+
 
 
 ;; Org Mode
