@@ -1,4 +1,5 @@
 _vim/backup
+_vim/.netrwhist
 _vim/tmp
 _emacs.d/auto-save-list
 _emacs.d/backups
