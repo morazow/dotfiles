@@ -29,7 +29,7 @@ myTerminal      = "urxvt"
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 1
+myBorderWidth   = 2
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -66,8 +66,10 @@ myWorkspaces    = ["1:main","2:chat","3:web","4:emacs","5:media","6","7","8"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#60A1AD"
-myFocusedBorderColor = "#68e862"
+--myNormalBorderColor  = "#61A1AD"
+--myFocusedBorderColor = "#68e862"
+myNormalBorderColor  = "#abc123"
+myFocusedBorderColor = "#456def"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
