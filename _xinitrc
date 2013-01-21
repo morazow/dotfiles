@@ -1,1 +1,6 @@
 exec ck-launch-session dbus-launch startxfce4
+
+# For example, a nice left-pointing arrow head cursor
+xsetroot -cursor_name left_ptr
+~/conkystartup.sh
+firefox

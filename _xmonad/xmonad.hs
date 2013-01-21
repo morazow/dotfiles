@@ -15,6 +15,7 @@ import qualified Data.Map        as M
 
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
 
 import XMonad.Layout.Maximize
 import XMonad.Layout.Spacing
@@ -80,10 +81,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask,		xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modMask,               xK_d     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    --, ((modMask,               xK_d     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
 
     -- launch xfce4-launcher
-    , ((modMask,               xK_p     ), spawn "xfrun4")
+    , ((modMask,               xK_o     ), spawn "xfrun4")
 
     -- launch gmrun
     , ((modMask .|. shiftMask, xK_p     ), spawn "xfce4-appfinder")
@@ -151,6 +152,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     
     -- to hide/unhide the panel
     , ((modMask              , xK_b), sendMessage ToggleStruts)
+    -- Applications
+    , ((modMask .|. shiftMask, xK_f    ), spawn "firefox")
     ]
     ++
 
@@ -237,16 +240,19 @@ myManageHook = composeAll
     [ className =? "File Operation Progress" --> doFloat
     , className =? "xfce4-notifyd"           --> doIgnore
     , className =? "Firefox" 		     --> doShift "3:web"
+    , className =? "Chromium"                --> doShift "3:web"
     , className =? "Xchat" 		     --> doShift "2:chat"
     , className =? "Pidgin" 		     --> doShift "2:chat"
     , className =? "Skype" 		     --> doShift "2:chat"
     , className =? "Vlc" 		     --> doShift "5:media"
+    , className =? "Conky" 		     --> doShift "1:main"
     --, className =? "MPlayer"        	     --> doFloat
-    --, className =? "Gimp"           	     --> doFloat
+    , className =? "Gimp"           	     --> doFloat
     , className =? "Xfce4-appfinder"  	     --> doFloat
     , className =? "Xfrun4"           	     --> doFloat
     , resource  =? "desktop_window" 	     --> doIgnore
     , resource  =? "kdesktop"       	     --> doIgnore
+    , isFullscreen --> doFullFloat
     ]
 
 -- Whether focus follows the mouse pointer.
@@ -301,7 +307,7 @@ defaults = defaultConfig {
         focusedBorderColor = myFocusedBorderColor,
 
       -- key bindings
-        --keys               = myKeys,
+        keys               = myKeys,
         --mouseBindings      = myMouseBindings,
 
       -- hooks, layouts
