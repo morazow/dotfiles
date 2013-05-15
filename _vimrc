@@ -41,6 +41,7 @@ set wildmode=list:longest,full
 set hlsearch    " highlight the searches
 set paste       " indent properly when pasting from clipboard
 set hidden      " change buffer without saving
+set incsearch  " incrementally match the search
 
 " hide mouse pointer while typing
 set mousehide
@@ -52,8 +53,6 @@ set history=100
 set autoindent
 set smartindent
 
-set nohlsearch   " do not enable search highlighting
-set incsearch  " incrementally match the search
 
 " switch off the search term highlighting
 " nmap <silent> <leader>= :silent :nohlsearch<cr> 
