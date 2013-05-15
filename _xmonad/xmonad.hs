@@ -23,6 +23,9 @@ import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.Grid
 import XMonad.Layout.PerWorkspace
 
+-- copy notification to all workspaces
+import XMonad.Actions.CopyWindow
+
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -153,7 +156,11 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- to hide/unhide the panel
     , ((modMask              , xK_b), sendMessage ToggleStruts)
     -- Applications
-    , ((modMask .|. shiftMask, xK_f    ), spawn "firefox")
+    , ((modMask .|. shiftMask, xK_f    ), spawn "firefox" )
+    , ((modMask .|. shiftMask, xK_g    ), spawn "chromium")
+    , ((modMask .|. shiftMask, xK_t    ), spawn "thunar"  )
+    , ((modMask .|. shiftMask, xK_v    ), spawn "vlc"     )
+    , ((modMask .|. shiftMask, xK_d    ), spawn "emacs"   )
     ]
     ++
 
@@ -238,7 +245,9 @@ myLayout = onWorkspace "5:media" nobordersLayout $ tiled1 ||| Mirror tiled1 ||| 
 --
 myManageHook = composeAll
     [ className =? "File Operation Progress" --> doFloat
-    , className =? "xfce4-notifyd"           --> doIgnore
+    -- do not allow pidgin notification to grab the focus, 
+    -- (doIgnore did not solve)
+    , className =? "xfce4-notifyd"           --> doF W.focusDown <+> doF copyToAll --doIgnore
     , className =? "Firefox" 		     --> doShift "3:web"
     , className =? "Chromium"                --> doShift "3:web"
     , className =? "Xchat" 		     --> doShift "2:chat"
