@@ -38,6 +38,10 @@ set showmatch   " shows matching parentheses/brackets
 set wildmenu    " make the command-line completion
 set wildmode=list:longest,full
 
+set hlsearch    " highlight the searches
+set paste       " indent properly when pasting from clipboard
+set hidden      " change buffer without saving
+
 " hide mouse pointer while typing
 set mousehide
 
