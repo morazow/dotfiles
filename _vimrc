@@ -4,6 +4,12 @@
 " Muhammet Orazow <m.orazow@gmail.com>
 "
 
+" Pathogen
+call pathogen#infect()
+call pathogen#helptags()
+
+"let g:erlang_skel_header = 1
+
 set nocompatible  " forget being compatible
 
 " turn on filetype stuff
@@ -39,9 +45,9 @@ set wildmenu    " make the command-line completion
 set wildmode=list:longest,full
 
 set hlsearch    " highlight the searches
-set paste       " indent properly when pasting from clipboard
+"set paste       " indent properly when pasting from clipboard
 set hidden      " change buffer without saving
-set incsearch  " incrementally match the search
+set incsearch   " incrementally match the search
 
 " hide mouse pointer while typing
 set mousehide
