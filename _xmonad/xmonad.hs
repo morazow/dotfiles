@@ -161,6 +161,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_t    ), spawn "thunar"  )
     , ((modMask .|. shiftMask, xK_v    ), spawn "vlc"     )
     , ((modMask .|. shiftMask, xK_d    ), spawn "emacs"   )
+    , ((modMask .|. shiftMask, xK_s    ), spawn "spotify" )
     ]
     ++
 
@@ -254,6 +255,7 @@ myManageHook = composeAll
     , className =? "Pidgin" 		     --> doShift "2:chat"
     , className =? "Skype" 		     --> doShift "2:chat"
     , className =? "Vlc" 		     --> doShift "5:media"
+    , className =? "Spotify" 		     --> doShift "5:media"
     , className =? "Conky" 		     --> doShift "1:main"
     --, className =? "MPlayer"        	     --> doFloat
     , className =? "Gimp"           	     --> doFloat
