@@ -3,14 +3,7 @@ _xmonad/xmonad.errors
 _xmonad/xmonad.hi
 _xmonad/xmonad.o
 _vim/backup
-_vim/bundle/vimerl
-_vim/.netrwhist
 _vim/tmp
+_vim/.netrwhist
 _emacs.d/auto-save-list
 _emacs.d/backups
-_mpd/mpd.pid
-_mpd/mpd.conf
-_mpd/mpd.db
-_mpd/mpd.log
-_mpd/mpd.state
-

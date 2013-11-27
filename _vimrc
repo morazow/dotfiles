@@ -8,7 +8,8 @@
 call pathogen#infect()
 call pathogen#helptags()
 
-"let g:erlang_skel_header = 1
+
+set t_Co=256
 
 set nocompatible  " forget being compatible
 
