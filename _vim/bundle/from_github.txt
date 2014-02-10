@@ -1,1 +1,2 @@
 vim-rails https://github.com/tpope/vim-rails
+vim-solarized-colors git://github.com/altercation/vim-colors-solarized.git

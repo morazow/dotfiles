@@ -77,6 +77,9 @@ set ch=2
 " set background color 'dark'
 set background=dark
 
+" use solarized color scheme
+colorscheme solarized
+
 " Make tab perform keyword/tag completion if we're not following whitespace
 " inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
