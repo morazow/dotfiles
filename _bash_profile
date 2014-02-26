@@ -1,0 +1,32 @@
+#
+# Bash profile for os x
+#
+
+# bash-completion
+if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+   . /opt/local/etc/profile.d/bash_completion.sh
+fi
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+
+# SBT
+export PATH=$PATH:/Users/mtoraz/Downloads/sbt/bin
+
+# Use vim when bash needs an editor
+export EDITOR="vim -v"
+
+# Use emacs key shortcuts in bash (default)
+# set -o emacs
+
+# Enable colors
+export CLICOLOR=1
+#export LSCOLORS=GxFxCxDxBxegedabagaced
+#export LSCOLORS=dxfxcxdxbxegedabagacad
+#export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
+# Local bin
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
+# Set prompt
+PS1="\[\033[49;37m\]\u@gfk:\[\033[49;33m\]\w $\[\033[0m\] "
