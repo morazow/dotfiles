@@ -49,48 +49,6 @@
 (global-unset-key [up])
 (global-unset-key [down])
 
-;; Programming Hooks
-(add-hook 'c-mode-common-hook
-	  (lambda()
-	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
-
-;;(add-hook 'c-mode-common-hook
-;;	  (lambda()
-;;	    (c-set-style "linux")))
-(add-to-list 'load-path "~/.emacs.d/google-c-style/")
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-	       '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
-
-
-;; Erlang Mode
-(setq erlang-root-dir "/usr/lib/erlang")
-(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
-(setq erlang-man-root-dir "/usr/lib/erlang/man")
-(setq load-path (cons "/usr/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
-
-(require 'erlang-start)
-
-(add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
-(add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
-
-(defun my-erlang-mode-hook ()
-        ;; when starting an Erlang shell in Emacs, default in the node name
-        (setq inferior-erlang-machine-options '("-sname" "emacs"))
-        ;; add Erlang functions to an imenu menu
-        (imenu-add-to-menubar "imenu")
-        ;; customize keys
-        (local-set-key [return] 'newline-and-indent)
-        )
-;; Some Erlang customizations
-(add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
-
-
-
 ;; Org Mode
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -145,25 +103,3 @@
 					  (org-agenda-sorting-strategy
 					   (quote ((agenda time-up priority-down tag-up))))
 					  (org-deadline-warning-days 0)))))))
-
-;; Remember Mode, inspired by (members.optusnet.com.au/~charles57/GTD/remember.html)
-(add-to-list 'load-path "~/.emacs.d/remember/")
-(autoload 'remember "remember" nil t)
-(autoload 'remember-region "remember" nil t)
-
-(setq org-directory "~/Dropbox/Notes/org/")
-(setq org-default-notes-file "~/Dropbox/Notes/org/.tmp_notes")
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map "\C-cr" 'org-remember)
-
-;; Remember Mode Templates
-(setq org-remember-templates
-	  '(("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "~/Dropbox/Notes/org/gtd.org" "Tasks")
-		("Note" ?n "** %^{Head Line} %U %^g\n%i%?" "~/Dropbox/Notes/org/notes.org")
-		("Book" ?b "** %^{Book Title} %t :BOOK: \n%[~/Dropbox/Notes/org/.tmp_book.txt]\n" "~/Dropbox/Notes/org/notes.org")
-		("Film" ?f "** %^{Film Title} %t :FILM: \n%[~/Dropbox/Notes/org/.tmp_film.txt]\n" "~/Dropbox/Notes/org/notes.org")
-		("Someday" ?s "** %^{Someday Heading} %U\n%?\n" "~/Dropbox/Notes/org/someday.org")
-		("Vocab" ?v "** %^{Word?}\n%?\n" "~/Dropbox/Notes/org/vocab.org")))
-
