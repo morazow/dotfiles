@@ -143,14 +143,20 @@ nmap <Leader>pp :set paste!<cr>
 " toggle numbers
 nnoremap <F12> :set nu!<cr>
 
-" Scala Tab Fix to 2
-"function! SCALASET()
-"    set softtabstop=2
-"    set nowrap
-"    set textwidth=0
-"endfunction
-"
-"autocmd FileType scala call SCALASET()
+" Ignore necessary files and folders when using CtrlP
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.class$\|\.so$'
+  \ }
+
+" Ignore also files and folders in .gitignore file
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+  \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
 
 " autoreloading of vim config when saving it
 autocmd! bufwritepost .vimrc source ~/.vimrc
