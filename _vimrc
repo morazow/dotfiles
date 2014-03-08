@@ -8,20 +8,29 @@
 call pathogen#infect()
 call pathogen#helptags()
 
+" forget being compatible
+set nocompatible
 
-set t_Co=256
-
-set nocompatible  " forget being compatible
+" set leader to ,
+let mapleader=","
 
 " turn on filetype stuff
 filetype on
 filetype plugin on
 filetype indent on
-syntax on  " turn on syntax highlighting
+
+" turn on syntax highlighting
+syntax on
+
+" color scheme
+set background=dark
+set t_Co=256
+let g:solarized_termcolors=256
+colorscheme solarized
 
 " tabstops are 4 spaces
 set softtabstop=4
-set shiftwidth=4
+set shiftwidth=2
 set smarttab
 set expandtab " turn tab into spaces
 
@@ -74,13 +83,6 @@ set backspace=indent,eol,start
 " make command line two lines high
 set ch=2
 
-" set background color 'dark'
-set background=dark
-
-" use solarized color scheme
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
-colorscheme solarized
 
 " set numbers
 set number
@@ -101,7 +103,6 @@ endfunction
 
 " show extra space with color
 let c_space_errors=1
-
 
 "
 " to dicipline me against using arrow keys
@@ -142,11 +143,20 @@ nmap <Leader>pp :set paste!<cr>
 " toggle numbers
 nnoremap <F12> :set nu!<cr>
 
-" SnipMate Setup
+" Ignore necessary files and folders when using CtrlP
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.class$\|\.so$'
+  \ }
 
-" setup thesaurus, usage press CTRL-x CTRL-t in insert mode
-set thesaurus+=~/.vim/mthesaur.txt
+" Ignore also files and folders in .gitignore file
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+  \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
 
 " autoreloading of vim config when saving it
 autocmd! bufwritepost .vimrc source ~/.vimrc
-

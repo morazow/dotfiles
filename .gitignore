@@ -4,8 +4,7 @@ _xmonad/xmonad.hi
 _xmonad/xmonad.o
 _vim/backup/*
 _vim/tmp/*
-_vim/bundle/vim-rails
-_vim/bundle/vim-solarized-colors
+_vim/bundle/*/
 _vim/.netrwhist
 _emacs.d/auto-save-list
 _emacs.d/backups
