@@ -15,7 +15,7 @@ set nocompatible
 let mapleader=","
 
 " look for definition up in the directory
-set tags=tags;/
+set tags=.git/tags,./tags,tags;/
 
 " turn on filetype stuff
 filetype on
