@@ -14,6 +14,9 @@ set nocompatible
 " set leader to ,
 let mapleader=","
 
+" look for definition up in the directory
+set tags=tags;/
+
 " turn on filetype stuff
 filetype on
 filetype plugin on
