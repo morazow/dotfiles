@@ -19,6 +19,10 @@
 ;; when 'todo' state changes.
 (setq org-log-done 'note)
 
+;; custom 'todo' keywords
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "INPROGRESS(p)" "|" "DONE(d)"))))
+
 ;; org-agenda will look into these files for 'todo's
 ;; Can I customize this, depending on the hour of the day?
 ;; I don't want agenda to show me personal related stuff on 
