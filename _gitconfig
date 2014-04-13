@@ -4,6 +4,8 @@
 [core]
         editor = vim
         autocrlf = input
+[init]
+        templatedir = ~/.git_template
 [color]
         ui = auto
         interactive = auto
@@ -24,4 +26,5 @@
         co = checkout
         tc = shortlog -sn
         d = diff --color-words 
+        ctags = "!sh -c '[ -f .git/hooks/ctags ] || git init; .git/hooks/ctags' git-ctags"
 
