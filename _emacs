@@ -49,121 +49,81 @@
 (global-unset-key [up])
 (global-unset-key [down])
 
-;; Programming Hooks
-(add-hook 'c-mode-common-hook
-	  (lambda()
-	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
+;; change font to Consolas font family on osx
+;; taken from http://www.emacswiki.org/SetFonts, at the end of page.
+(when (eq system-type 'darwin)
+  ;; default Latin font (e.g. Consolas)
+  (set-face-attribute 'default nil :family "Consolas")
 
-;;(add-hook 'c-mode-common-hook
-;;	  (lambda()
-;;	    (c-set-style "linux")))
-(add-to-list 'load-path "~/.emacs.d/google-c-style/")
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
+  ;; default font size (point * 10)
+  ;;
+  ;; WARNING!  Depending on the default font,
+  ;; if the size is not supported very well, the frame will be clipped
+  ;; so that the beginning of the buffer may not be visible correctly. 
+  (set-face-attribute 'default nil :height 165)
+  )
 
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil
-	       '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+;; lately I started heavily using color themes
+;; This is emacs24 way of changin color-themes, just put your themes
+;; .el files into 'custom-theme-load-path.
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'zenburn t)
 
-
-;; Erlang Mode
-(setq erlang-root-dir "/usr/lib/erlang")
-(setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
-(setq erlang-man-root-dir "/usr/lib/erlang/man")
-(setq load-path (cons "/usr/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
-
-(require 'erlang-start)
-
-(add-to-list 'auto-mode-alist '("\\.erl?$" . erlang-mode))
-(add-to-list 'auto-mode-alist '("\\.hrl?$" . erlang-mode))
-
-(defun my-erlang-mode-hook ()
-        ;; when starting an Erlang shell in Emacs, default in the node name
-        (setq inferior-erlang-machine-options '("-sname" "emacs"))
-        ;; add Erlang functions to an imenu menu
-        (imenu-add-to-menubar "imenu")
-        ;; customize keys
-        (local-set-key [return] 'newline-and-indent)
-        )
-;; Some Erlang customizations
-(add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
-
-
+;; load my org-mode configs, ~/.emacs.d/org-mode-configs.el
+(load "org-mode-configs")
 
 ;; Org Mode
-(require 'org-install)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-cc" 'org-capture)
-(define-key global-map "\C-cb" 'org-iswitchb)
-(define-key global-map "\C-ca" 'org-agenda)
-
-;; Org Mode Customizations -- I must learn this better..
-(setq org-agenda-files (quote ("~/Dropbox/Notes/org/gtd.org")))
-(setq org-agenda-ndays 7)
-(setq org-agenda-repeating-timestamp-show-all nil)
-(setq org-agenda-restore-windows-after-quit t)
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-sorting-strategy (quote ((agenda time-up priority-down tag-up) (todo tag-up))))
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-todo-ignore-deadlines t)
-(setq org-agenda-todo-ignore-scheduled t)
-(setq org-agenda-todo-ignore-with-date t)
-(setq org-agenda-window-setup (quote other-window))
-(setq org-fast-tag-selection-single-key nil)
-(setq org-reverse-note-order nil)
-(setq org-tags-column -78)
-(setq org-tags-match-list-sublevels nil)
-(setq org-time-stamp-rounding-minutes 5)
-(setq org-use-fast-todo-selection t)
-(setq org-use-tag-inheritance nil)
-(setq org-agenda-include-diary nil)
-(setq org-deadline-warning-days 7)
-(setq org-timeline-show-empty-dates t)
-(setq org-insert-mode-line-in-empty-file t)
-(setq org-log-done t)
-
-(defun gtd()
-  (interactive)
-  (find-file "~/Dropbox/Notes/org/gtd.org"))
-(global-set-key (kbd "C-c g") 'gtd)
-
-(add-hook 'org-agenda-mode-hook 'hl-line-mode)
-
-(setq org-agenda-custom-commands
-	  '(("H" "Things To DO"
-		 ((agenda)
-		  (tags-todo "READING")
-		  (tags-todo "LEARNING")
-		  (tags-todo "BUY")
-		  (tags-todo "WATCH")))
-		("D" "Daily Action List"
-		 ((agenda "" ((org-agenda-ndays 1)
-					  (org-agenda-sorting-strategy
-					   (quote ((agenda time-up priority-down tag-up))))
-					  (org-deadline-warning-days 0)))))))
-
-;; Remember Mode, inspired by (members.optusnet.com.au/~charles57/GTD/remember.html)
-(add-to-list 'load-path "~/.emacs.d/remember/")
-(autoload 'remember "remember" nil t)
-(autoload 'remember-region "remember" nil t)
-
-(setq org-directory "~/Dropbox/Notes/org/")
-(setq org-default-notes-file "~/Dropbox/Notes/org/.tmp_notes")
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map "\C-cr" 'org-remember)
-
-;; Remember Mode Templates
-(setq org-remember-templates
-	  '(("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "~/Dropbox/Notes/org/gtd.org" "Tasks")
-		("Note" ?n "** %^{Head Line} %U %^g\n%i%?" "~/Dropbox/Notes/org/notes.org")
-		("Book" ?b "** %^{Book Title} %t :BOOK: \n%[~/Dropbox/Notes/org/.tmp_book.txt]\n" "~/Dropbox/Notes/org/notes.org")
-		("Film" ?f "** %^{Film Title} %t :FILM: \n%[~/Dropbox/Notes/org/.tmp_film.txt]\n" "~/Dropbox/Notes/org/notes.org")
-		("Someday" ?s "** %^{Someday Heading} %U\n%?\n" "~/Dropbox/Notes/org/someday.org")
-		("Vocab" ?v "** %^{Word?}\n%?\n" "~/Dropbox/Notes/org/vocab.org")))
-
+;;(require 'org-install)
+;;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;;(define-key global-map "\C-cl" 'org-store-link)
+;;(define-key global-map "\C-cc" 'org-capture)
+;;(define-key global-map "\C-cb" 'org-iswitchb)
+;;(define-key global-map "\C-ca" 'org-agenda)
+;;
+;;;; Org Mode Customizations -- I must learn this better..
+;;(setq org-agenda-files (quote ("~/Dropbox/Notes/org/gtd.org")))
+;;(setq org-agenda-ndays 7)
+;;(setq org-agenda-repeating-timestamp-show-all nil)
+;;(setq org-agenda-restore-windows-after-quit t)
+;;(setq org-agenda-show-all-dates t)
+;;(setq org-agenda-skip-deadline-if-done t)
+;;(setq org-agenda-skip-scheduled-if-done t)
+;;(setq org-agenda-sorting-strategy (quote ((agenda time-up priority-down tag-up) (todo tag-up))))
+;;(setq org-agenda-start-on-weekday nil)
+;;(setq org-agenda-todo-ignore-deadlines t)
+;;(setq org-agenda-todo-ignore-scheduled t)
+;;(setq org-agenda-todo-ignore-with-date t)
+;;(setq org-agenda-window-setup (quote other-window))
+;;(setq org-fast-tag-selection-single-key nil)
+;;(setq org-reverse-note-order nil)
+;;(setq org-tags-column -78)
+;;(setq org-tags-match-list-sublevels nil)
+;;(setq org-time-stamp-rounding-minutes 5)
+;;(setq org-use-fast-todo-selection t)
+;;(setq org-use-tag-inheritance nil)
+;;(setq org-agenda-include-diary nil)
+;;(setq org-deadline-warning-days 7)
+;;(setq org-timeline-show-empty-dates t)
+;;(setq org-insert-mode-line-in-empty-file t)
+;;(setq org-log-done t)
+;;
+;;(defun gtd()
+;;  (interactive)
+;;  (find-file "~/Dropbox/Notes/org/gtd.org"))
+;;(global-set-key (kbd "C-c g") 'gtd)
+;;
+;;(add-hook 'org-agenda-mode-hook 'hl-line-mode)
+;;
+;;(setq org-agenda-custom-commands
+;;	  '(("H" "Things To DO"
+;;		 ((agenda)
+;;		  (tags-todo "READING")
+;;		  (tags-todo "LEARNING")
+;;		  (tags-todo "BUY")
+;;		  (tags-todo "WATCH")))
+;;		("D" "Daily Action List"
+;;		 ((agenda "" ((org-agenda-ndays 1)
+;;					  (org-agenda-sorting-strategy
+;;					   (quote ((agenda time-up priority-down tag-up))))
+;;					  (org-deadline-warning-days 0)))))))
+;;
