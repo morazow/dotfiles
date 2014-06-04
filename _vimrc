@@ -72,9 +72,20 @@ set history=100
 set autoindent
 set smartindent
 
-
 " switch off the search term highlighting
-" nmap <silent> <leader>= :silent :nohlsearch<cr> 
+nmap <silent> <leader>= :silent :nohlsearch<cr> 
+
+" toggle paste mode
+nmap <Leader>pp :set paste!<cr>
+
+" toggle numbers
+nnoremap <F12> :set nu!<cr>
+
+" map CTRL-E to end-of-line in insert mode,
+" well emacs in vim !!
+imap <C-e> <esc>$i<right>
+" map CTRL-A to beginning-of-line in insert mode
+imap <C-a> <esc>0i
 
 " searching for a pattern with smart case sensitivity
 set ignorecase
@@ -85,7 +96,6 @@ set backspace=indent,eol,start
 
 " make command line two lines high
 set ch=2
-
 
 " set numbers
 set number
@@ -106,6 +116,13 @@ endfunction
 
 " show extra space with color
 let c_space_errors=1
+
+" remove trailing whitespace on save
+function! TrimWhiteSpace()
+  %s/\s\+$//e
+endfunction
+
+autocmd FileType scala,java,ruby autocmd BufWritePre <buffer> :call TrimWhiteSpace()
 
 "
 " to dicipline me against using arrow keys
@@ -139,12 +156,6 @@ nmap <down>  :call <SID>punish_me()<cr>
 set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
-
-" toggle paste mode
-nmap <Leader>pp :set paste!<cr>
-
-" toggle numbers
-nnoremap <F12> :set nu!<cr>
 
 " Ignore necessary files and folders when using CtrlP
 let g:ctrlp_custom_ignore = {
