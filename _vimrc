@@ -130,6 +130,9 @@ endfunction
 
 autocmd FileType scala,java,ruby autocmd BufWritePre <buffer> :call TrimWhiteSpace()
 
+" better git messages
+autocmd Filetype gitcommit setlocal spell spelllang=en_us textwidth=72
+
 "
 " to dicipline me against using arrow keys
 "
