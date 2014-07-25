@@ -87,6 +87,12 @@ imap <C-e> <esc>$i<right>
 " map CTRL-A to beginning-of-line in insert mode
 imap <C-a> <esc>0i
 
+" better split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " searching for a pattern with smart case sensitivity
 set ignorecase
 set smartcase
