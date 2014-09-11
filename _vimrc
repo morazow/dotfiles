@@ -78,6 +78,9 @@ nmap <silent> <leader>= :silent :nohlsearch<cr>
 " toggle paste mode
 nmap <Leader>pp :set paste!<cr>
 
+" new file in directory of current buffer
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
 " toggle numbers
 nnoremap <F12> :set nu!<cr>
 
@@ -132,6 +135,10 @@ autocmd FileType scala,java,ruby autocmd BufWritePre <buffer> :call TrimWhiteSpa
 
 " better git messages
 autocmd Filetype gitcommit setlocal spell spelllang=en_us textwidth=72
+
+" markdown
+autocmd Filetype markdown setlocal textwidth=80
+au Bufread,BufNewFile *.md set filetype=markdown
 
 "
 " to dicipline me against using arrow keys
