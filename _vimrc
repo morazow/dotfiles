@@ -140,6 +140,9 @@ autocmd Filetype gitcommit setlocal spell spelllang=en_us textwidth=72
 autocmd Filetype markdown setlocal textwidth=80
 au Bufread,BufNewFile *.md set filetype=markdown
 
+" spell check in markdown files
+autocmd Filetype markdown setlocal spell spelllang=en_us
+
 "
 " to dicipline me against using arrow keys
 "
