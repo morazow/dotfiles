@@ -3,3 +3,5 @@ vim-scala https://github.com/derekwyatt/vim-scala
 vim-ctrlp https://github.com/kien/ctrlp.vim
 vim-solarized-colors git://github.com/altercation/vim-colors-solarized.git
 vim-tabularize https://github.com/godlygeek/tabular
+vim-nerdtree https://github.com/scrooloose/nerdtree
+vim-fugitive https://github.com/tpope/vim-fugitive

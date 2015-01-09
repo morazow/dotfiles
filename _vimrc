@@ -45,7 +45,8 @@ set cpoptions=ces$
 
 " set the status line (taken from Derek Wyatt's .vimrc :) 
 " the better one
-set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\[%b][0x%B]
+set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]\ 
+set stl+=%{fugitive#statusline()}
 
 " put status line in, even if there is only one window
 set laststatus=2
