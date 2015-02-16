@@ -14,6 +14,10 @@ set nocompatible
 " set leader to ,
 let mapleader=","
 
+" edit reload vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
 " look for definition up in the directory
 set tags=.git/tags,./tags,tags;/
 
