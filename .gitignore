@@ -4,7 +4,6 @@ _xmonad/xmonad.hi
 _xmonad/xmonad.o
 _vim/backup/*
 _vim/tmp/*
-_vim/bundle/*/
 _vim/spell
 _vim/.netrwhist
 _emacs.d/auto-save-list

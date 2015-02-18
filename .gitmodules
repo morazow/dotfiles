@@ -1,0 +1,15 @@
+[submodule "_vim/bundle/scala"]
+	path = _vim/bundle/scala
+	url = https://github.com/derekwyatt/vim-scala
+[submodule "_vim/bundle/ctrlp"]
+	path = _vim/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim
+[submodule "_vim/bundle/tabular"]
+	path = _vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular
+[submodule "_vim/bundle/nerdtree"]
+	path = _vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule "_vim/bundle/fugitive"]
+	path = _vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive
