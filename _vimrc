@@ -4,12 +4,15 @@
 " Muhammet Orazow <m.orazow@gmail.com>
 "
 
-" Pathogen
+" Pathogen {{{
 call pathogen#infect()
 call pathogen#helptags()
+" }}}
 
 " forget being compatible
 set nocompatible
+
+set modelines=1
 
 " set leader to ,
 let mapleader=","
@@ -246,3 +249,5 @@ let g:ctrlp_user_command = {
 
 " autoreloading of vim config when saving it
 autocmd! bufwritepost .vimrc source ~/.vimrc
+
+" vim:foldmethod=marker:foldlevel=0
