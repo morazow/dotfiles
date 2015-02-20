@@ -232,6 +232,15 @@ set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
+" Fugitive {{{
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gp :Git push<cr>
+" }}}
+
 " Ignore necessary files and folders when using CtrlP
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$',
