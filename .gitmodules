@@ -13,6 +13,3 @@
 [submodule "_vim/bundle/fugitive"]
 	path = _vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive
-[submodule "_vim/bundle/tagbar"]
-	path = _vim/bundle/tagbar
-	url = https://github.com/majutsushi/tagbar
