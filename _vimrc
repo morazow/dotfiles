@@ -241,6 +241,17 @@ nnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gp :Git push<cr>
 " }}}
 
+" Tabularize {{{
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:<CR>
+  vmap <Leader>a: :Tabularize /:<CR>
+  nmap <Leader>a, :Tabularize /,<CR>
+  vmap <Leader>a, :Tabularize /,<CR>
+endif
+" }}}
+
 " Ignore necessary files and folders when using CtrlP
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$',
