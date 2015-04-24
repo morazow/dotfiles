@@ -242,14 +242,27 @@ nnoremap <leader>gp :Git push<cr>
 " }}}
 
 " Tabularize {{{
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:<CR>
-  vmap <Leader>a: :Tabularize /:<CR>
-  nmap <Leader>a, :Tabularize /,<CR>
-  vmap <Leader>a, :Tabularize /,<CR>
-endif
+"if exists(":Tabularize")
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
+"endif
+" }}}
+
+" Syntastic {{{
+let g:syntastic_mode_map         = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+let g:syntastic_enable_signs     = 1
+let g:syntastic_quiet_messages   = {'level': 'warnings'}
+" let g:syntastic_quiet_warnings = 1 " deprecated
+let g:syntastic_auto_loc_list    = 1
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+nnoremap <C-W>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
 " }}}
 
 " Ignore necessary files and folders when using CtrlP
