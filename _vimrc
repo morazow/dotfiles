@@ -243,12 +243,15 @@ nnoremap <leader>gp :Git push<cr>
 
 " Tabularize {{{
 "if exists(":Tabularize")
+map <leader>a   :Tabularize /
 nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:<CR>
 vmap <Leader>a: :Tabularize /:<CR>
 nmap <Leader>a, :Tabularize /,<CR>
 vmap <Leader>a, :Tabularize /,<CR>
+map <Leader>a=> :Tabularize /=><CR>
+map <Leader>a-> :Tabularize /-><CR>
 "endif
 " }}}
 
