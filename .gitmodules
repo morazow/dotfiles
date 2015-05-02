@@ -19,3 +19,6 @@
 [submodule "_vim/bundle/vim-syntastic"]
 	path = _vim/bundle/vim-syntastic
 	url = https://github.com/scrooloose/syntastic
+[submodule "_vim/bundle/vim-snipmate"]
+	path = _vim/bundle/vim-snipmate
+	url = https://github.com/msanders/snipmate.vim

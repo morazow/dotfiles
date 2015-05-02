@@ -17,10 +17,6 @@ set modelines=1
 " set leader to ,
 let mapleader=","
 
-" edit reload vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
 " look for definition up in the directory
 set tags=.git/tags,./tags,tags;/
 
@@ -48,7 +44,11 @@ set wrapscan " set the search to wrap lines
 
 " make the 'cw' and like commands put a $ at the end instead of just deleting
 " the text and replacing it
-set cpoptions=ces$
+set cpoptions=B$ "ces$ --conflicts with snipmate, wtf?!
+
+" edit reload vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " set the status line (taken from Derek Wyatt's .vimrc :) 
 " the better one
