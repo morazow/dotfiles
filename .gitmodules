@@ -10,3 +10,15 @@
 [submodule "_vim/bundle/vim-tabularize"]
 	path = _vim/bundle/vim-tabularize
 	url = https://github.com/godlygeek/tabular
+[submodule "_vim/bundle/vim-solarized"]
+	path = _vim/bundle/vim-solarized
+	url = https://github.com/altercation/vim-colors-solarized
+[submodule "_vim/bundle/vim-zenburn"]
+	path = _vim/bundle/vim-zenburn
+	url = https://github.com/jnurmine/Zenburn
+[submodule "_vim/bundle/vim-railscasts"]
+	path = _vim/bundle/vim-railscasts
+	url = https://github.com/jpo/vim-railscasts-theme
+[submodule "_vim/bundle/vim-codeschool"]
+	path = _vim/bundle/vim-codeschool
+	url = https://github.com/29decibel/codeschool-vim-theme
