@@ -4,7 +4,8 @@
 
 
 ;; set target directory for load-path
-(add-to-list 'load-path "~/.emacs.d/")
+;; prev (add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 ;; disable splash screen
 (custom-set-variables '(inhibit-startup-screen t))
@@ -66,10 +67,10 @@
 ;; lately I started heavily using color themes
 ;; This is emacs24 way of changin color-themes, just put your themes
 ;; .el files into 'custom-theme-load-path.
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/themes")
 (load-theme 'zenburn t)
 
-;; load my org-mode configs, ~/.emacs.d/org-mode-configs.el
+;; load my org-mode configs, ~/.emacs.d/lisp/org-mode-configs.el
 (load "org-mode-configs")
 
 ;; Org Mode

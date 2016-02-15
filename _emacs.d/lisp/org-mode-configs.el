@@ -27,19 +27,21 @@
 ;; Can I customize this, depending on the hour of the day?
 ;; I don't want agenda to show me personal related stuff on 
 ;; my working hours. This would be great.
-(setq org-agenda-files (list "~/Dropbox/Notes/personal.org"
-                             "~/Dropbox/Notes/work.org"
-                             "~/Dropbox/Notes/courses.org"))
+(setq org-agenda-files 
+      (list 
+        "~/Dropbox/Notes/org/resolution.org"
+        "~/Dropbox/Notes/org/personal.org"
+        "~/Dropbox/Notes/org/work.org"))
 
 ;; Open needed org file using M-x <filename>
+(defun resolution ()
+  (interactive)
+  (find-file "~/Dropbox/Notes/org/resolution.org"))
+
 (defun personal ()
   (interactive)
-  (find-file "~/Dropbox/Notes/personal.org"))
+  (find-file "~/Dropbox/Notes/org/personal.org"))
 
 (defun work ()
   (interactive)
-  (find-file "~/Dropbox/Notes/work.org"))
-
-(defun courses ()
-  (interactive)
-  (find-file "~/Dropbox/Notes/courses.org"))
+  (find-file "~/Dropbox/Notes/org/work.org"))
