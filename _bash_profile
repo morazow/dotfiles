@@ -8,6 +8,11 @@ alias ls='ls --color -GFh'
 alias ll='ls --color -l'
 alias la='ls --color -alh'
 
+# Tmux related aliases
+alias tl="tmux ls"
+alias tn="tmux new -s"
+alias ta="tmux attach -t"
+
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
