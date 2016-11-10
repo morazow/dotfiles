@@ -44,5 +44,11 @@ function rm-dsfiles() {
   find . -name '*.DS_Store' -type f -delete
 }
 
+bash_completion="$(brew --prefix 2>/dev/null)/etc/bash_completion"
+if [ -r "$bash_completion" ]; then
+  source "$bash_completion"
+fi
+unset bash_completion
+
 # Set prompt
 PS1="\[\033[49;37m\]\u@gfk:\[\033[49;33m\]\w $\[\033[0m\] "
