@@ -22,3 +22,12 @@
 [submodule "_vim/bundle/vim-codeschool"]
 	path = _vim/bundle/vim-codeschool
 	url = https://github.com/29decibel/codeschool-vim-theme
+[submodule "_vim/bundle/vim-editorconfig"]
+	path = _vim/bundle/vim-editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim.git
+[submodule "_vim/bundle/vim-pig"]
+	path = _vim/bundle/vim-pig
+	url = https://github.com/motus/pig.vim.git
+[submodule "_vim/bundle/vim-terraform"]
+	path = _vim/bundle/vim-terraform
+	url = https://github.com/hashivim/vim-terraform.git
