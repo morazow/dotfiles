@@ -234,6 +234,7 @@ set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
 " Fugitive {{{
+nnoremap <space>ga :Git add %:p<CR><CR>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gc :Gcommit<cr>
