@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+## set -o errexit
+## Exits a script if any statement return non-true value
+set -e
+
+## set -o nounset
+## Exits a script if you try to use uninitialized variable
+set -u
+
+## If any of the commands fail with a non-zero exit code, then abort the entire
+## pipeline with that exit code
+set -o pipefail
+
+setup_macos() {
+  if test ! $(which gcc); then
+    echo "Installing xcode"
+    xcode-select --install
+  fi
+
+  if test ! "$(which brew)"; then
+    echo "Installing homebrew"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  else
+    brew update
+    brew upgrade
+    brew cask upgrade
+  fi
+
+  if test ! "$(which ansible)"; then
+    echo "Installing ansible"
+    brew install ansible
+  fi
+
+  echo "Brew cleanup"
+  brew cleanup
+}
+
+setup_linux() {
+  if test "$(uname)" = "Linux"; then
+    if test -f /etc/lsb-release && test ! "$(which ansible)"; then
+      echo "Installing ansible"
+      sudo apt-get install -y software-properties-common
+      sudo apt-add-repository -y ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install -y ansible
+    fi
+  fi
+}
+
+check_ansible_exists() {
+  if test ! "$(which ansible)"; then
+    echo "No ansible is installed"
+    exit 1
+  fi
+
+  echo "Running with versions: "
+  python --version
+  ansible --version
+}
+
+
+HOST_OS=$(uname)
+
+if test "$HOST_OS" = "Darwin"; then
+  setup_macos
+elif test "$HOST_OS" = "Linux"; then
+  setup_linux
+else
+  echo "Unknown host OS: $HOST_OS"
+  exit 1
+fi
+
+check_ansible_exists
+
+ansible-playbook -i ./hosts site.yml --ask-become
