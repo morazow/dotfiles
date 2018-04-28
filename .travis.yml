@@ -1,0 +1,33 @@
+language: generic
+
+sudo: required
+
+python:
+  - 2.7
+
+os:
+  - linux
+  - osx
+
+install:
+  - sudo pip install git+git://github.com/ansible/ansible.git@devel
+
+before_script:
+  - ansible --version
+
+script:
+  - ./run
+
+  # Idempotence Test
+  # https://blog.travis-ci.com/2017-11-30-testing-ansible-roles-using-docker-on-travis
+  - >
+    ansible-playbook -i ./hosts site.yml
+    | grep -q 'changed=0.*failed=0'
+		&& (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+after_script:
+  - ls -la ~/
+
+notifications:
+  email: false

@@ -73,4 +73,5 @@ fi
 
 check_ansible_exists
 
-ansible-playbook -i ./hosts site.yml --ask-become
+ansible-playbook -i ./hosts site.yml --syntax-check
+ansible-playbook -i ./hosts site.yml

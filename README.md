@@ -1,4 +1,5 @@
 # ~/dotfiles
+[![Build Status](http://img.shields.io/travis/morazow/dotfiles.svg?style=flat-square)][travis]
 
 Collection of configuration files for `m.orazow`.
 
@@ -45,3 +46,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+[travis]: http://travis-ci.org/morazow/dotfiles
