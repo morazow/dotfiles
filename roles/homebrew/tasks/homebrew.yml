@@ -1,0 +1,29 @@
+---
+- name: Get analytics state
+  command: brew analytics
+  register: brew_analytics
+
+- name: Turn off analytics
+  command: brew analytics off
+  when: '"disabled" not in brew_analytics.stdout'
+
+- name: Update homebrew
+  homebrew: update_homebrew=yes
+
+- name: Upgrade homebrew
+  homebrew: upgrade_all=yes
+
+- name: Tap homebrew bundle
+  homebrew_tap: tap=homebrew/bundle state=present
+
+- name: Setup Brewfile to ~/Library/Preferences/Brewfile
+  template: src=Brewfile dest="~/Library/Preferences/Brewfile" mode=0644
+
+- name: Run homebrew bundle
+  command: brew bundle chdir="~/Library/Preferences"
+
+- name: Clean up homebrew old versions
+  command: brew cleanup
+
+- name: Clean up old homebrew casks
+  command: brew cask cleanup

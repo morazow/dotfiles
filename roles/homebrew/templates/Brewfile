@@ -1,0 +1,80 @@
+# {{ ansible_managed }}
+
+# This can be obtained by running: brew bundle dump
+
+cask_args appdir: "/Applications"
+
+tap "caskroom/cask"
+tap "caskroom/versions"
+
+tap "homebrew/core"
+tap "homebrew/bundle"
+tap "homebrew/science"
+
+## Utilities
+brew "ansible"
+brew "awscli"
+brew "binutils"
+brew "coreutils"
+brew "ctags"
+brew "figlet"
+brew "fontconfig"
+brew "gdk-pixbuf"
+brew "gettext"
+brew "git"
+brew "harfbuzz"
+brew "htop"
+brew "jq"
+brew "kafkacat"
+brew "midnight-commander"
+brew "the_silver_searcher"
+brew "tmux"
+brew "tree"
+brew "unrar"
+brew "utf8proc"
+brew "vim"
+brew "wget"
+
+## Librariers
+brew "libyaml"
+brew "lzlib"
+brew "libcroco"
+brew "libevent"
+brew "librsvg"
+
+## Development: Programming Languages, Frameworks, etc
+brew "docker-compose"
+brew "emacs", args: ["with-cocoa"], link: false
+brew "go"
+brew "gradle"
+brew "maven"
+brew "packer"
+brew "r"
+brew "terraform"
+
+## Casks
+cask "appcleaner"
+cask "dash"
+cask "discord"
+cask "dockertoolbox"
+cask "dropbox"
+cask "emacs"
+cask "firefoxdeveloperedition"
+cask "google-chrome"
+cask "iterm2"
+cask 'java'
+cask "macpass"
+cask "mounty"
+cask "nextcloud"
+cask "ngrok"
+cask "skype"
+cask "slack"
+cask "spotifree"
+cask "spotify"
+cask "sublime-text3"
+cask "telegram-desktop"
+cask "the-unarchiver"
+cask "typora"
+cask "vagrant"
+cask "virtualbox"
+cask "vlc"
