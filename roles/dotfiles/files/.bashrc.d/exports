@@ -1,0 +1,66 @@
+
+## EXPORTS
+
+# Bash Variables.
+#   - https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+
+OS=$(uname)
+case $OS in
+    "Darwin"*)
+        # Prevent brew from sending analytics
+        export HOMEBREW_NO_ANALYTICS=1
+
+        # Prevent brew from updating on other commands (install, info, etc)
+        export HOMEBREW_NO_AUTO_UPDATE=1
+        ;;
+    *)
+        ;;
+esac
+
+# Set US English and UTF-8 encoding
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
+# Use vim when bash needs an editor
+export EDITOR="vim -v"
+
+# Bash eternal history
+# --------------------
+#   - http://stackoverflow.com/questions/9457233/unlimited-bash-history
+#
+export HISTFILESIZE=-1
+export HISTSIZE=-1
+
+# Display datetime information in the output of the `history` command
+export HISTTIMEFORMAT="[%F %T] "
+
+# Change the file location because certain bash sessions truncate .bash_history file upon close
+export HISTFILE=~/.bash_eternal_history
+
+# Deduplicate bash commands history
+export HISTCONTROL=ignoredups:erasedups
+
+# Do not add these to history
+export HISTIGNORE="&:q:bg:fg:df:la:ll:ls:mc:pwd:exit:clear:history:* --help"
+
+# Make new shells obtain all previous shells history instead of the default "last window closed"
+# history
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# Color man pages
+#   - http://unix.stackexchange.com/questions/119/colors-in-man-pages/147#147
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 6) # cyan
+export LESS_TERMCAP_md=$(tput bold; tput setaf 2) # green
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+
+# vi: ft=sh :

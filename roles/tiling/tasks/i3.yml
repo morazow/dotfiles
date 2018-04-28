@@ -1,0 +1,23 @@
+---
+
+- name: Create logs directory if not exists
+  file: path=~/logs
+        state=directory
+
+- name: Link i3 related dotfiles (e.g. .config/i3/config)
+  file: src={{ ansible_env.PWD }}/roles/tiling/files/{{ item }}
+        path=~/.config/{{ item }}
+        state=link
+        mode=0755
+        force=yes
+  with_items:
+    - i3
+
+- name: Link X related dotfiles (e.g. .xinitrc)
+  file: src={{ ansible_env.PWD }}/roles/tiling/files/{{ item }}
+        path=~/{{ item }}
+        state=link
+        mode=0755
+        force=yes
+  with_items:
+    - .xinitrc

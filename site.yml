@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  gather_facts: True
+  vars:
+    - is_macos: ansible_os_family == 'Darwin'
+    - is_fedora: ansible_distribution == 'Fedora'
+
+  roles:
+    - { role: geerlingguy.homebrew, tags: ['packages', 'homebrew'], when: is_macos }
+    - { role: fedora, tags: ['packages', 'fedora'], when: is_fedora }
+    - { role: dotfiles, tags: ['dotfiles'] }
+    - { role: vim, tags: ['vim'] }
+    - { role: tiling, tags: ['tiling'] }
+    - { role: cron, tags: ['cron'] }
+    - { role: users, tags: ['users'] }

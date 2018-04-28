@@ -1,0 +1,35 @@
+---
+
+- name: Update all packages
+  dnf: name=*
+       state=latest
+
+- name: Install general packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ general_packages }}"
+
+- name: Install development packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ devel_packages }}"
+
+- name: Install python pip packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ pip_packages }}"
+
+- name: Install tiling (i3) packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ tiling_packages }}"
+
+- name: Install fonts packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ font_packages }}"

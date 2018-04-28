@@ -1,0 +1,80 @@
+---
+
+- name: Check if i3-gaps is already installed
+  stat: path={{ i3gaps_install_path }}
+  register: i3_install_path_result
+
+- name: Install i3-gaps dependencies
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - autoconf
+    - automake
+    - libev-devel
+    - libxkbcommon-devel
+    - libxkbcommon-x11-devel
+    - pango-devel
+    - startup-notification-devel
+    - xcb-util-devel
+    - xcb-util-cursor-devel
+    - xcb-util-keysyms-devel
+    - xcb-util-wm-devel
+    - xcb-util-xrm-devel
+    - yajl-devel
+  become: true
+  when: not i3_install_path_result.stat.exists
+
+- name: Git clone i3-gaps repository
+  git: repo={{ i3gaps_git_repo }}
+       dest={{ i3gaps_src_path }}
+       recursive=yes
+  when: not i3_install_path_result.stat.exists
+
+- name: Run autoreconf for i3-gaps
+  command: autoreconf --force --install
+  args:
+    chdir: "{{ i3gaps_src_path }}"
+  when: not i3_install_path_result.stat.exists
+
+- name: Create build directory for i3-gaps
+  file: state=directory
+        path={{ i3gaps_src_path }}/build
+  when: not i3_install_path_result.stat.exists
+
+- name: Run configure for i3-gaps
+  command: ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+  args:
+    chdir: "{{ i3gaps_src_path }}/build"
+  when: not i3_install_path_result.stat.exists
+
+- name: Compile i3-gaps
+  make:
+    chdir: "{{ i3gaps_src_path }}/build"
+  when: not i3_install_path_result.stat.exists
+
+- name: Install i3-gaps
+  make:
+    chdir: "{{ i3gaps_src_path }}/build"
+    target: install
+  when: not i3_install_path_result.stat.exists
+
+- name: Git clone i3-blocks repository
+  git: repo={{ i3blocks_git_repo }}
+       dest={{ i3blocks_src_path }}
+       recursive=yes
+  when: not i3_install_path_result.stat.exists
+
+- name: Compile i3-blocks
+  make:
+    chdir: "{{ i3blocks_src_path }}"
+    target: "{{ item }}"
+  with_items:
+    - all
+    - clean
+  when: not i3_install_path_result.stat.exists
+
+- name: Install i3-blocks
+  make:
+    chdir: "{{ i3blocks_src_path }}"
+    target: install
+  when: not i3_install_path_result.stat.exists

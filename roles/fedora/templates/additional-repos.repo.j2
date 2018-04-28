@@ -1,0 +1,14 @@
+[google-chrome]
+name=Google Chrome Repository
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+skip_if_unavailable = 1
+keepcache = 0
+
+[dropbox]
+name=Dropbox Repository
+enabled=1
+baseurl=https://linux.dropboxstatic.com/fedora/$releasever/
+gpgkey=https://linux.dropbox.com/fedora/rpm-public-key.asc
+skip_if_unavailable=1

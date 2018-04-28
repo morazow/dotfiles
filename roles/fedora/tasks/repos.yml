@@ -1,0 +1,13 @@
+---
+
+- name: Install rpmfusion repo packages
+  dnf: name={{ item }}
+       state=present
+  with_items:
+    - "{{ rpmfusion_repos }}"
+
+- name: Add additional repositories
+  template: src={{ item }}.j2
+            dest=/etc/yum.repos.d/{{ item }}
+  with_items:
+    - additional-repos.repo

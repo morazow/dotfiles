@@ -1,0 +1,51 @@
+
+## ALIASES
+
+OS=$(uname)
+case $OS in
+	"Darwin"*)
+		alias ls="ls -GF"
+		alias ll="ls -l"
+		alias la="ls -alh"
+		;;
+	"Linux"*)
+		alias ls="ls -F --color"
+		alias ll="ls -l"
+		alias la="ls -alh"
+		;;
+esac
+
+# Back
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias cd..="cd .."
+
+# Tmux
+alias tl="tmux ls"
+alias tn="tmux new -s"
+alias ta="tmux attach -t"
+
+# Safe
+alias cp="cp -v"
+alias mv="mv -v"
+alias rm="rm -i -v"
+
+# Docker
+alias dk='docker'
+alias dm='docker-machine'
+
+# Misc
+alias c="clear"
+alias g="git"
+alias q="exit"
+alias :q="exit"
+alias du='du -ch --max-depth=1'
+alias treeacl='tree -A -C -L 2'
+alias grep="grep --color -I --exclude-dir=.git --exclude=.DS_Store"
+
+# Path
+# Each entry on a newline
+alias path='echo -e ${PATH//:/\\n}'
+
+# vi: ft=sh :

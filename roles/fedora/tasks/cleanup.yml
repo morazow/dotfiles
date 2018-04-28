@@ -1,0 +1,59 @@
+---
+
+- name: Remove unhelpful packages
+  dnf: name={{ item }} state=absent autoremove=yes
+  with_items:
+    - NetworkManager-adsl
+    - NetworkManager-openconnect
+    - NetworkManager-openvpn
+    - NetworkManager-pptp
+    - NetworkManager-team
+    - NetworkManager-vpnc
+    - NetworkManager-wwan
+    - anaconda
+    - dracut-config-rescue
+    - dracut-live
+    - evolution
+    - gnome-boxes
+    - gnome-calendar
+    - gnome-contacts
+    - gnome-getting-started-docs
+    - gnome-initial-setup
+    - gnome-maps
+    - gnome-online-miners
+    - gnome-user-docs
+    - hplip
+    - kernel-modules-extra
+    - orca
+    - ostree
+    - pam_krb5
+    - perl-Mozilla-CA
+    - realmd
+    - rhythmbox
+    - shotwell
+    - simple-scan
+    - teamd
+
+# https://github.com/ansible/ansible/issues/27744
+- name: Remove unhelpful packages (#27744 wildcard issue workaround)
+  raw: -|
+    dnf remove -y \
+      'PackageKit*' 'abrt*' 'b43*' 'foomatic*' 'gutenprint*' \
+      '*hangul*' '*kkc*' '*libreoffice*' '*pinyin*' '*zhuyin*'
+  register: dnf_cmd
+  failed_when: false
+  changed_when: dnf_cmd.rc == 0
+
+- name: Disable unhelpful services
+  service: name={{ item }} enabled=no
+  with_items:
+    - bluetooth
+    - cups
+    - dmraid-activation
+    - iscsi
+    - lvm2-monitor
+    - mcelog
+    - mdmonitor
+    - multipathd
+    - pmie
+  failed_when: false

@@ -1,0 +1,9 @@
+---
+
+- import_tasks: chunkwm.yml
+  when: is_macos
+  tags: chunkwm
+
+- import_tasks: i3.yml
+  when: is_fedora or is_ubuntu
+  tags: i3

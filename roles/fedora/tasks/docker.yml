@@ -1,0 +1,55 @@
+---
+
+- name: Remove default Fedora docker packages
+  dnf: name={{ item }}
+       state=absent
+       autoremove=yes
+  with_items:
+    - docker
+    - docker-common
+    - docker-client
+    - docker-client-latest
+    - docker-selinux
+    - docker-engine
+    - docker-engine-selinux
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+
+- name: Install dnf-plugins-core
+  dnf: name=dnf-plugins-core state=present
+
+- name: Add docker repo
+  command:
+    dnf config-manager \
+      --add-repo https://download.docker.com/linux/fedora/docker-ce.repo \
+      warn=False
+  changed_when: false
+
+- name: Install docker-ce package
+  dnf: name=docker-ce state=present
+
+- name: Service docker start
+  service: name=docker state=started enabled=yes
+
+- name: Install docker-compose
+  pip: name={{ item }} state=present
+  with_items:
+    - docker-compose
+
+- name: Create docker group
+  group: name=docker state=present
+
+- name: Get current user
+  set_fact: current_username={{ ansible_user | default(lookup('env', 'USER'), True) }}
+
+- name: Current groups of {{ current_username }}
+  command: groups
+  become_user: "{{ current_username }}"
+  changed_when: false
+  register: current_user_groups
+
+- name: Add {{ current_username }} to docker group
+  user: name={{ current_username }}
+        group={{ current_username }}
+        groups='{{ current_user_groups.stdout.split(" ")[1:] | join(",") }},docker'
