@@ -17,7 +17,7 @@ cache:
     - $HOME/Library/Caches/Homebrew
 
 script:
-  - ./run
+  - travis_wait 30 ./run
 
   # Idempotence Test
   # https://blog.travis-ci.com/2017-11-30-testing-ansible-roles-using-docker-on-travis
