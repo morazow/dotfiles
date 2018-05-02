@@ -10,6 +10,12 @@ os:
   - linux
   - osx
 
+cache:
+  apt: true
+  pip: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
+
 script:
   - ./run
 
