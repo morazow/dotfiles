@@ -21,8 +21,6 @@ setup_macos() {
   if test ! "$(which brew)"; then
     echo "Installing homebrew"
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  else
-    brew update
   fi
 
   if test ! "$(which ansible)"; then
