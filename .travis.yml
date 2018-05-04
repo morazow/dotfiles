@@ -16,6 +16,10 @@ cache:
   directories:
     - $HOME/Library/Caches/Homebrew
 
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo easy_install pip   ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo pip install ansible; fi
+
 script:
   - travis_wait 30 ./run
 
