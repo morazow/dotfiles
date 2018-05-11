@@ -18,18 +18,11 @@ setup_macos() {
     xcode-select --install
   fi
 
-  if test ! "$(which brew)"; then
-    echo "Installing homebrew"
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-
   if test ! "$(which ansible)"; then
     echo "Installing ansible"
-    brew install ansible
+    curl https://bootstrap.pypa.io/get-pip.py | sudo python
+    sudo -H pip install ansible
   fi
-
-  echo "Brew cleanup"
-  brew cleanup
 }
 
 setup_linux() {

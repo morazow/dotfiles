@@ -25,14 +25,6 @@ before_install:
       sudo rm -rf /usr/local/bin/brew
     fi
 
-install:
-  - >
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      # See: https://stackoverflow.com/a/49748494/100134
-      curl https://bootstrap.pypa.io/get-pip.py | sudo python
-      sudo -H pip install ansible
-    fi
-
 script:
   - travis_wait 30 ./run
 
