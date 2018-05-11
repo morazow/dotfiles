@@ -1,4 +1,7 @@
 ---
 
-- import_tasks: homebrew.yml
+- import_tasks: homebrew_setup.yml
+  when: ansible_os_family == "Darwin"
+
+- import_tasks: homebrew_install.yml
   when: ansible_os_family == "Darwin"

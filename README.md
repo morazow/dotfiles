@@ -33,5 +33,6 @@ I hereby acknowledge and thank the people who have made their
 
 * [Derek Wyatt](https://github.com/derekwyatt/dotfiles)
 * [Greg Hurrell](https://github.com/wincent/wincent)
+* [Jeff Geerling](https://github.com/geerlingguy/ansible-role-homebrew)
 
 [travis]: http://travis-ci.org/morazow/dotfiles

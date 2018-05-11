@@ -1,4 +1,5 @@
 ---
+
 - name: Get analytics state
   command: brew analytics
   register: brew_analytics
