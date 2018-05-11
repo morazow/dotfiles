@@ -3,9 +3,6 @@ language: generic
 
 sudo: required
 
-python:
-  - 2.7
-
 os:
   - linux
   - osx
