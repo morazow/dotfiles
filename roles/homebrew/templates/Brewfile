@@ -9,11 +9,10 @@ tap "caskroom/versions"
 
 tap "homebrew/core"
 tap "homebrew/bundle"
-tap "homebrew/science"
 
 ## Utilities
-brew "ansible"
 brew "awscli"
+brew "bash-completion"
 brew "binutils"
 brew "coreutils"
 brew "ctags"
@@ -43,7 +42,9 @@ brew "libevent"
 brew "librsvg"
 
 ## Development: Programming Languages, Frameworks, etc
+brew "docker"
 brew "docker-compose"
+brew "docker-machine"
 brew "emacs", args: ["with-cocoa"], link: false
 brew "go"
 brew "gradle"
@@ -56,13 +57,12 @@ brew "terraform"
 cask "appcleaner"
 cask "dash"
 cask "discord"
-cask "dockertoolbox"
 cask "dropbox"
 cask "emacs"
-cask "firefoxdeveloperedition"
+cask "firefox-developer-edition"
 cask "google-chrome"
 cask "iterm2"
-cask 'java'
+cask "java8"
 cask "macpass"
 cask "mounty"
 cask "nextcloud"
