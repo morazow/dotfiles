@@ -1,3 +1,4 @@
+# .editorconfig
 # http://editorconfig.org
 
 root = true
@@ -8,11 +9,14 @@ end_of_line = lf
 indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
+# Did not want to be too long and too short
+max_line_length = 98
 
 [*.{yaml,yml}]
 indent_size = 2
 
 [*.md]
+# Preserve trailing whitespace for Markdown files
 trim_trailing_whitespace = false
 
 [Makefile]
