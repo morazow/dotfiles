@@ -76,5 +76,9 @@ cask "telegram-desktop"
 cask "the-unarchiver"
 cask "typora"
 cask "vagrant"
+# MacOS High Sierra requires manual approval of kernel extensions (kext)
+# https://developer.apple.com/library/content/technotes/tn2459/_index.html
+{% if !ansible_distribution_version.startswith('10.13') %}
 cask "virtualbox"
+{% endif %}
 cask "vlc"
