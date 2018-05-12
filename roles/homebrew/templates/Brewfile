@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+#{{ ansible_managed | comment }}
 
 # This can be obtained by running: brew bundle dump
 
