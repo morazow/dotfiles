@@ -1,0 +1,16 @@
+---
+git_fullname: Muhammet Orazov
+git_username: morazow
+git_email: m.orazow@gmail.com
+
+dot_files:
+  - .agignore
+  - .emacs
+  - .gemrc
+  - .gitignore
+  - .inputrc
+  - .tmux.conf
+  - .vimrc
+
+dot_templates:
+  - .gitconfig

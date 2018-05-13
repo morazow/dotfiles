@@ -3,4 +3,5 @@
   gather_facts: True
 
   roles:
-    - { role: homebrew,   tags: ['homebrew'] }
+    - { role: homebrew, tags: ['homebrew'] }
+    - { role: dotfiles, tags: ['dotfiles'] }
