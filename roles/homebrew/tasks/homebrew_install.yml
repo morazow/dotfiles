@@ -20,8 +20,15 @@
 - name: Setup Brewfile to ~/Library/Preferences/Brewfile
   template: src=Brewfile dest="~/Library/Preferences/Brewfile" mode=0644
 
+- name: Check first if dependencies in Brewfile require an update
+  command: brew bundle check --file=~/Library/Preferences/Brewfile
+  register: bundle_check_result
+  ignore_errors: true
+  changed_when: false
+
 - name: Run homebrew bundle
   command: brew bundle chdir="~/Library/Preferences"
+  when: bundle_check_result is failed
 
 - name: Clean up homebrew old versions
   command: brew cleanup
