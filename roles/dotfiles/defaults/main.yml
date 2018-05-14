@@ -5,9 +5,11 @@ git_email: m.orazow@gmail.com
 
 dot_files:
   - .agignore
+  - .ctags
   - .emacs
   - .gemrc
   - .gitignore
+  - .git_template
   - .inputrc
   - .tmux.conf
   - .vimrc
