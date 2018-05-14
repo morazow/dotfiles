@@ -1,0 +1,18 @@
+---
+
+- name: Create emacs directories
+  file: path={{ ansible_env.HOME }}/{{ item }} state=directory
+  with_items:
+    - .emacs.d
+    - .emacs.d/backups
+    - .emacs.d/lisp
+    - .emacs.d/lisp/themes
+
+- name: Create symlink of emacs files
+  file: src={{ ansible_env.PWD }}/roles/emacs/files/{{ item }}
+        path={{ ansible_env.HOME }}/.emacs.d/lisp/{{ item }}
+        state=link
+        force=yes
+  with_items:
+    - org-mode-configs.el
+    - themes/zenburn-theme.el

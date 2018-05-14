@@ -1,0 +1,17 @@
+---
+vim_misc:
+  - { url: 'https://github.com/kien/ctrlp.vim',                    name: 'vim-ctrlp'        }
+  - { url: 'https://github.com/tpope/vim-fugitive',                name: 'vim-fugitive'     }
+  - { url: 'https://github.com/godlygeek/tabular',                 name: 'vim-tabularize'   }
+  - { url: 'https://github.com/editorconfig/editorconfig-vim.git', name: 'vim-editorconfig' }
+
+vim_languages:
+  - { url: 'https://github.com/derekwyatt/vim-scala',              name: 'vim-scala'        }
+  - { url: 'https://github.com/motus/pig.vim.git',                 name: 'vim-pig'          }
+  - { url: 'https://github.com/hashivim/vim-terraform.git',        name: 'vim-terraform'    }
+
+vim_colors:
+  - { url: 'https://github.com/altercation/vim-colors-solarized', name: 'vim-solarized'  }
+  - { url: 'https://github.com/jnurmine/Zenburn',                 name: 'vim-zenburn'    }
+  - { url: 'https://github.com/jpo/vim-railscasts-theme',         name: 'vim-railscasts' }
+  - { url: 'https://github.com/29decibel/codeschool-vim-theme',   name: 'vim-codeschool' }

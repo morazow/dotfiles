@@ -5,3 +5,5 @@
   roles:
     - { role: homebrew, tags: ['homebrew'] }
     - { role: dotfiles, tags: ['dotfiles'] }
+    - { role: vim,      tags: ['vim']      }
+    - { role: emacs,    tags: ['emacs']    }
