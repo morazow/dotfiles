@@ -1,12 +1,13 @@
 ---
-- name: Create symlink files
+
+- name: Create symlink of dotfiles (e.g. .vimrc)
   file: src={{ ansible_env.PWD }}/roles/dotfiles/files/{{ item }}
         path=~/{{ item }}
         state=link
         force=yes
   with_items: '{{ dot_files }}'
 
-- name: Create templates
+- name: Create templated dotfiles (e.g. .gitconfig)
   template: src={{ item }}
             dest=~/{{ item }}
             mode={{ '0755' if item.endswith('.sh') else '0644' }}
