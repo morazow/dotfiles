@@ -27,7 +27,7 @@
   changed_when: false
 
 - name: Run homebrew bundle
-  command: brew bundle chdir="~/Library/Preferences"
+  command: brew bundle --file=~/Library/Preferences/Brewfile
   when: bundle_check_result is failed
 
 - name: Clean up homebrew old versions
