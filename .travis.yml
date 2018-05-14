@@ -51,9 +51,8 @@ script:
   # install to be idempotent yet
   - >
     if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
-      tail ${idempotence}
-      | grep -q 'changed=0.*failed=0'
-      && (echo 'Idempotence test: pass' && exit 0)
+      tail ${idempotence} | grep -q 'changed=0.*failed=0' \
+      && (echo 'Idempotence test: pass' && exit 0) \
       || (echo 'Idempotence test: fail' && exit 1)
     fi
   - cat ${idempotence}
