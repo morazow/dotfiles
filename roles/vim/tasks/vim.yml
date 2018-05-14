@@ -10,7 +10,7 @@
     - .vim/autoload
 
 - name: Install pathogen
-  get_url: url=https://tpo.pe/pathogen.vim
+  get_url: url=https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
            dest={{ ansible_env.HOME }}/.vim/autoload/pathogen.vim
 
 - name: Download vim misc, language and colors plugins
