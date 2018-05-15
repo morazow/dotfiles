@@ -4,7 +4,7 @@
 A collection of configuration files for `m.orazow`.
 
 Currently I am developing in OS X. However, there are files for Linux OS also. I try to keep both
-environments up-to-date.
+environments up-to-date and synchronized.
 
 ## Quick Start
 
