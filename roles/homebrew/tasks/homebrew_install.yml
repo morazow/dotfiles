@@ -3,6 +3,7 @@
 - name: Get analytics state
   command: brew analytics
   register: brew_analytics
+  changed_when: false
 
 - name: Turn off analytics
   command: brew analytics off
@@ -32,6 +33,8 @@
 
 - name: Clean up homebrew old versions
   command: brew cleanup
+  when: bundle_check_result is failed
 
 - name: Clean up old homebrew casks
   command: brew cask cleanup
+  when: bundle_check_result is failed

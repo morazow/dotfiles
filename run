@@ -12,6 +12,16 @@ set -u
 ## pipeline with that exit code
 set -o pipefail
 
+install_pip_deps() {
+    echo "Installing pip"
+    curl https://bootstrap.pypa.io/get-pip.py | sudo python
+
+    echo "Installing via pip: ansible, ansible-lint and yamllint"
+    sudo -H pip install ansible
+    sudo -H pip install ansible-lint
+    sudo -H pip install yamllint
+}
+
 setup_macos() {
   if test ! $(which gcc); then
     echo "Installing xcode"
@@ -19,20 +29,17 @@ setup_macos() {
   fi
 
   if test ! "$(which ansible)"; then
-    echo "Installing ansible"
-    curl https://bootstrap.pypa.io/get-pip.py | sudo python
-    sudo -H pip install ansible
+    install_pip_deps
   fi
 }
 
 setup_linux() {
   if test "$(uname)" = "Linux"; then
     if test -f /etc/lsb-release && test ! "$(which ansible)"; then
-      echo "Installing ansible"
       sudo apt-get install -y software-properties-common
-      sudo apt-add-repository -y ppa:ansible/ansible
       sudo apt-get update
-      sudo apt-get install -y ansible
+
+      install_pip_deps
     fi
   fi
 }
@@ -46,6 +53,14 @@ check_ansible_exists() {
   echo "Running with versions: "
   python --version
   ansible --version
+  ansible-lint --version
+  yamllint --version
+}
+
+run_lints_checks() {
+    yamllint .
+    ansible-lint site.yml
+    ansible-playbook -i ./hosts site.yml --syntax-check
 }
 
 
@@ -62,5 +77,6 @@ fi
 
 check_ansible_exists
 
-ansible-playbook -i ./hosts site.yml --syntax-check
+run_lints_checks
+
 ansible-playbook -i ./hosts site.yml
