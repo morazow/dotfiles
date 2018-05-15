@@ -27,9 +27,6 @@ cache:
     - $HOME/Library/Caches/Homebrew
 
 before_install:
-  - python --version
-  - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
-
   # Uninstall existing brew installation.
   - >
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
