@@ -35,12 +35,20 @@ setup_macos() {
 
 setup_linux() {
   if test "$(uname)" = "Linux"; then
+
+    if test ! "$(which python)"; then
+      echo "Installing python minimal"
+      sudo apt update
+      sudo apt install -y python-minimal
+    fi
+
     if test -f /etc/lsb-release && test ! "$(which ansible)"; then
       sudo apt-get install -y software-properties-common
       sudo apt-get update
 
       install_pip_deps
     fi
+
   fi
 }
 
