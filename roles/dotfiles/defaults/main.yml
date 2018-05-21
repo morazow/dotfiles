@@ -19,3 +19,6 @@ dot_files:
 
 dot_templates:
   - .gitconfig
+
+dot_files_absent:
+  - .profile
