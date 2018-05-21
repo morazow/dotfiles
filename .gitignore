@@ -1,11 +1,2 @@
-_xmonad/xmonad-i386-linux
-_xmonad/xmonad.errors
-_xmonad/xmonad.hi
-_xmonad/xmonad.o
-_vim/backup/*
-_vim/tmp/*
-_vim/spell
-_vim/.netrwhist
-_emacs.d/auto-save-list
-_emacs.d/backups
 site.retry
+.vagrant/
