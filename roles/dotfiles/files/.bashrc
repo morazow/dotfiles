@@ -30,7 +30,7 @@
 # If not running interactively, return early
 [[ $- != *i* ]] && return
 
-for file in ~/.bashrc.d/{aliases,functions}; do
+for file in ~/.bashrc.d/{aliases,exports,functions}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
@@ -39,23 +39,6 @@ unset file
 
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-## }}}
-
-## EXPORTS {{{
-
-# Use vim when bash needs an editor
-export EDITOR="vim -v"
-
-# deduplicate bash commands history
-export HISTCONTROL=ignoredups:erasedups
-
-# disable brew sending analytics
-export HOMEBREW_NO_ANALYTICS=1
-
-# disable brew updating on other
-# commands (install, info, etc)
-export HOMEBREW_NO_AUTO_UPDATE=1
 
 ## }}}
 

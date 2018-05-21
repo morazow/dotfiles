@@ -1,0 +1,22 @@
+
+## EXPORTS
+OS=$(uname)
+case $OS in
+    "Darwin"*)
+        # Prevent brew from sending analytics
+        export HOMEBREW_NO_ANALYTICS=1
+
+        # Prevent brew from updating on other commands (install, info, etc)
+        export HOMEBREW_NO_AUTO_UPDATE=1
+        ;;
+    *)
+        ;;
+esac
+
+# Use vim when bash needs an editor
+export EDITOR="vim -v"
+
+# Deduplicate bash commands history
+export HISTCONTROL=ignoredups:erasedups
+
+# vi: ft=sh :
