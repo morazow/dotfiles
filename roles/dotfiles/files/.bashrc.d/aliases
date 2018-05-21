@@ -39,7 +39,8 @@ alias dm='docker-machine'
 alias q="exit"
 alias :q="exit"
 alias c="clear"
-
+alias du='du -ch --max-depth=1'
 alias grep="grep --color"
+alias treeacl='tree -A -C -L 2'
 
 # vi: ft=sh :
