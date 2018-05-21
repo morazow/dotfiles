@@ -5,6 +5,8 @@ git_email: m.orazow@gmail.com
 
 dot_files:
   - .agignore
+  - .bashrc
+  - .bash_profile
   - .ctags
   - .emacs
   - .gemrc
