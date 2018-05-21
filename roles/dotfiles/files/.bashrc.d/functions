@@ -1,0 +1,21 @@
+
+## FUNCTIONS
+
+# Docker Machine Environment Setup
+function dm-env() {
+  eval "$(docker-machine env "${1:-default}")"
+}
+
+# Docker Clean: Remove dangling resources
+function dk-clean() {
+  docker rm $(docker ps -a -q) || true
+  docker rmi -f $(docker images -q -a -f dangling=true) || true
+  docker volume rm $(docker volume ls -qf dangling=true) || true
+}
+
+# Recursively remove .DS_Store files
+function rm-dsfiles() {
+  find . -name '*.DS_Store' -type f -delete
+}
+
+# vi: ft=sh :

@@ -30,18 +30,10 @@
 # If not running interactively, return early
 [[ $- != *i* ]] && return
 
-## ALIASES {{{
-
-alias ls='ls --color -GFh'
-alias ll='ls --color -l'
-alias la='ls --color -alh'
-
-# Tmux related aliases
-alias tl="tmux ls"
-alias tn="tmux new -s"
-alias ta="tmux attach -t"
-
-## }}}
+for file in ~/.bashrc.d/{aliases,functions}; do
+    [ -r "$file" ] && source "$file"
+done
+unset file
 
 ## PATHS {{{
 
@@ -64,25 +56,6 @@ export HOMEBREW_NO_ANALYTICS=1
 # disable brew updating on other
 # commands (install, info, etc)
 export HOMEBREW_NO_AUTO_UPDATE=1
-
-## }}}
-
-## FUNCTIONS {{{
-
-# Docker Stuff
-function dm-env() {
-  eval "$(docker-machine env "${1:-default}")"
-}
-
-function dk-clean() {
-  docker rm $(docker ps -a -q) || true
-  docker rmi -f $(docker images -q -a -f dangling=true) || true
-  docker volume rm $(docker volume ls -qf dangling=true) || true
-}
-
-function rm-dsfiles() {
-  find . -name '*.DS_Store' -type f -delete
-}
 
 ## }}}
 
