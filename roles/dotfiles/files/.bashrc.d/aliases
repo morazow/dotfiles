@@ -40,7 +40,7 @@ alias q="exit"
 alias :q="exit"
 alias c="clear"
 alias du='du -ch --max-depth=1'
-alias grep="grep --color"
 alias treeacl='tree -A -C -L 2'
+alias grep="grep --color -I --exclude-dir=.git --exclude=.DS_Store"
 
 # vi: ft=sh :
