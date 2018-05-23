@@ -1,5 +1,8 @@
 ---
 
+- name: Touch ~/.bash_eternal_history file
+  file: path=~/.bash_eternal_history state=touch
+
 - name: Create symlink of dotfiles (e.g. .vimrc)
   file: src={{ ansible_env.PWD }}/roles/dotfiles/files/{{ item }}
         path=~/{{ item }}
