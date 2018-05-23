@@ -30,7 +30,7 @@
 # If not running interactively, return early
 [[ $- != *i* ]] && return
 
-for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options}; do
+for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options,prompt}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
@@ -39,13 +39,6 @@ unset file
 
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-## }}}
-
-## PROMPT {{{
-
-# Set prompt
-PS1="\[\033[49;37m\]\u@gfk:\[\033[49;33m\]\w $\[\033[0m\] "
 
 ## }}}
 
