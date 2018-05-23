@@ -6,7 +6,7 @@
 
 - name: Touch ~/.bash_eternal_history file
   file: path=~/.bash_eternal_history state=touch
-  when: bash_history_file.stat.exists == False
+  when: not bash_history_file.stat.exists
 
 - name: Create symlink of dotfiles (e.g. .vimrc)
   file: src={{ ansible_env.PWD }}/roles/dotfiles/files/{{ item }}
