@@ -34,12 +34,3 @@ for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options,promp
     [ -r "$file" ] && source "$file"
 done
 unset file
-
-## PATHS {{{
-
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-## }}}
-
-# vim:foldmethod=marker:foldlevel=0
