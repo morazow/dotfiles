@@ -5,9 +5,10 @@ git_email: m.orazow@gmail.com
 
 dot_files:
   - .agignore
+  - .bash_profile
   - .bashrc
   - .bashrc.d
-  - .bash_profile
+  - .curlrc
   - .ctags
   - .emacs
   - .gemrc
