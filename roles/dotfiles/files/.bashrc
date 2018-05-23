@@ -30,7 +30,7 @@
 # If not running interactively, return early
 [[ $- != *i* ]] && return
 
-for file in ~/.bashrc.d/{aliases,exports,functions,options}; do
+for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
@@ -39,16 +39,6 @@ unset file
 
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-## }}}
-
-## COMPLETIONS {{{
-
-bash_completion="$(brew --prefix 2>/dev/null)/etc/bash_completion"
-if [ -r "$bash_completion" ]; then
-  source "$bash_completion"
-fi
-unset bash_completion
 
 ## }}}
 

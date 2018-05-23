@@ -12,7 +12,7 @@ tap "homebrew/bundle"
 
 ## Utilities
 brew "awscli"
-brew "bash-completion"
+brew "bash-completion2"
 brew "binutils"
 brew "coreutils"
 brew "ctags"
