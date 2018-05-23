@@ -23,4 +23,5 @@ dot_templates:
   - .gitconfig
 
 dot_files_absent:
+  - .bash_logout
   - .profile
