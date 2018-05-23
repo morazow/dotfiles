@@ -28,7 +28,7 @@ export EDITOR="vim -v"
 export HISTCONTROL=ignoredups:erasedups
 
 # Do not add these to history
-export HISTIGNORE=ls:ll:la:l:cd:pwd:exit:mc:su:df:clear:history:exit:q:pwd
+export HISTIGNORE=ls:ll:la:mc:df:clear:history:exit:q:pwd:bg:fg
 
 # The size of the history file
 export HISTFILESIZE=20000
