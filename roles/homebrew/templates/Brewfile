@@ -41,18 +41,6 @@ brew "libcroco"
 brew "libevent"
 brew "librsvg"
 
-## Development: Programming Languages, Frameworks, etc
-brew "docker"
-brew "docker-compose"
-brew "docker-machine"
-brew "emacs", args: ["with-cocoa"], link: false
-brew "go"
-brew "gradle"
-brew "maven"
-brew "packer"
-brew "r"
-brew "terraform"
-
 ## Casks
 cask "appcleaner"
 cask "dash"
@@ -85,3 +73,15 @@ cask "virtualbox"
 cask "visual-studio-code"
 cask "vlc"
 cask "wireshark"
+
+## Development: Programming Languages, Frameworks, etc
+brew "docker"
+brew "docker-compose"
+brew "docker-machine"
+brew "emacs"
+brew "go"
+brew "gradle"
+brew "maven"
+brew "packer"
+brew "r"
+brew "terraform"
