@@ -58,4 +58,8 @@ after_script:
   - ls -la ~/
 
 notifications:
-  email: false
+  email:
+    recipients:
+      - m.orazow@gmail.com
+    on_success: never
+    on_failure: always
