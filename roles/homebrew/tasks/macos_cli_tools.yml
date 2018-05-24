@@ -1,0 +1,30 @@
+---
+# Setup macOS Command Line Tools
+
+- name: Check if command line tools already installed
+  stat: path={{ cli_tools_path }}
+  register: cli_tools_installed
+
+- name: Prepare command line tools installation
+  file: path=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress state=touch
+  when: not cli_tools_installed.stat.exists
+
+- name: Check command line tools in software update list
+  shell: >
+    softwareupdate -l |
+    grep "\*.*Command Line" |
+    head -n 1 | awk -F"*" '{print $2}' |
+    sed -e 's/^ *//' |
+    tr -d '\n'
+  register: software_update_result
+  when: not cli_tools_installed.stat.exists
+  changed_when: false
+  failed_when: software_update_result.rc != 0 or software_update_result.stdout|length == 0
+
+- name: Install command line tools
+  command: softwareupdate -i '{{ software_update_result.stdout }}'
+  when: not cli_tools_installed.stat.exists
+
+- name: Remove /tmp/ inprogress file
+  file: path=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress state=absent
+  when: not cli_tools_installed.stat.exists

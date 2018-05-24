@@ -1,0 +1,4 @@
+---
+
+# macOS command line tools path
+cli_tools_path: /Library/Developer/CommandLineTools
