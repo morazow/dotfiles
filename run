@@ -22,47 +22,50 @@ install_pip_deps() {
     sudo -H pip install yamllint
 }
 
-setup_macos() {
-  if test ! $(which gcc); then
-    echo "Installing xcode"
-    xcode-select --install
-  fi
+install_ansible_galaxy_deps() {
+    echo "Installing ansible-galaxy dependencies"
+    ansible-galaxy install -r requirements.yml
+}
 
-  if test ! "$(which ansible)"; then
-    install_pip_deps
-  fi
+setup_macos() {
+    if test ! $(which gcc); then
+        echo "Installing xcode"
+        xcode-select --install
+    fi
+
+    if test ! "$(which ansible)"; then
+        install_pip_deps
+    fi
+
+    install_ansible_galaxy_deps
 }
 
 setup_linux() {
-  if test "$(uname)" = "Linux"; then
-
     if test ! "$(which python)"; then
-      echo "Installing python minimal"
-      sudo apt update
-      sudo apt install -y python-minimal
+        echo "Installing python minimal"
+        sudo apt update
+        sudo apt install -y python-minimal
     fi
 
     if test -f /etc/lsb-release && test ! "$(which ansible)"; then
-      sudo apt-get install -y software-properties-common
-      sudo apt-get update
+        sudo apt-get install -y software-properties-common
+        sudo apt-get update
 
-      install_pip_deps
+        install_pip_deps
     fi
-
-  fi
 }
 
 check_ansible_exists() {
-  if test ! "$(which ansible)"; then
-    echo "No ansible is installed"
-    exit 1
-  fi
+    if test ! "$(which ansible)"; then
+        echo "No ansible is installed"
+        exit 1
+    fi
 
-  echo "Running with versions: "
-  python --version
-  ansible --version
-  ansible-lint --version
-  yamllint --version
+    echo "Running with versions: "
+    python --version
+    ansible --version
+    ansible-lint --version
+    yamllint --version
 }
 
 run_lints_checks() {
@@ -75,12 +78,12 @@ run_lints_checks() {
 HOST_OS=$(uname)
 
 if test "$HOST_OS" = "Darwin"; then
-  setup_macos
+    setup_macos
 elif test "$HOST_OS" = "Linux"; then
-  setup_linux
+    setup_linux
 else
-  echo "Unknown host OS: $HOST_OS"
-  exit 1
+    echo "Unknown host OS: $HOST_OS"
+    exit 1
 fi
 
 check_ansible_exists
