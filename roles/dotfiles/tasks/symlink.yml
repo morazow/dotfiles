@@ -19,4 +19,5 @@
   template: src={{ item }}
             dest=~/{{ item }}
             mode={{ '0755' if item.endswith('.sh') else '0644' }}
+            follow=yes
   with_items: '{{ dot_templates }}'
