@@ -1,0 +1,75 @@
+---
+
+homebrew_taps:
+  - homebrew/core
+  - caskroom/cask
+  - caskroom/versions
+
+homebrew_installed_packages:
+  - awscli
+  - bash
+  - bash-completion2
+  - binutils
+  - coreutils
+  - ctags
+  - docker
+  - docker-compose
+  - docker-machine
+  - { name: emacs, install_options: "--force" }
+  - figlet
+  - fontconfig
+  - git
+  - go
+  - gradle
+  - htop
+  - jq
+  - kafkacat
+  - maven
+  - midnight-commander
+  - packer
+  - r
+  - rsync
+  - terraform
+  - the_silver_searcher
+  - tmux
+  - tree
+  - unrar
+  - vim
+  - wget
+
+homebrew_upgrade_all_packages: yes
+
+homebrew_cask_apps:
+  - appcleaner
+  - dash
+  - discord
+  - dropbox
+  - emacs
+  - firefox
+  - firefox-developer-edition
+  - google-chrome
+  - intellij-idea-ce
+  - iterm2
+  - java8
+  - macpass
+  - nextcloud
+  - ngrok
+  - skype
+  - slack
+  - spotifree
+  - spotify
+  - sublime-text
+  - telegram
+  - the-unarchiver
+  - typora
+  - vagrant
+  # MacOS High Sierra requires manual approval of kernel extensions (kext)
+  # https://developer.apple.com/library/content/technotes/tn2459/_index.html
+  # - virtualbox
+  - visual-studio-code
+  - vlc
+  - wireshark
+
+homebrew_cask_appdir: /Applications
+
+homebrew_use_brewfile: false
