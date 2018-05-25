@@ -1,0 +1,15 @@
+---
+
+- name: Check if the homebrew bash installed
+  stat: path=/usr/local/bin/bash
+  register: brew_bash
+
+- name: Add homebrew bash to list of shells
+  lineinfile: path=/etc/shells line=/usr/local/bin/bash
+  become: yes
+  when: brew_bash.stat.exists
+
+- name: Ensure {{ ansible_user }} bash is setup
+  user: name={{ ansible_user }} shell=/usr/local/bin/bash
+  become: yes
+  when: brew_bash.stat.exists
