@@ -36,8 +36,6 @@ setup_macos() {
     if test ! "$(which ansible)"; then
         install_pip_deps
     fi
-
-    install_ansible_galaxy_deps
 }
 
 setup_linux() {
@@ -74,7 +72,6 @@ run_lints_checks() {
     ansible-playbook -i ./hosts site.yml --syntax-check
 }
 
-
 HOST_OS=$(uname)
 
 if test "$HOST_OS" = "Darwin"; then
@@ -85,6 +82,8 @@ else
     echo "Unknown host OS: $HOST_OS"
     exit 1
 fi
+
+install_ansible_galaxy_deps
 
 check_ansible_exists
 
