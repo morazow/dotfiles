@@ -20,12 +20,6 @@ matrix:
     - os: osx
       osx_image: xcode8
 
-cache:
-  apt: true
-  pip: true
-  directories:
-    - $HOME/Library/Caches/Homebrew
-
 before_install:
   # Uninstall existing brew installation.
   - >
