@@ -9,3 +9,4 @@
     - { role: dotfiles, tags: ['dotfiles'] }
     - { role: vim, tags: ['vim'] }
     - { role: emacs, tags: ['emacs'] }
+    - { role: tiling, tags: ['tiling'] }

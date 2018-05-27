@@ -1,0 +1,4 @@
+---
+
+- import_tasks: chunkwm.yml
+  when: is_macos
