@@ -72,6 +72,19 @@ run_lints_checks() {
     ansible-playbook -i ./hosts site.yml --syntax-check
 }
 
+check_idempotence() {
+    # Ansible idempotence test
+    idempotence=$(mktemp)
+    ansible-playbook -i inventory site.yml | tee -a ${idempotence}
+    tail ${idempotence} | grep -q 'changed=0.*failed=0' \
+        && (echo 'Idempotence test: pass' && exit 0) \
+        || (echo 'Idempotence test: fail' && exit 1)
+
+    cat ${idempotence}
+    rm -rf ${idempotence}
+}
+
+
 HOST_OS=$(uname)
 
 if test "$HOST_OS" = "Darwin"; then
@@ -90,3 +103,5 @@ check_ansible_exists
 run_lints_checks
 
 ansible-playbook -i inventory site.yml
+
+check_idempotence
