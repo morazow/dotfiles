@@ -1,0 +1,26 @@
+---
+
+fedora_version: 28
+
+rpmfusion_free: rpmfusion-free-release
+rpmfusion_nonfree: rpmfusion-nonfree-release
+
+packages:
+  - kernel-devel
+  - make
+  - automake
+  - gcc
+  - gcc-c++
+  - i3
+  - dmenu
+  - vim-enhanced
+  - emacs
+  - tmux
+  - python3-virtualenv
+  - python-virtualenv
+  - golang
+  - nodejs
+  - htop
+  - gstreamer1-plugins-bad-free
+  - gstreamer1-plugins-good
+  - vlc

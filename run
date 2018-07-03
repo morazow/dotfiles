@@ -108,6 +108,6 @@ check_ansible_exists
 
 run_lints_checks
 
-ansible-playbook -i inventory site.yml
+ansible-playbook -i inventory site.yml -K
 
 check_idempotence
