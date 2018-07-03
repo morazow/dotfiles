@@ -41,16 +41,22 @@ setup_macos() {
 setup_linux() {
     if test ! "$(which python)"; then
         echo "Installing python minimal"
-        sudo apt update
-        sudo apt install -y python-minimal
+        if test -f /etc/lsb-release; then
+            sudo apt update
+            sudo apt install -y python-minimal
+        fi
     fi
 
-    if test -f /etc/lsb-release && test ! "$(which ansible)"; then
-        sudo apt-get install -y software-properties-common
-        sudo apt-get update
-
-        install_pip_deps
+    if test ! "$(which ansible)"; then
+        if test -f /etc/lsb-release; then
+            sudo apt-get update
+            sudo apt-get install -y software-properties-common
+        elif test -f /etc/fedora-release; then
+            sudo dnf install libselinux-python
+        fi
     fi
+
+    install_pip_deps
 }
 
 check_ansible_exists() {
