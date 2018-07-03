@@ -1,26 +1,52 @@
 ---
 
-fedora_version: 28
+fedora_version: "{{ ansible_distribution_version }}"
 
 rpmfusion_free: rpmfusion-free-release
 rpmfusion_nonfree: rpmfusion-nonfree-release
 
-packages:
+# yamllint disable rule:line-length
+rpmfusion_repos:
+  - http://download1.rpmfusion.org/free/fedora/{{ rpmfusion_free }}-{{ fedora_version }}.noarch.rpm
+  - http://download1.rpmfusion.org/nonfree/fedora/{{ rpmfusion_nonfree }}-{{ fedora_version }}.noarch.rpm
+# yamllint enable rule:line-length
+
+general_packages:
   - kernel-devel
+  - kernel-headers
   - make
   - automake
   - gcc
   - gcc-c++
-  - i3
-  - dmenu
+  - curl
+  - wget
+  - htop
+  - git
+
+devel_packages:
+  - vim
   - vim-enhanced
   - emacs
   - tmux
-  - python3-virtualenv
-  - python-virtualenv
+  - awscli
+  - python3
   - golang
   - nodejs
-  - htop
-  - gstreamer1-plugins-bad-free
-  - gstreamer1-plugins-good
-  - vlc
+  - docker
+
+tiling_packages:
+  - i3
+  - i3lock
+  - i3status
+  - feh
+  - dmenu
+
+font_packages:
+  - fontawesome-fonts
+  - google-roboto-fonts
+  - google-noto-mono-fonts
+  - google-noto-sans-fonts
+  - google-noto-serif-fonts
+  - mozilla-fira-mono-fonts
+  - mozilla-fira-sans-fonts
+  - adobe-source-code-pro-fonts

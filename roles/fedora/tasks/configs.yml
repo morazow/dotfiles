@@ -1,0 +1,11 @@
+---
+
+- name: Remove default folders / directories
+  file: path={{ ansible_env.HOME }}/{{ item }}
+        state=absent
+  with_items:
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
