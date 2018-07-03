@@ -2,4 +2,4 @@
 
 - import_tasks: repos.yml
 
-- import_tasks: fedora.yml
+- import_tasks: packages.yml
