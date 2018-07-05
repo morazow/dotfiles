@@ -19,11 +19,10 @@ set $right l
 set $terminal "gnome-terminal --hide-menubar"
 
 # Predefined workspace names
-set $code     code
-set $web      web
-set $misc     misc
-set $ws4     
-set $ws5     
+set $code    " : code"
+set $web     " : web"
+set $misc    " : misc"
+set $music   " : music"
 
 ## }}}
 
