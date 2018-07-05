@@ -15,6 +15,7 @@ general_packages:
   - kernel-devel
   - kernel-headers
   - make
+  - autoconf
   - automake
   - gcc
   - gcc-c++
