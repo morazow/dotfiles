@@ -1,0 +1,234 @@
+# i3 config file (v4)
+#
+# Please see
+#   - http://i3wm.org/docs/userguide.html
+# for a complete reference!
+
+## Variables {{{
+
+# Use the win-key as modifier
+set $mod Mod4
+
+# Use vim-style movement keys
+set $left  h
+set $down  j
+set $up    k
+set $right l
+
+# Set default terminal
+set $terminal "gnome-terminal --hide-menubar"
+
+# Predefined workspace names
+set $code     code
+set $web      web
+set $misc     misc
+set $ws4     
+set $ws5     
+
+## }}}
+
+## Workspaces {{{
+
+bindsym $mod+1 workspace $code
+bindsym $mod+2 workspace $web
+bindsym $mod+3 workspace $misc
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+bindsym $mod+Shift+1 move container to workspace $code
+bindsym $mod+Shift+2 move container to workspace $web
+bindsym $mod+Shift+3 move container to workspace $misc
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym $mod+u workspace prev_on_output
+bindsym $mod+i workspace next_on_output
+
+bindsym $mod+Shift+u move container to workspace prev_on_output
+bindsym $mod+Shift+i move container to workspace next_on_output
+
+set $workspace_back_and_forth asciicircum
+bindsym $mod+$workspace_back_and_forth workspace back_and_forth
+
+## }}}
+
+## Movement and Splitting Commands {{{
+
+bindsym $mod+Shift+P kill
+
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
+
+bindsym $mod+Shift+$left  move left
+bindsym $mod+Shift+$down  move down
+bindsym $mod+Shift+$up    move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Shift+Left   move left
+bindsym $mod+Shift+Down   move down
+bindsym $mod+Shift+Up     move up
+bindsym $mod+Shift+Right  move right
+
+#bindsym $mod+h split h
+#bindsym $mod+v split v
+
+bindsym $mod+f fullscreen
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default
+
+bindsym $mod+x layout toggle split
+
+bindsym $mod+space       focus mode_toggle
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+q focus parent
+bindsym $mod+a focus child
+
+# Reload the configuration
+bindsym $mod+Shift+C  reload
+
+# Restart i3
+bindsym $mod+Shift+R restart
+
+# Exit i3, this is unusual key combination by design
+bindsym $mod+Shift+F11 exit
+
+## }}}
+
+## Applications {{{
+
+bindsym $mod+Return exec $terminal
+
+bindsym $mod+F1 exec --no-startup-id firefox
+
+assign [class="Firefox"]  $web
+
+## }}}
+
+## Resizing {{{
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym $left  resize shrink width  5 px or 5 ppt
+        bindsym $down  resize grow   height 5 px or 5 ppt
+        bindsym $up    resize shrink height 5 px or 5 ppt
+        bindsym $right resize grow   width  5 px or 5 ppt
+
+        bindsym 113 resize shrink width  5 px or 5 ppt
+        bindsym 116 resize grow   height 5 px or 5 ppt
+        bindsym 111 resize shrink height 5 px or 5 ppt
+        bindsym 114 resize grow   width  5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+## }}}
+
+## General configurations {{{
+
+# Default orientation for new workspaces will be derived from aspect ratio
+default_orientation auto
+
+# New containers will start in tiling mode
+workspace_layout default
+
+new_window 1pixel
+new_float normal 1
+
+focus_follows_mouse yes
+
+# Only map a popup in fullscreen mode if it belongs to the fullscreen window
+# <smart|ignore|leave_fullscreen>
+popup_during_fullscreen leave_fullscreen
+
+# Do not always wrap but change to a container on the same level instead
+force_focus_wrapping no
+
+force_xinerama no
+
+# Hit the current workspace button again to return to the previous workspace
+workspace_auto_back_and_forth yes
+
+# Draw a window as urgent when switching to its workspace, even if focused, for 500 ms
+force_display_urgency_hint 500 ms
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+floating_minimum_size 0 x 0
+floating_maximum_size 0 x 0
+
+font pango:Inconsolata 12
+
+## }}}
+
+## Colors {{{
+
+# class                 border  backgr. text    indicator
+client.focused          #E16B40 #E16B40 #000000 #FF0000
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused        #333333 #202020 #cccccc #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+
+## }}}
+
+## Bar {{{
+
+bar {
+    mode dock
+    position top
+
+    tray_output primary
+    tray_padding 3
+
+    strip_workspace_numbers no
+
+    binding_mode_indicator yes
+
+    workspace_buttons yes
+
+    id bar-0
+
+    font pango:Inconsolata, FontAwesome 10
+
+    colors {
+        background #222222
+        statusline #ffffff
+        separator #e16b40
+
+        focused_workspace  #e16b40 #222222 #ffffff
+        active_workspace   #222222 #5f676a #ffffff
+        inactive_workspace #222222 #222222 #dddddd
+        urgent_workspace   #D00000 #D00000 #222222
+        binding_mode       #222222 #e16b40 #222222
+    }
+
+    i3bar_command i3bar
+    status_command py3status -c ~/.config/i3/i3status.conf
+}
+
+## }}}
+
+# vim:foldmethod=marker:foldlevel=0
