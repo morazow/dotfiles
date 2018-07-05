@@ -22,6 +22,9 @@ general_packages:
   - wget
   - htop
   - git
+  - bash-completion
+  - xcompmgr
+  - the_silver_searcher
 
 devel_packages:
   - vim
@@ -33,20 +36,25 @@ devel_packages:
   - golang
   - nodejs
   - docker
+  - chromium
 
 tiling_packages:
   - i3
   - i3lock
   - i3status
+  - py3status
   - feh
   - dmenu
+  - xbacklight
 
 font_packages:
   - fontawesome-fonts
+  - fontawesome-fonts-web
   - google-roboto-fonts
   - google-noto-mono-fonts
   - google-noto-sans-fonts
   - google-noto-serif-fonts
   - mozilla-fira-mono-fonts
   - mozilla-fira-sans-fonts
+  - levien-inconsolata-fonts
   - adobe-source-code-pro-fonts
