@@ -13,3 +13,4 @@
     - { role: vim, tags: ['vim'] }
     - { role: emacs, tags: ['emacs'] }
     - { role: tiling, tags: ['tiling'] }
+    - { role: cron, tags: ['cron'] }

@@ -1,0 +1,27 @@
+---
+
+- name: Setup a cron job to remove stopped docker containers
+  cron:
+    name: remove_stopped_docker_containers
+    hour: '*/3'
+    job: 'pgrep dockerd && docker ps -aq | xargs docker rm'
+    user: root
+  become: true
+
+- name: Setup a cron job to remove unused docker volumes
+  cron:
+    name: remove_unused_docker_volumes
+    hour: '*/3'
+    minute: '5'
+    job: 'pgrep dockerd && docker volume prune -f'
+    user: root
+  become: true
+
+- name: Setup a cron job to remove dangling docker images
+  cron:
+    name: remove_dangling_docker_images
+    hour: '*/3'
+    minute: '10'
+    job: 'pgrep dockerd && docker rmi $(docker images -q -f dangling=true)'
+    user: root
+  become: true
