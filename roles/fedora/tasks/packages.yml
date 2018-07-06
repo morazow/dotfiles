@@ -3,32 +3,27 @@
 - name: Update all packages
   dnf: name=*
        state=latest
-  become: true
 
 - name: Install general packages
   dnf: name={{ item }}
        state=present
   with_items:
     - "{{ general_packages }}"
-  become: true
 
 - name: Install development packages
   dnf: name={{ item }}
        state=present
   with_items:
     - "{{ devel_packages }}"
-  become: true
 
 - name: Install tiling (i3) packages
   dnf: name={{ item }}
        state=present
   with_items:
     - "{{ tiling_packages }}"
-  become: true
 
 - name: Install fonts packages
   dnf: name={{ item }}
        state=present
   with_items:
     - "{{ font_packages }}"
-  become: true

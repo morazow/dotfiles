@@ -1,7 +1,9 @@
 ---
 
-- import_tasks: repos.yml
+- { import_tasks: repos.yml, become: true }
 
-- import_tasks: packages.yml
+- { import_tasks: packages.yml, become: true }
 
-- import_tasks: configs.yml
+- { import_tasks: docker.yml, become: true }
+
+- { import_tasks: configs.yml, become: false }

@@ -34,10 +34,11 @@ devel_packages:
   - tmux
   - awscli
   - python3
+  - python3-pip
   - golang
   - nodejs
-  - docker
-  - chromium
+  - dropbox
+  - google-chrome-stable
 
 tiling_packages:
   - i3
