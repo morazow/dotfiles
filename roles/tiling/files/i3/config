@@ -19,10 +19,10 @@ set $right l
 set $terminal "gnome-terminal --hide-menubar"
 
 # Predefined workspace names
-set $code    " : code"
-set $web     " : web"
-set $misc    " : misc"
-set $music   " : music"
+set $code    "1:  "
+set $web     "2:  "
+set $misc    "3:  "
+set $music   "4:  "
 
 ## }}}
 
@@ -31,7 +31,7 @@ set $music   " : music"
 bindsym $mod+1 workspace $code
 bindsym $mod+2 workspace $web
 bindsym $mod+3 workspace $misc
-bindsym $mod+4 workspace 4
+bindsym $mod+4 workspace $music
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
@@ -42,7 +42,7 @@ bindsym $mod+0 workspace 10
 bindsym $mod+Shift+1 move container to workspace $code
 bindsym $mod+Shift+2 move container to workspace $web
 bindsym $mod+Shift+3 move container to workspace $misc
-bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+4 move container to workspace $music
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
@@ -202,7 +202,7 @@ bar {
     tray_output primary
     tray_padding 3
 
-    strip_workspace_numbers no
+    strip_workspace_numbers yes
 
     binding_mode_indicator yes
 
