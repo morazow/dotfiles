@@ -36,3 +36,20 @@
   pip: name={{ item }} state=present
   with_items:
     - docker-compose
+
+- name: Create docker group
+  group: name=docker state=present
+
+- name: Get current user
+  set_fact: current_username={{ ansible_user | default(lookup('env', 'USER'), True) }}
+
+- name: Current groups of {{ current_username }}
+  command: groups
+  become_user: "{{ current_username }}"
+  changed_when: false
+  register: current_user_groups
+
+- name: Add {{ current_username }} to docker group
+  user: name={{ current_username }}
+        group={{ current_username }}
+        groups='{{ current_user_groups.stdout.split(" ")[1:] | join(",") }},docker'
