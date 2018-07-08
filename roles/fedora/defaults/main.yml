@@ -38,6 +38,7 @@ devel_packages:
   - golang
   - nodejs
   - dropbox
+  - nautilus-dropbox
   - google-chrome-stable
 
 tiling_packages:
