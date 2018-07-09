@@ -155,8 +155,8 @@ set_prompts() {
     PS1+="$white: "
     PS1+="$green\w"         # Working directory
     PS1+="\[\$(get_git_repository_details \"$white on $cyan\")\]"
-    #PS1+="\n"              # Do not go to newline
-    PS1+="\[$reset\]\[$white\] $ \[$reset\]"
+    PS1+="\n"               # Do not go to newline
+    PS1+="\[$reset\]\[$white\]$ \[$reset\]"
 
     export PS1
 
