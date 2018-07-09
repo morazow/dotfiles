@@ -40,6 +40,9 @@ devel_packages:
   - dropbox
   - nautilus-dropbox
   - google-chrome-stable
+  - telegram-desktop
+  - nextcloud-client
+  - nextcloud-client-nautilus
 
 tiling_packages:
   - i3
