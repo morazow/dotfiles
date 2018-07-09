@@ -14,3 +14,4 @@
     - { role: emacs, tags: ['emacs'] }
     - { role: tiling, tags: ['tiling'] }
     - { role: cron, tags: ['cron'] }
+    - { role: users, tags: ['users'] }
