@@ -44,6 +44,9 @@ devel_packages:
   - nextcloud-client
   - nextcloud-client-nautilus
 
+pip_packages:
+  - pipenv
+
 tiling_packages:
   - i3
   - i3lock
