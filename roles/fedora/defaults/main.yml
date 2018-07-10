@@ -35,6 +35,8 @@ devel_packages:
   - awscli
   - python3
   - python3-pip
+  - maven
+  - gradle
   - golang
   - nodejs
   - dropbox
