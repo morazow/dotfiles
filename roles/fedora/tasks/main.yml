@@ -1,5 +1,7 @@
 ---
 
+- { import_tasks: cleanup.yml, become: true }
+
 - { import_tasks: repos.yml, become: true }
 
 - { import_tasks: packages.yml, become: true }
