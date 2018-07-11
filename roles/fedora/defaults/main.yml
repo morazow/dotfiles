@@ -19,6 +19,7 @@ general_packages:
   - automake
   - gcc
   - gcc-c++
+  - jq
   - curl
   - wget
   - htop
