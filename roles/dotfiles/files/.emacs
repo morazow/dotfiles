@@ -4,11 +4,10 @@
 
 
 ;; set target directory for load-path
-;; prev (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; disable splash screen
-(custom-set-variables '(inhibit-startup-screen t))
+(setq inhibit-startup-screen t)
 
 ;; disable menus
 ;;(menu-bar-mode -1)
@@ -33,16 +32,22 @@
 ;; disable adding newlines to the end of file automatically
 (setq next-line-add-newlines nil)
 
-;; Put autosave files (ie #foo#) and backup files (ie foo~) in one place
-(custom-set-variables
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+;; put autosave files (ie #foo#) and backup files (ie foo~) in one place
+(setq auto-save-file-name-transforms
+      '((".*" "~/.emacs.d/autosaves/\\1" t)))
+
+(setq backup-directory-alist
+      '((".*" . "~/.emacs.d/backups/")))
 
 ;; disable this annoying auto save while editing
 (setq auto-save-default nil)
 
 ;; make visible leading and trailing whitespaces
 (setq show-trailing-whitespace t)
+
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-exists-p custom-file)
+  (load custom-file))
 
 ;; unset arrow keys -- do it!
 (global-unset-key [left])
@@ -58,15 +63,14 @@
 
   ;; default font size (point * 10)
   ;;
-  ;; WARNING!  Depending on the default font,
-  ;; if the size is not supported very well, the frame will be clipped
-  ;; so that the beginning of the buffer may not be visible correctly.
-  (set-face-attribute 'default nil :height 165)
-  )
+  ;; WARNING!
+  ;; Depending on the default font, if the size is not supported very well, the frame will be
+  ;; clipped so that the beginning of the buffer may not be visible correctly.
+  (set-face-attribute 'default nil :height 165))
 
-;; lately I started heavily using color themes
-;; This is emacs24 way of changin color-themes, just put your themes
-;; .el files into 'custom-theme-load-path.
+;; use color themes
+;; This is emacs24 way of changin color-themes, just put your themes .el files into
+;; 'custom-theme-load-path.
 (add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/themes")
 (load-theme 'zenburn t)
 
