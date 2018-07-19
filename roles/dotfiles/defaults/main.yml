@@ -10,7 +10,7 @@ dot_files:
   - .bashrc.d
   - .curlrc
   - .ctags
-  - .emacs
+  - .emacs.d
   - .gemrc
   - .gitignore
   - .git_template

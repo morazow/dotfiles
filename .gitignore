@@ -1,3 +1,5 @@
+*~
 site.retry
 .vagrant/
 vendor/roles
+roles/dotfiles/files/.emacs.d/elpa*
