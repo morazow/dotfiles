@@ -112,5 +112,21 @@
 
 ;; Configure Org
 
-;; load my org-mode configs, ~/.emacs.d/lisp/org-mode-configs.el
-(load "org-mode-configs")
+;; init org configurations
+(use-package init-org
+             :ensure nil
+             :load-path "~/.emacs.d/lisp/"
+             :init (require 'init-org))
+
+;; Open needed org file using M-x <filename>
+(defun resolution ()
+  (interactive)
+  (find-file "~/Dropbox/Notes/org/resolution.org"))
+
+(defun personal ()
+  (interactive)
+  (find-file "~/Dropbox/Notes/org/personal.org"))
+
+(defun work ()
+  (interactive)
+  (find-file "~/Dropbox/Notes/org/work.org"))
