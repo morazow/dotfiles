@@ -4,6 +4,12 @@
 
 (require 'org)
 
+;; use org-bullets
+(use-package org-bullets
+             :ensure t
+             :config
+             (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 ;; Open every .org files with org-mode
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
@@ -15,7 +21,7 @@
 ;; this will add 'CLOSED' when a 'todo' changes into 'done', etc
 (setq org-log-done 'time)
 
-;; this is same as above, and will add 'CLOSING NOTE' 
+;; this is same as above, and will add 'CLOSING NOTE'
 ;; when 'todo' state changes.
 (setq org-log-done 'note)
 
@@ -25,10 +31,10 @@
 
 ;; org-agenda will look into these files for 'todo's
 ;; Can I customize this, depending on the hour of the day?
-;; I don't want agenda to show me personal related stuff on 
+;; I don't want agenda to show me personal related stuff on
 ;; my working hours. This would be great.
-(setq org-agenda-files 
-      (list 
+(setq org-agenda-files
+      (list
         "~/Dropbox/Notes/org/resolution.org"
         "~/Dropbox/Notes/org/personal.org"
         "~/Dropbox/Notes/org/work.org"))
