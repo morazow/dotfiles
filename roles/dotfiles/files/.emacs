@@ -105,6 +105,11 @@
 ;; load my org-mode configs, ~/.emacs.d/lisp/org-mode-configs.el
 (load "org-mode-configs")
 
+(use-package org-bullets
+             :ensure t
+             :config
+             (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 ;; Org Mode
 ;;(require 'org-install)
 ;;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
