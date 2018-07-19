@@ -6,6 +6,34 @@
 ;; set target directory for load-path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+;; setup package manager
+(require 'package)
+(setq package-enable-at-startup nil)
+
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+(unless (assoc-default "gnu" package-archives)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(setq
+  use-package-verbose t
+  use-package-always-ensure t)
+
+(unless (package-installed-p 'org-plus-contrib)
+  (package-install 'org-plus-contrib))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+
 ;; disable splash screen
 (setq inhibit-startup-screen t)
 
