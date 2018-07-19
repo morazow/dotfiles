@@ -22,9 +22,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(setq
-  use-package-verbose t
-  use-package-always-ensure t)
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
 
 (unless (package-installed-p 'org-plus-contrib)
   (package-install 'org-plus-contrib))
@@ -34,13 +33,15 @@
 
 (require 'use-package)
 
+;; Configure Defaults
+
 ;; disable splash screen
 (setq inhibit-startup-screen t)
 
 ;; disable menus
-;;(menu-bar-mode -1)
-(tool-bar-mode -1)
-(toggle-scroll-bar -1)
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; enable line and column numbering
 (line-number-mode 1)
@@ -83,24 +84,12 @@
 (global-unset-key [up])
 (global-unset-key [down])
 
-;; change font to Consolas font family on osx
-;; taken from http://www.emacswiki.org/SetFonts, at the end of page.
-(when (eq system-type 'darwin)
-  ;; default Latin font (e.g. Consolas)
-  (set-face-attribute 'default nil :family "Consolas")
+;; use zenburn theme
+(use-package zenburn-theme
+             :ensure t
+             :config (load-theme 'zenburn t))
 
-  ;; default font size (point * 10)
-  ;;
-  ;; WARNING!
-  ;; Depending on the default font, if the size is not supported very well, the frame will be
-  ;; clipped so that the beginning of the buffer may not be visible correctly.
-  (set-face-attribute 'default nil :height 165))
-
-;; use color themes
-;; This is emacs24 way of changin color-themes, just put your themes .el files into
-;; 'custom-theme-load-path.
-(add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/themes")
-(load-theme 'zenburn t)
+;; Configure Org
 
 ;; load my org-mode configs, ~/.emacs.d/lisp/org-mode-configs.el
 (load "org-mode-configs")
