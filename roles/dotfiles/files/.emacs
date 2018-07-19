@@ -74,6 +74,27 @@
 ;; make visible leading and trailing whitespaces
 (setq show-trailing-whitespace t)
 
+;; type y or n instead of yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; confirm before closing
+(setq confirm-kill-emacs 'y-or-n-p)
+
+;; set encoding to utf-8
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+;; reduce the frequency of GC by increasing memory threshold
+(setq gc-cons-threshold 50000000)
+
+;; enable better scrolling
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
+
+;; separate custom settings into its own file
 (setq custom-file "~/.emacs.d/custom.el")
 (if (file-exists-p custom-file)
   (load custom-file))
