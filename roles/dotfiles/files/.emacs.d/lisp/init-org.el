@@ -19,7 +19,8 @@
    ("C-c c" . org-capture)
    ("C-c w" . org-refile))
   :config
-  ;; use org-bullets
+  ;; org related useful packages
+
   (use-package org-bullets
                :ensure t
                :config
@@ -38,6 +39,21 @@
                (setq org-log-done 'time)
                ;; this is same as above, and will add 'CLOSING NOTE' when 'todo' state changes.
                (setq org-log-done 'note))
+
+  (use-package org-drill
+               :defer t
+               :ensure org-plus-contrib
+               :commands (org-drill)
+               :config
+               ;; add random noise
+               (setq org-drill-add-random-noise-to-intervals-p t))
+
+  ;; capture templates for: tasks and journal
+  (setq org-capture-templates
+        (quote (("j" "Journal" entry (file+datetree "~/Dropbox/Notes/org/journal.org")
+                 "* %<%H:%M> - %^{Heading}  %^g\n  %?\n  Added: %U")
+                ("g" "German" entry (file+headline "~/Dropbox/Notes/org/german.org" "German Learning")
+                 "** %^{Word Type|Noun|Adjective|Adverb|Verb} :drill:\n  :PROPERTIES:\n  :DRILL_CARD_TYPE: twosided\n  :END:\n\n  Translate this word.\n\n*** German\n  %^{German word}\n\n*** English\n  %^{English word}\n\n*** Examples\n  %^{Examples}\n"))))
 )
 
 (provide 'init-org)
