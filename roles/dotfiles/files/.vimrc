@@ -293,6 +293,9 @@ let g:ctrlp_user_command = {
   \ 'fallback': 'find %s -type f'
   \ }
 
+" disable default powerline
+let g:powerline_loaded = 1
+
 " autoreloading of vim config when saving it
 autocmd! bufwritepost .vimrc source ~/.vimrc
 
