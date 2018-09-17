@@ -36,7 +36,10 @@
 
 # https://github.com/ansible/ansible/issues/27744
 - name: Remove unhelpful packages (#27744 wildcard issue workaround)
-  raw: dnf remove -y 'PackageKit*' 'abrt*' 'b43*' 'foomatic*' 'gutenprint*' '*hangul*' '*kkc*' '*libreoffice*' '*pinyin*' '*zhuyin*'
+  raw: -|
+    dnf remove -y \
+      'PackageKit*' 'abrt*' 'b43*' 'foomatic*' 'gutenprint*' \
+      '*hangul*' '*kkc*' '*libreoffice*' '*pinyin*' '*zhuyin*'
   register: dnf_cmd
   failed_when: false
   changed_when: dnf_cmd.rc == 0
