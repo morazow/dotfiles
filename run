@@ -110,4 +110,4 @@ run_lints_checks
 
 ansible-playbook -i inventory site.yml -K
 
-check_idempotence
+# check_idempotence
