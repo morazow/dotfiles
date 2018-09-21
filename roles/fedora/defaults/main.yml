@@ -40,12 +40,13 @@ devel_packages:
   - gradle
   - golang
   - nodejs
+  - keepassxc
   - dropbox
   - nautilus-dropbox
-  - google-chrome-stable
-  - telegram-desktop
   - nextcloud-client
   - nextcloud-client-nautilus
+  - telegram-desktop
+  - google-chrome-stable
 
 pip_packages:
   - pipenv
