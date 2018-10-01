@@ -48,6 +48,7 @@ devel_packages:
   - telegram-desktop
   - google-chrome-stable
   - vagrant
+  - VirtualBox
 
 pip_packages:
   - pipenv
