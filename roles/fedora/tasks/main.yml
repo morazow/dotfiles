@@ -9,3 +9,5 @@
 - { import_tasks: docker.yml, become: true }
 
 - { import_tasks: configs.yml, become: false }
+
+- { import_tasks: terraform.yml, become: true }

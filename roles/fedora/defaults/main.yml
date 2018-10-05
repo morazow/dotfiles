@@ -27,6 +27,7 @@ general_packages:
   - bash-completion
   - xcompmgr
   - the_silver_searcher
+  - ShellCheck
 
 devel_packages:
   - vim
@@ -72,3 +73,8 @@ font_packages:
   - mozilla-fira-sans-fonts
   - levien-inconsolata-fonts
   - adobe-source-code-pro-fonts
+
+terraform_version: 0.11.8
+# yamllint disable rule:line-length
+terraform_url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
+# yamllint enable rule:line-length
