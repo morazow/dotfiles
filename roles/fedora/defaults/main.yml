@@ -24,6 +24,7 @@ general_packages:
   - wget
   - htop
   - git
+  - gitk
   - bash-completion
   - xcompmgr
   - the_silver_searcher
