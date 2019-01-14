@@ -30,7 +30,7 @@
 # If not running interactively, return early
 [[ $- != *i* ]] && return
 
-for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options,prompt}; do
-    [ -r "$file" ] && source "$file"
+for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options,paths,prompt}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file

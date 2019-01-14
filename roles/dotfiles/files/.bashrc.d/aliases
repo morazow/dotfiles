@@ -44,4 +44,8 @@ alias du='du -ch --max-depth=1'
 alias treeacl='tree -A -C -L 2'
 alias grep="grep --color -I --exclude-dir=.git --exclude=.DS_Store"
 
+# Path
+# Each entry on a newline
+alias path='echo -e ${PATH//:/\\n}'
+
 # vi: ft=sh :
