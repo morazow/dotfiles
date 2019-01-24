@@ -1,4 +1,5 @@
 ---
+
 vim_misc:
   - { url: 'https://github.com/kien/ctrlp.vim', name: 'vim-ctrlp' }
   - { url: 'https://github.com/tpope/vim-fugitive', name: 'vim-fugitive' }
@@ -7,6 +8,7 @@ vim_misc:
 
 vim_languages:
   - { url: 'https://github.com/motus/pig.vim.git', name: 'vim-pig' }
+  - { url: 'https://github.com/chr4/nginx.vim.git', name: 'vim-nginx' }
   - { url: 'https://github.com/derekwyatt/vim-scala', name: 'vim-scala' }
   - { url: 'https://github.com/hashivim/vim-terraform.git', name: 'vim-terraform' }
 

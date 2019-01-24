@@ -95,6 +95,7 @@ nnoremap <F12> :set nu!<cr>
 " map CTRL-E to end-of-line in insert mode,
 " well emacs in vim !!
 imap <C-e> <esc>$i<right>
+
 " map CTRL-A to beginning-of-line in insert mode
 imap <C-a> <esc>0i
 
@@ -232,6 +233,20 @@ nmap <down>  :call <SID>punish_me()<cr>
 set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
+
+" keep undo across vim sessions
+set undofile
+set undodir=~/.vim/undo
+
+" remove older (more than 90 days) undo files function
+function RemoveUndos()
+    let s:undos = split(globpath(&undodir, '*'), "\n")
+    call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 90)')
+    call map(s:undos, 'delete(v:val)')
+endfunction
+
+" mapping to call remove older undo files
+map <leader>ru :call RemoveUndos()<cr>
 
 " Fugitive {{{
 nnoremap <space>ga :Git add %:p<CR><CR>

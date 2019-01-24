@@ -5,6 +5,7 @@
   with_items:
     - .vim
     - .vim/tmp
+    - .vim/undo
     - .vim/backup
     - .vim/bundle
     - .vim/autoload
