@@ -32,28 +32,11 @@
                ;; org-agenda will look into these files for 'todo's Can I customize this,
                ;; depending on the hour of the day?  I don't want agenda to show me personal
                ;; related stuff on my working hours. This would be great.
-               (setq org-agenda-files (list "~/Dropbox/Notes/org/resolution.org"
-                                            "~/Dropbox/Notes/org/personal.org"
-                                            "~/Dropbox/Notes/org/work.org"))
+               (setq org-agenda-files (list "~/Dropbox/Notes/org/personal.org"))
                ;; this will add 'CLOSED' when a 'todo' changes into 'done', etc
                (setq org-log-done 'time)
                ;; this is same as above, and will add 'CLOSING NOTE' when 'todo' state changes.
                (setq org-log-done 'note))
-
-  (use-package org-drill
-               :defer t
-               :ensure org-plus-contrib
-               :commands (org-drill)
-               :config
-               ;; add random noise
-               (setq org-drill-add-random-noise-to-intervals-p t))
-
-  ;; capture templates for: tasks and journal
-  (setq org-capture-templates
-        (quote (("j" "Journal" entry (file+datetree "~/Dropbox/Notes/org/journal.org")
-                 "* %<%H:%M> - %^{Heading}  %^g\n  %?\n  Added: %U")
-                ("g" "German" entry (file+headline "~/Dropbox/Notes/org/german.org" "German Learning")
-                 "** %^{Word Type|Noun|Adjective|Adverb|Verb} :drill:\n  :PROPERTIES:\n  :DRILL_CARD_TYPE: twosided\n  :END:\n\n  Translate this word.\n\n*** German\n  %^{German word}\n\n*** English\n  %^{English word}\n\n*** Examples\n  %^{Examples}\n"))))
 )
 
 (provide 'init-org)

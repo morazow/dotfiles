@@ -118,15 +118,13 @@
              :load-path "~/.emacs.d/lisp/"
              :init (require 'init-org))
 
-;; Open needed org file using M-x <filename>
-(defun resolution ()
-  (interactive)
-  (find-file "~/Dropbox/Notes/org/resolution.org"))
+;; use editorconfig plugin
+(use-package editorconfig
+             :ensure t
+             :config
+             (editorconfig-mode 1))
 
+;; Open needed org file using M-x <filename>
 (defun personal ()
   (interactive)
   (find-file "~/Dropbox/Notes/org/personal.org"))
-
-(defun work ()
-  (interactive)
-  (find-file "~/Dropbox/Notes/org/work.org"))

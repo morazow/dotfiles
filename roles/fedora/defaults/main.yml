@@ -25,6 +25,7 @@ general_packages:
   - htop
   - git
   - gitk
+  - editorconfig
   - bash-completion
   - xcompmgr
   - the_silver_searcher
