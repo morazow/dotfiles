@@ -180,6 +180,18 @@ function! InsertTabWrapper()
     endif
 endfunction
 
+" Custom text formatting with a parameterized textwidth that formats visually
+" selected region
+function! CustomTextFormat(width)
+  let tempwidth = &textwidth
+  let &textwidth=a:width
+  normal gvgq
+  let &textwidth=tempwidth
+endfunction
+
+" Format visually selected javadoc-s using 72 characters
+vnoremap <leader>jq <Esc>:call CustomTextFormat(72)<CR>
+
 " show extra space with color
 let c_space_errors=1
 
