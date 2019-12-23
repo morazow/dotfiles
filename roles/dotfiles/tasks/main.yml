@@ -1,9 +1,0 @@
----
-
-- import_tasks: bash.yml
-  when: is_macos
-  tags: homebrew
-
-- import_tasks: backup.yml
-
-- import_tasks: symlink.yml

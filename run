@@ -1,113 +1,50 @@
 #!/usr/bin/env bash
 
 ## set -o errexit
-## Exits a script if any statement return non-true value
+## Exits the current script if any of statements return non-true value.
 set -e
 
 ## set -o nounset
-## Exits a script if you try to use uninitialized variable
+## Exits the script if an uninitialized variable is used.
 set -u
 
 ## If any of the commands fail with a non-zero exit code, then abort the entire
-## pipeline with that exit code
+## pipeline with that exit code.
 set -o pipefail
 
-install_pip_deps() {
-    echo "Installing pip"
-    curl https://bootstrap.pypa.io/get-pip.py | sudo python
-
-    echo "Installing via pip: ansible, ansible-lint and yamllint"
-    sudo -H pip install ansible
-    sudo -H pip install ansible-lint
-    sudo -H pip install yamllint
-}
-
-install_ansible_galaxy_deps() {
-    echo "Installing ansible-galaxy dependencies"
-    ansible-galaxy install -r requirements.yml
-}
-
-setup_macos() {
-    if test ! $(which gcc); then
-        echo "Installing xcode"
-        xcode-select --install
-    fi
-
-    if test ! "$(which ansible)"; then
-        install_pip_deps
-    fi
-}
-
-setup_linux() {
-    if test ! "$(which python)"; then
-        echo "Installing python minimal"
-        if test -f /etc/lsb-release; then
-            sudo apt update
-            sudo apt install -y python-minimal
-        fi
-    fi
-
-    if test ! "$(which ansible)"; then
-        if test -f /etc/lsb-release; then
-            sudo apt-get update
-            sudo apt-get install -y software-properties-common
-        elif test -f /etc/fedora-release; then
-            sudo dnf install libselinux-python
-        fi
-    fi
-
-    install_pip_deps
-}
-
-check_ansible_exists() {
-    if test ! "$(which ansible)"; then
-        echo "No ansible is installed"
-        exit 1
-    fi
-
-    echo "Running with versions: "
-    python --version
-    ansible --version
-    ansible-lint --version
-    yamllint --version
-}
-
-run_lints_checks() {
-    yamllint .
-    ansible-lint site.yml
-    ansible-playbook -i ./hosts site.yml --syntax-check
-}
-
-check_idempotence() {
-    # Ansible idempotence test
-    idempotence=$(mktemp)
-    ansible-playbook -i inventory site.yml | tee -a ${idempotence}
-    tail ${idempotence} | grep -q 'changed=0.*failed=0' \
-        && (echo 'Idempotence test: pass' && exit 0) \
-        || (echo 'Idempotence test: fail' && exit 1)
-
-    cat ${idempotence}
-    rm -rf ${idempotence}
-}
-
-
 HOST_OS=$(uname)
-
 if test "$HOST_OS" = "Darwin"; then
-    setup_macos
+    echo "Running on MacOS!"
 elif test "$HOST_OS" = "Linux"; then
-    setup_linux
+    echo "Running on Linux!"
 else
     echo "Unknown host OS: $HOST_OS"
     exit 1
 fi
 
-install_ansible_galaxy_deps
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-check_ansible_exists
+remove_not_needed () {
+    rm -f ~/.profile
+    rm -f ~/.bash_logout
+}
 
-run_lints_checks
+create_symlinks () {
+    for dot in $(ls "${CWD}/configs")
+    do
+        echo "Linking ${dot} file."
+        rm -f ~/.${dot}
+        ln -sf "${CWD}/configs/${dot}" ~/.${dot}
+    done
+}
 
-ansible-playbook -i inventory site.yml -K
+setup_vim () {
+    mkdir -p ~/.vim/{tmp,undo,backup,bundle,autoload}/
+    cd ~/.vim
+    wget "https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim" -O "autoload/pathogen.vim"
+    ./updatePlugins.sh
+}
 
-# check_idempotence
+remove_not_needed
+create_symlinks
+setup_vim
