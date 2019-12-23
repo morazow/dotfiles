@@ -55,6 +55,9 @@
 ;; enable region highlighting
 (setq tansient-mark-mode t)
 
+;; set ding off
+(setq visible-bell 1)
+
 ;; enable global syntax highlighting
 (global-font-lock-mode 1)
 
