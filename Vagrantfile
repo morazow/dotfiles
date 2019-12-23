@@ -21,6 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     config.vm.hostname = "dotfiles"
+    config.vm.provision "shell", inline: "apt-get update -y && apt-get install -y shellcheck"
     config.vm.provision "shell", inline: "cd /vagrant && ./run && ./test", privileged: false
 
     config.vm.provider :virtualbox do |v|

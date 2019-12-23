@@ -21,7 +21,8 @@ run_symcheck () {
     [ -e "${HOME}/.bashrc.d/aliases" ] && \
     grep "alias path" "${HOME}/.bashrc.d/aliases" && \
     [ -e "${HOME}/.bashrc.d/paths" ] && \
-    echo "${PATH}" | sed -e "s/:/\n/g" | grep "${HOME}/.local/bin"
+    [ -e "${HOME}/.bashrc.d/functions" ] && \
+    grep "Removing dangling containers" "${HOME}/.bashrc.d/functions" && \
     echo "Success: symlinks of configuration files."
 }
 
