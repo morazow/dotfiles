@@ -34,7 +34,8 @@ remove_not_needed () {
 }
 
 create_symlinks () {
-    for dot in "${CWD}"/configs/*
+    cd "${CWD}"/configs/
+    for dot in *
     do
         echo "Linking ${dot} file."
         rm -f "$HOME/.${dot}"
