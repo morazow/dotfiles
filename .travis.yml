@@ -20,17 +20,16 @@ matrix:
     - os: osx
       osx_image: xcode9.2
 
-    # El Capitan (10.11)
-    - os: osx
-      osx_image: xcode8
-
 before_install:
   # Install shellcheck on osx.
-  - >
+  - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew update
       brew install shellcheck
     fi
+
+install:
+  - shellcheck --version
 
 script:
   - ./run

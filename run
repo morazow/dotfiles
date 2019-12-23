@@ -26,6 +26,7 @@ else
 fi
 
 CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$CWD"
 
 remove_not_needed () {
     rm -f ~/.profile
@@ -33,11 +34,11 @@ remove_not_needed () {
 }
 
 create_symlinks () {
-    for dot in $(ls "${CWD}/configs")
+    for dot in "${CWD}"/configs/*
     do
         echo "Linking ${dot} file."
-        rm -f ~/.${dot}
-        ln -sf "${CWD}/configs/${dot}" ~/.${dot}
+        rm -f "$HOME/.${dot}"
+        ln -sf "${CWD}/configs/${dot}" "$HOME/.${dot}"
     done
 }
 

@@ -2,12 +2,28 @@
 
 set -euxo errtrace pipefail
 
-[ -e "${HOME}/.gitconfig" ] && grep "name = morazow" "${HOME}/.gitconfig" && \
-[ -e "${HOME}/.bash_profile" ] && \
-[ -e "${HOME}/.bashrc.d/exports" ] && \
-grep "HISTFILESIZE=-1" "${HOME}/.bashrc.d/exports" && \
-[ -e "${HOME}/.bashrc.d/aliases" ] && \
-grep "alias path" "${HOME}/.bashrc.d/aliases" && \
-[ -e "${HOME}/.bashrc.d/paths" ] && \
-echo "${PATH}" | sed -e "s/:/\n/g" | grep "${HOME}/.local/bin"
-echo "Success: symlinks of configuration files."
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$CWD"
+
+run_shellcheck () {
+    shellcheck "$CWD/run"
+    shellcheck "$CWD/test"
+    find . -type d \( -path ./configs/vim/bundle -o -path ./configs/vim/undo \) \
+        -prune -o -name "*.sh" -print0 | xargs -n 1 -0 shellcheck
+    echo "Success: shellchecks of shell files."
+}
+
+run_symcheck () {
+    [ -e "${HOME}/.gitconfig" ] && grep "name = morazow" "${HOME}/.gitconfig" && \
+    [ -e "${HOME}/.bash_profile" ] && \
+    [ -e "${HOME}/.bashrc.d/exports" ] && \
+    grep "HISTFILESIZE=-1" "${HOME}/.bashrc.d/exports" && \
+    [ -e "${HOME}/.bashrc.d/aliases" ] && \
+    grep "alias path" "${HOME}/.bashrc.d/aliases" && \
+    [ -e "${HOME}/.bashrc.d/paths" ] && \
+    echo "${PATH}" | sed -e "s/:/\n/g" | grep "${HOME}/.local/bin"
+    echo "Success: symlinks of configuration files."
+}
+
+run_shellcheck
+run_symcheck

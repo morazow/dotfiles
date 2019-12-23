@@ -23,11 +23,11 @@ git config --global fetch.fsckobjects false
 cd bundle
 for plugin in $plugins
 do
-  name=$(basename $plugin | sed 's/\.git//')
+  name=$(basename "$plugin" | sed 's/\.git//')
   echo "Updating vim plugin: $name."
-  rm -rf $name
-  git clone $plugin
-  rm -rf $name/.git
+  rm -rf "$name"
+  git clone "$plugin"
+  rm -rf "$name/.git"
 done
 
 git config --global fetch.fsckobjects true
