@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euxo errtrace pipefail
 
 plugins=$(cat <<-END
 https://github.com/kien/ctrlp.vim

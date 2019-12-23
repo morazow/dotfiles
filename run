@@ -8,8 +8,11 @@ set -e
 ## Exits the script if an uninitialized variable is used.
 set -u
 
-## If any of the commands fail with a non-zero exit code, then abort the entire
-## pipeline with that exit code.
+## Trap errors in subshells and functions.
+set -o errtrace
+
+## If any of the commands fail with a non-zero exit code, then abort the
+## entire pipeline with that exit code.
 set -o pipefail
 
 HOST_OS=$(uname)
