@@ -1,17 +1,15 @@
-#{{ ansible_managed | comment }}
-
 [user]
-  name = {{ git_fullname }}
-  email = {{ git_email }}
+  name = morazow
+  email = m.orazow@gmail.com
 [core]
   editor = vim
   autocrlf = input
 
   # remove whitespaces
   whitespace = trailing-space,-space-before-tab,indent-with-non-tab,cr-at-eol
-  excludesfile = {{ user_home }}/.gitignore
+  excludesfile = ~/.gitignore
 [init]
-  templatedir = {{ user_home }}/.git_template
+  templatedir = ~/.git_template
 [color]
   ui = auto
   interactive = auto
@@ -50,3 +48,5 @@
   ctags = "!sh -c '[ -f .git/hooks/ctags ] || git init; .git/hooks/ctags' git-ctags"
 
 # vim: ft=gitconfig
+[fetch]
+	fsckobjects = true

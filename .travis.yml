@@ -1,5 +1,9 @@
----
 language: generic
+
+addons:
+  apt:
+    packages:
+      - shellcheck
 
 matrix:
   include:
@@ -16,37 +20,20 @@ matrix:
     - os: osx
       osx_image: xcode9.2
 
-    # El Capitan (10.11)
-    - os: osx
-      osx_image: xcode8
-
 before_install:
-  # Uninstall existing brew installation.
-  - >
+  # Install shellcheck on osx.
+  - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall
-      chmod +x ./uninstall
-      ./uninstall --force
-      sudo rm -rf /usr/local/Homebrew
-      sudo rm -rf /usr/local/Caskroom
-      sudo rm -rf /usr/local/bin/brew
+      brew update
+      brew install shellcheck
     fi
+
+install:
+  - shellcheck --version
 
 script:
-  - travis_wait 30 ./run
-
-  # Idempotence Test
-  - idempotence=$(mktemp)
-  - ansible-playbook -i ./hosts site.yml | tee -a ${idempotence}
-  # Check idempotence test in non-osx systems, since I could not manage to get homebrew bundle
-  # install to be idempotent yet
-  - >
-    if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
-      tail ${idempotence} | grep -q 'changed=0.*failed=0' \
-      && (echo 'Idempotence test: pass' && exit 0) \
-      || (echo 'Idempotence test: fail' && exit 1)
-    fi
-  - cat ${idempotence}
+  - ./run
+  - ./test
 
 after_script:
   - ls -la ~/

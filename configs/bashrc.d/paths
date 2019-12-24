@@ -2,7 +2,6 @@
 ## Additional PATHS
 
 export PATH="$HOME/.cargo/bin:$PATH"
-
 export PATH="$HOME/.local/bin:$PATH"
 
 # vi: ft=sh :
