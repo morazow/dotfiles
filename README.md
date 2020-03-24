@@ -23,4 +23,4 @@ I hereby acknowledge and thank the people who have made their `~/dotfiles` publi
 * [Jeff Geerling](https://github.com/geerlingguy/ansible-role-homebrew)
 * [Cătălin Mariș](https://github.com/alrra/dotfiles)
 
-[travis]: http://travis-ci.org/morazow/dotfiles
+[travis]: http://travis-ci.com/morazow/dotfiles
