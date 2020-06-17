@@ -37,6 +37,9 @@ create_symlinks () {
     cd "${CWD}"/configs/
     for dot in *
     do
+        if [ $dot = "vim" ]; then
+            continue
+        fi
         echo "Linking ${dot} file."
         rm -f "$HOME/.${dot}"
         ln -sf "${CWD}/configs/${dot}" "$HOME/.${dot}"
@@ -44,7 +47,10 @@ create_symlinks () {
 }
 
 setup_vim () {
-    mkdir -p ~/.vim/{tmp,undo,backup,bundle,autoload}/
+    mkdir -p ~/.vim/{autoload,backup,bundle,spell,tmp,undo}/
+    ln -sf "${CWD}/configs/vim/updatePlugins.sh" "$HOME/.vim/updatePlugins.sh"
+    ln -sf "${CWD}/configs/vim/spell/en.utf-8.add" "$HOME/.vim/spell/en.utf-8.add"
+
     cd ~/.vim
     wget "https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim" -O "autoload/pathogen.vim"
     ./updatePlugins.sh

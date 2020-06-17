@@ -31,6 +31,7 @@ syntax on
 " color scheme
 set background=dark
 set t_Co=256
+set t_Cs="Fix bad spell issue in solarized theme"
 let g:solarized_termcolors=256
 colorscheme solarized
 
@@ -50,9 +51,9 @@ set cpoptions=B$ "ces$ --conflicts with snipmate, wtf?!
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-" set the status line (taken from Derek Wyatt's .vimrc :) 
+" set the status line (taken from Derek Wyatt's .vimrc :)
 " the better one
-set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]\ 
+set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]\
 set stl+=%{fugitive#statusline()}
 
 " put status line in, even if there is only one window
@@ -75,13 +76,17 @@ set mousehide
 
 " keeps some history
 set history=100
- 
+
 " always set autoindenting on
 set autoindent
 set smartindent
 
+" Set spelling settings.
+set spelllang=en_us
+set spellfile=~/.vim/spell/en.utf-8.add
+
 " switch off the search term highlighting
-nmap <silent> <leader>= :silent :nohlsearch<cr> 
+nmap <silent> <leader>= :silent :nohlsearch<cr>
 
 " toggle paste mode
 nmap <Leader>pp :set paste!<cr>
@@ -202,16 +207,17 @@ endfunction
 
 autocmd FileType java setlocal shiftwidth=4 tabstop=4
 autocmd FileType scala,java,ruby autocmd BufWritePre <buffer> :call TrimWhiteSpace()
+autocmd FileType java,scala,ruby setlocal spell
 
 " better git messages
-autocmd Filetype gitcommit setlocal spell spelllang=en_us textwidth=72
+autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " markdown
 autocmd Filetype markdown setlocal textwidth=80
 au Bufread,BufNewFile *.md set filetype=markdown
 
 " spell check in markdown files
-autocmd Filetype markdown setlocal spell spelllang=en_us
+autocmd Filetype markdown setlocal spell
 
 "
 " to dicipline me against using arrow keys
@@ -237,8 +243,8 @@ nmap <left>  :call <SID>punish_me()<cr>
 nmap <up>    :call <SID>punish_me()<cr>
 nmap <down>  :call <SID>punish_me()<cr>
 
-" taken from 
-" http://www.reddit.com/r/programming/comments/2ljlv/emacs_bondage_and_disciplinke 
+" taken from
+" http://www.reddit.com/r/programming/comments/2ljlv/emacs_bondage_and_disciplinke
 "
 
 " keep all backup files in one place
