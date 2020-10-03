@@ -34,3 +34,4 @@ for file in ~/.bashrc.d/{aliases,autocompletions,exports,functions,options,paths
     [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
+

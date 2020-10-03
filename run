@@ -34,7 +34,7 @@ remove_not_needed () {
 }
 
 create_symlinks () {
-    cd "${CWD}"/configs/
+    cd "${CWD}"/home/
     for dot in *
     do
         if [ $dot = "vim" ]; then
@@ -42,20 +42,46 @@ create_symlinks () {
         fi
         echo "Linking ${dot} file."
         rm -f "$HOME/.${dot}"
-        ln -sf "${CWD}/configs/${dot}" "$HOME/.${dot}"
+        ln -sf "${CWD}/home/${dot}" "$HOME/.${dot}"
     done
 }
 
 setup_vim () {
     mkdir -p ~/.vim/{autoload,backup,bundle,spell,tmp,undo}/
-    ln -sf "${CWD}/configs/vim/updatePlugins.sh" "$HOME/.vim/updatePlugins.sh"
-    ln -sf "${CWD}/configs/vim/spell/en.utf-8.add" "$HOME/.vim/spell/en.utf-8.add"
+    ln -sf "${CWD}/home/vim/updatePlugins.sh" "$HOME/.vim/updatePlugins.sh"
+    ln -sf "${CWD}/home/vim/spell/en.utf-8.add" "$HOME/.vim/spell/en.utf-8.add"
 
     cd ~/.vim
     wget "https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim" -O "autoload/pathogen.vim"
     ./updatePlugins.sh
 }
 
+setup_nvim () {
+    echo "Setting up neovim"
+    mkdir -p ~/.config/nvim/{autoload,undo,spell}/
+    local plug_url="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    curl -fLo ~/.config/nvim/autoload/plug.vim "$plug_url"
+    ln -sf "${CWD}/config/init.vim" "$HOME/.config/nvim/init.vim"
+    ln -sf "${CWD}/config/coc.vim" "$HOME/.config/nvim/coc.vim"
+    ln -sf "${CWD}/config/coc-settings.json" "$HOME/.config/nvim/coc-settings.json"
+    ln -sf "${CWD}/config/en.utf-8.add" "$HOME/.config/nvim/spell/en.utf-8.add"
+
+    echo "Installing Fzf"
+    if [ ! -d "$HOME/.fzf" ]; then
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        ~/.fzf/install --bin
+    else
+        cd ~/.fzf
+        git pull origin master
+    fi
+
+    echo "Running plug install"
+    nvim +PlugInstall +PlugUpdate +PlugClean +qall
+
+    echo "Install nodejs 'curl -sL install-node.now.sh/lts | bash', required for nvim complete (coc)"
+}
+
 remove_not_needed
 create_symlinks
 setup_vim
+setup_nvim

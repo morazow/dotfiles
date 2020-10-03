@@ -1,10 +1,11 @@
 # ~/dotfiles
-[![Build Status](http://img.shields.io/travis/morazow/dotfiles.svg?style=flat-square)][travis]
+
+[![Build Status][travis-badge]][travis-link]
 
 A collection of configuration files for `m.orazow`.
 
-Currently I am developing in OS X. However, there are files for Linux OS also. I try to keep both
-environments up-to-date and synchronized.
+Currently I am developing in OS X. However, there are files for Linux OS also.
+I try to keep both environments up-to-date and synchronized.
 
 ## Quick Start
 
@@ -14,13 +15,5 @@ Git clone this repository and then run `./run`.
 
 [The MIT License (MIT)](LICENSE.md)
 
-## Inspiration
-
-I hereby acknowledge and thank the people who have made their `~/dotfiles` publicly available!
-
-* [Derek Wyatt](https://github.com/derekwyatt/dotfiles)
-* [Greg Hurrell](https://github.com/wincent/wincent)
-* [Jeff Geerling](https://github.com/geerlingguy/ansible-role-homebrew)
-* [Cătălin Mariș](https://github.com/alrra/dotfiles)
-
-[travis]: http://travis-ci.com/morazow/dotfiles
+[travis-badge]: http://img.shields.io/travis/morazow/dotfiles.svg?style=flat-square
+[travis-link]: http://travis-ci.com/morazow/dotfiles

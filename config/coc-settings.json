@@ -1,0 +1,33 @@
+{
+    "coc.preferences.colorSupport": true,
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.formatOnSaveFiletypes": [ "scala", "java" ],
+    // "diagnostic.errorSign": "✘",
+    // "diagnostic.warningSign": "",
+    "diagnostic.checkCurrentLine": true,
+    "java.configuration.runtimes": [
+        {
+            "name": "Java8",
+            "path": "/usr/lib/jvm/java-1.8.0-openjdk-amd64/"
+        },
+        {
+            "name": "Java11",
+            "path": "/usr/lib/jvm/java-1.11.0-openjdk-amd64/"
+        }
+    ],
+    "java.import.maven.enabled": true,
+    "java.maven.downloadSources": true,
+    "java.codeGeneration.useBlocks": true,
+    "java.codeGeneration.generateComments": true,
+    "java.codeGeneration.hashCodeEquals.useInstanceof": true,
+    "java.codeGeneration.toString.codeStyle": "STRING_BUILDER",
+    // "java.jdt.ls.vmargs": "-noverify -Xmx1G"
+    "languageserver": {
+        "scala": {
+            "command": "metals-vim",
+            "rootPatterns": [ "build.sbt" ],
+            "requireRootPattern": true,
+            "filetypes": [ "scala", "sbt" ]
+        }
+    }
+}
