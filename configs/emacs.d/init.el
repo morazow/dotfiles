@@ -1,133 +1,59 @@
-;; m.orazow
-;; .emacs
-;; Try to improve & master this power
+;; init.el -*- lexical-binding: t; -*-
 
+;; Optimization from Doom Emacs -- A Quieter Startup
+(advice-add #'display-startup-echo-area-message :override #'ignore)
+(setq inhibit-startup-message t
+      inhibit-startup-echo-area-message user-login-name
+      inhibit-default-init t
+      initial-major-mode 'fundamental-mode
+      initial-scratch-message nil
+      mode-line-format nil)
 
-;; set target directory for load-path
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+;;
+;; Optimizations from Doom Emacs -- Garbage Collection at Startup
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Garbage-Collection.html
+;;
 
-;; setup package manager
-(require 'package)
-(setq package-enable-at-startup nil)
+;; Temporarily increase garbage collection threshold to suppress it
+;; during startup.
+;; `most-positive-fixnum` is a maximum possible number 2^61 bytes.
+(setq gc-cons-threshold most-positive-fixnum)
 
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
-(unless (assoc-default "gnu" package-archives)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+;; However, set back these settings to reasonable values after
+;; initialization.
+;; In addition, defer garbage collection while the minibuffer is active.
+;; This helps heavy operation commands such as completion, ivy or helm,
+;; by avoiding garbage collection pauses during minibuffer operations.
+(defconst 30mb 31457280)
 
-(package-initialize)
+(defun mor/defer-garbage-collection ()
+  (setq gc-cons-threshold most-positive-fixnum))
 
-(unless package-archive-contents
-  (package-refresh-contents))
+(defun mor/restore-garbage-collection ()
+  ;; Runs delayed, after 1 second so that immediate commands can
+  ;; benefit.
+  (run-at-time 1 nil (lambda () (setq gc-cons-threshold 30mb))))
 
-(setq use-package-verbose t)
-(setq use-package-always-ensure t)
+(add-hook 'emacs-startup-hook #'mor/restore-garbage-collection 100)
+(add-hook 'minibuffer-setup-hook #'mor/defer-garbage-collection)
+(add-hook 'minibuffer-exit-hook #'mor/restore-garbage-collection)
 
-(unless (package-installed-p 'org-plus-contrib)
-  (package-install 'org-plus-contrib))
+;;
+;; Load config.org Literate Configuration File
+;;
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;; Load newer configuration file, and tangle it if necessary.
+(let* ((mor/config.org (expand-file-name "config.org" user-emacs-directory))
+       (mor/config.el (expand-file-name "config.el" user-emacs-directory)))
+  (if (and (file-exists-p mor/config.el)
+           (file-newer-than-file-p mor/config.el mor/config.org))
+    (load-file mor/config.el)
+    (require 'org)
+    (org-babel-load-file mor/config.org)))
 
-(require 'use-package)
-
-;; Configure Defaults
-
-;; disable splash screen
-(setq inhibit-startup-screen t)
-
-;; disable menus
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
-;; enable line and column numbering
-(line-number-mode 1)
-(column-number-mode 1)
-
-;; show date and time in 24h format in modeline
-(setq display-time-day-and-date t)
-(setq display-time-24hr-format t)
-(display-time-mode 1)
-
-;; enable region highlighting
-(setq tansient-mark-mode t)
-
-;; set ding off
-(setq visible-bell 1)
-
-;; enable global syntax highlighting
-(global-font-lock-mode 1)
-
-;; disable adding newlines to the end of file automatically
-(setq next-line-add-newlines nil)
-
-;; put autosave files (ie #foo#) and backup files (ie foo~) in one place
-(setq auto-save-file-name-transforms
-      '((".*" "~/.emacs.d/autosaves/\\1" t)))
-
-(setq backup-directory-alist
-      '((".*" . "~/.emacs.d/backups/")))
-
-;; disable this annoying auto save while editing
-(setq auto-save-default nil)
-
-;; make visible leading and trailing whitespaces
-(setq show-trailing-whitespace t)
-
-;; type y or n instead of yes or no
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; confirm before closing
-(setq confirm-kill-emacs 'y-or-n-p)
-
-;; set encoding to utf-8
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-
-;; reduce the frequency of GC by increasing memory threshold
-(setq gc-cons-threshold 50000000)
-
-;; enable better scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
-
-;; separate custom settings into its own file
-(setq custom-file "~/.emacs.d/custom.el")
-(if (file-exists-p custom-file)
-  (load custom-file))
-
-;; unset arrow keys -- do it!
-(global-unset-key [left])
-(global-unset-key [right])
-(global-unset-key [up])
-(global-unset-key [down])
-
-;; use zenburn theme
-(use-package zenburn-theme
-             :ensure t
-             :config (load-theme 'zenburn t))
-
-;; Configure Org
-
-;; init org configurations
-(use-package init-org
-             :ensure nil
-             :load-path "~/.emacs.d/lisp/"
-             :init (require 'init-org))
-
-;; use editorconfig plugin
-(use-package editorconfig
-             :ensure t
-             :config
-             (editorconfig-mode 1))
-
-;; Open needed org file using M-x <filename>
-(defun personal ()
-  (interactive)
-  (find-file "~/Dropbox/Notes/org/personal.org"))
+;; Profile Emacs Startup
+(add-hook 'emacs-startup-hook
+          (lambda () (message "*** Loaded in %.2f seconds with %d garbage collections."
+                              (float-time (time-subtract after-init-time before-init-time))
+                              gcs-done))
+          100)
