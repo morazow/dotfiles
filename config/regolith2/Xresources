@@ -1,0 +1,19 @@
+!# Rename first three workspaces.
+i3-wm.workspace.01.name: 1:<span font_desc='JetBrains Mono Medium 13'> 1: Home  </span>
+i3-wm.workspace.02.name: 2:<span font_desc='JetBrains Mono Medium 13'> 2: Web  </span>
+i3-wm.workspace.03.name: 3:<span font_desc='JetBrains Mono Medium 13'> 3: Term  </span>
+i3-wm.workspace.04.name: 4:<span font_desc='JetBrains Mono Medium 13'> 4: SQL  </span>
+
+i3-wm.program.compositor: picom
+
+!# Use easier date time format.
+i3xrocks.date.format2: %a %e/%m/%y %I:%M%P
+
+gnome.terminal.use-transparent-background: true
+gnome.terminal.background-transparency-percent: 8
+gnome.terminal.opacity: 1
+gnome.terminal.font: JetBrains Mono 12
+
+!gnome.wallpaper: ~/Pictures/Wallpapers/serenity_by_aenami.jpg
+!regolith.look.path: /usr/share/regolith-look/default
+regolith.look.path: /usr/share/regolith-look/lascaille

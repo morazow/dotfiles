@@ -1,0 +1,6 @@
+*~
+*.elc
+.vagrant/
+node_modules
+config/nvim/plugin
+config/regolith/flags

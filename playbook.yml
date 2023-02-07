@@ -1,0 +1,625 @@
+---
+- name: Setup Local Development System
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: true
+
+  vars:
+    nerd_fonts_version: "v2.3.3"
+    neovim_version: "v0.8.3"
+    kitty_version: "0.27.0"
+    maven_version: "3.9.0"
+    gradle_version: "7.6"
+    nvm_version: "0.39.3"
+    golang_version: "1.20"
+    dbvis_version: "14.0.3"
+    github_cli_version: "2.22.1"
+    shfmt_version: "3.5.1"
+
+  tasks:
+    - name: Check system is debian based
+      assert:
+        that: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+
+    - name: Ensure en_US.UTF-8 the locale exists
+      become: true
+      become_method: sudo
+      locale_gen:
+        name: en_US.UTF-8
+        state: present
+
+    - name: Set en_US.UTF-8 as default locale
+      become: true
+      become_method: sudo
+      blockinfile:
+        path: /etc/environment
+        block: |
+          LC_ALL=en_US.UTF-8
+          LANG=en_US.UTF-8
+
+    - name: Update apt cache
+      become: true
+      become_method: sudo
+      ansible.builtin.apt: upgrade=dist update_cache=yes
+
+    - name: Install system packages
+      become: true
+      become_method: sudo
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - software-properties-common
+        - build-essential
+        - apt-transport-https
+        - ca-certificates
+        - gnupg2
+        - bash-completion
+        - git
+        - tmux
+        - curl
+        - wget
+        - net-tools
+        - htop
+        - jq
+        - less
+        - tree
+        - neofetch
+        # - ninja-build
+        # - npm
+        - shellcheck
+        - silversearcher-ag
+        - sshfs
+        - rsync
+        - zip
+        - unzip
+
+    ## Make sure development directories exist
+
+    - name: Ensure that development directories exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+      loop:
+        - ~/.local/bin
+        - ~/Devel/git/projects
+        - ~/Devel/git/tools
+
+    ## Setup Fonts
+
+    - name: Ensure that ~/.local/share/fonts directory exists
+      ansible.builtin.file:
+        path: ~/.local/share/fonts
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+
+    - name: Install nerd fonts
+      ansible.builtin.unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerd_fonts_version }}/{{ item }}.zip
+        dest: ~/.local/share/fonts
+        remote_src: true
+      loop:
+        - FiraCode
+        - Hack
+        - JetBrainsMono
+        - SourceCodePro
+
+    - name: Update fonts cache
+      ansible.builtin.command: fc-cache -f -v
+
+    ## Regolith Setup
+    
+    - name: Install Regolith Desktop Manager
+      block:
+        - name: Register Regolith public key and repository
+          become: true
+          become_method: sudo
+          ansible.builtin.apt_key:
+            url: https://regolith-desktop.org/regolith.key
+            state: present
+
+        - name: Add Regolith repository URL to the local APT
+          become: true
+          become_method: sudo
+          ansible.builtin.apt_repository:
+            repo: deb https://regolith-desktop.org/release-ubuntu-jammy-amd64 jammy main
+            state: present
+            filename: regolith
+
+        - name: Ensure that Regolith packages are installed
+          become: true
+          become_method: sudo
+          ansible.builtin.apt:
+            update_cache: true
+            pkg:
+              - regolith-desktop
+              - regolith-compositor-picom-glx
+              - regolith-look-default
+              - regolith-look-lascaille
+              - i3xrocks-cpu-usage
+              - i3xrocks-net-traffic
+              - i3xrocks-time
+
+        - name: Ensure that unused packages are removed
+          become: true
+          become_method: sudo
+          ansible.builtin.apt:
+            state: absent
+            pkg:
+              - i3xrocks-battery
+
+        - name: Link Regolith configurations
+          ansible.builtin.file:
+            src: "{{ playbook_dir }}/config/regolith2"
+            dest: ~/.config/regolith2
+            state: link
+
+    ## Symlink Home Dotfiles
+
+    - name: Symlink home dotfiles to ~/
+      ansible.builtin.file:
+        src: "{{ item }}"
+        dest: ~/.{{ item | basename }}
+        state: link
+        force: true
+      with_fileglob:
+        - "{{ playbook_dir }}/home/*"
+
+    ## Tmux Setup
+
+    - name: Ensure that ~/.tmux/plugins directory exists
+      ansible.builtin.file:
+        path: ~/.tmux/plugins
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+
+    - name: Git clone tmux tpm plugin
+      ansible.builtin.git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: ~/.tmux/plugins/tpm
+        version: master
+
+    ## Neovim Setup
+
+    - name: Make sure that Neovim folder exists
+      ansible.builtin.file:
+        path: ~/Devel/git/tools/neovim
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+
+    - name: Download and unpack Neovim
+      ansible.builtin.unarchive:
+        src: https://github.com/neovim/neovim/releases/download/{{ neovim_version }}/nvim-linux64.tar.gz
+        dest: ~/Devel/git/tools/neovim/
+        extra_opts:
+          - --strip-components=1
+        remote_src: true
+
+    - name: Symlink neovim to ~/.local/bin
+      ansible.builtin.file:
+        src: ~/Devel/git/tools/neovim/bin/nvim
+        dest: ~/.local/bin/nvim
+        state: link
+
+    ## Kitty Terminal Setup
+
+    - name: Make sure that Kitty folder exists
+      ansible.builtin.file:
+        path: ~/Devel/git/tools/kitty
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+
+    - name: Download and unpack Kitty
+      ansible.builtin.unarchive:
+        src: https://github.com/kovidgoyal/kitty/releases/download/v{{ kitty_version }}/kitty-{{ kitty_version }}-x86_64.txz
+        dest: ~/Devel/git/tools/kitty/
+        remote_src: true
+
+    - name: Symlink kitty to ~/.local/bin
+      ansible.builtin.file:
+        src: ~/Devel/git/tools/kitty/bin/kitty
+        dest: ~/.local/bin/kitty
+        state: link
+
+    - name: Create a Kitty desktop file
+      ansible.builtin.copy:
+        dest: ~/.local/share/applications/kitty.desktop
+        content: |
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=kitty
+          GenericName=Terminal emulator
+          Comment=A fast, feature full, GPU based terminal emulator
+          TryExec=/home/mtoraz/.local/bin/kitty
+          Exec=/home/mtoraz/.local/bin/kitty
+          Icon=kitty
+          Categories=System;TerminalEmulator;
+
+    - name: Symlink Kitty configurations
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/config/kitty"
+        dest: ~/.config/kitty
+        state: link
+
+    ## Docker Tools
+
+    - name: Install Docker
+      become: true
+      become_method: sudo
+      ansible.builtin.package: name=docker.io state=present
+
+    - name: Install Docker Compose
+      ansible.builtin.pip:
+        executable: pip3
+        name: docker-compose
+        state: present
+
+    - name: Create Docker group
+      become: true
+      become_method: sudo
+      ansible.builtin.group: name=docker state=present
+
+    - name: Add user to Docker group
+      become: true
+      become_method: sudo
+      ansible.builtin.user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: true
+
+    ## Rust Tools
+
+    - name: Check if Rustup was already installed
+      ansible.builtin.stat:
+        path: ~/.cargo/bin/rustup
+      register: rustup_check
+
+    - name: Download Rustup installer
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/rustup-installer.sh
+        mode: u=rx,g=r,o=r
+      when: not rustup_check.stat.exists
+
+    - name: Install Cargo
+      ansible.builtin.command:
+        cmd: /tmp/rustup-installer.sh -y --no-modify-path --profile minimal
+        creates: ~/.cargo/bin/cargo
+      when: not rustup_check.stat.exists
+
+    - name: Update Rustup itself
+      ansible.builtin.command:
+        cmd: ~/.cargo/bin/rustup self update
+      when: rustup_check.stat.exists
+
+    - name: Update Rustup toolchain
+      ansible.builtin.command:
+        cmd: ~/.cargo/bin/rustup update
+      when: rustup_check.stat.exists
+
+    - name: Install Cargo tools
+      ansible.builtin.command:
+        cmd: ~/.cargo/bin/cargo install {{ item }}
+        creates: ~/.cargo/bin/{{ item }}
+      loop:
+        - bat
+        - exa
+        - fd-find
+        - lsd
+        - stylua
+        - ripgrep
+
+    ## Java Language Tools
+
+    - name: Make sure that Java related folders exist
+      ansible.builtin.file:
+        path: ~/Devel/git/tools/{{ item }}
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+      loop:
+        - gradle
+        - maven
+
+    - name: Check if sdkman was already installed
+      ansible.builtin.stat:
+        path: ~/.sdkman/bin
+      register: sdkman_check
+
+    - name: Download sdkman installer
+      ansible.builtin.get_url:
+        url: https://get.sdkman.io/
+        dest: /tmp/sdkman-installer.sh
+        mode: u=rx,g=r,o=r
+      when: not sdkman_check.stat.exists
+
+    - name: Install SDKMan
+      ansible.builtin.command:
+        cmd: /tmp/sdkman-installer.sh
+        creates: ~/.sdkman/bin/
+      when: not sdkman_check.stat.exists
+
+    - name: Flush SDK caches (before)
+      ansible.builtin.shell:
+        cmd: source ~/.sdkman/bin/sdkman-init.sh && sdk flush
+      args:
+        executable: /bin/bash
+      changed_when: false
+      when: sdkman_check.stat.exists
+
+    - name: Update SDKMan itself
+      ansible.builtin.shell:
+        cmd: source ~/.sdkman/bin/sdkman-init.sh && sdk selfupdate
+      args:
+         executable: /bin/bash
+      register: sdk_selfupdate
+      changed_when: sdk_selfupdate.stdout != 'No update available at this time.'
+      when: sdkman_check.stat.exists
+
+    - name: Update SDKMan toolchain
+      ansible.builtin.shell:
+        cmd: source ~/.sdkman/bin/sdkman-init.sh && sdk update
+      args:
+         executable: /bin/bash
+      when: sdkman_check.stat.exists
+
+    - name: Download and unpack Maven
+      ansible.builtin.unarchive:
+        src: https://downloads.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
+        dest: ~/Devel/git/tools/maven/
+        extra_opts:
+          - --strip-components=1
+        remote_src: true
+
+    - name: Symlink mvn to ~/.local/bin
+      ansible.builtin.file:
+        src: ~/Devel/git/tools/maven/bin/mvn
+        dest: ~/.local/bin/mvn
+        state: link
+
+    - name: Download and unpack Gradle
+      ansible.builtin.unarchive:
+        src: https://services.gradle.org/distributions/gradle-{{ gradle_version }}-bin.zip
+        dest: ~/Devel/git/tools/
+        remote_src: true
+
+    - name: Symlink gradle to ~/.local/bin
+      ansible.builtin.file:
+        src: ~/Devel/git/tools/gradle-{{ gradle_version }}/bin/gradle
+        dest: ~/.local/bin/gradle
+        state: link
+
+    ### Scala Language Tools
+
+    #- name: Coursier installation check
+    #  ansible.builtin.stat:
+    #    path: ~/.local/share/coursier/bin/cs
+    #  register: coursier_check
+
+    #- name: Download coursier-cli installer
+    #  ansible.builtin.get_url:
+    #    url: https://git.io/coursier-cli-linux
+    #    dest: /tmp/coursier-installer.sh
+    #    mode: u=rx,g=r,o=r
+    #  when: not coursier_check.stat.exists
+
+    #- name: Install coursier
+    #  ansible.builtin.command:
+    #    cmd: /tmp/coursier-installer.sh install cs
+    #    creates: ~/.local/share/coursier/bin/cs
+    #  when: not coursier_check.stat.exists
+
+    #- name: Update coursier if already installed
+    #  ansible.builtin.command:
+    #    cmd: ~/.local/share/coursier/bin/cs update cs
+    #  when: coursier_check.stat.exists
+
+    #- name: Install Coursier Applications
+    #  ansible.builtin.command:
+    #    cmd: ~/.local/share/coursier/bin/cs install {{ item }}
+    #  loop:
+    #    - bloop
+    #    - sbt
+
+    ## Go Lang Tools
+
+    - name: Download and unarchive Go
+      become: true
+      become_method: sudo
+      ansible.builtin.unarchive:
+        src: "https://golang.org/dl/go{{ golang_version }}.linux-amd64.tar.gz"
+        dest: /usr/local/
+        remote_src: true
+        creates: /usr/local/go/bin/go
+
+    ## Setup DbVisualizer
+
+    - name: Make sure that dbvis folder exists
+      ansible.builtin.file:
+        path: ~/Devel/git/tools/DbVis
+        state: directory
+        mode: u=rwx,g=rx,o=rx
+
+    - name: Download and unpack DbVisualizer
+      ansible.builtin.unarchive:
+        src: https://dbvis.com/product_download/dbvis-{{ dbvis_version }}/media/dbvis_linux_{{ dbvis_version | replace('.', '_') }}.tar.gz
+        dest: ~/Devel/git/tools/DbVis/
+        creates: ~/Devel/git/tools/DbVis/dbvis
+        extra_opts:
+          - --strip-components=1
+        remote_src: true
+
+    - name: Symlink dbvis to ~/.local/bin
+      ansible.builtin.file:
+        src: ~/Devel/git/tools/DbVis/dbvis
+        dest: ~/.local/bin/dbvis
+        state: link
+
+    ## Setup Hashicorp Packages
+
+    - name: Add Hashicorp Apt Key
+      become: true
+      become_method: sudo
+      ansible.builtin.get_url:
+        url: https://apt.releases.hashicorp.com/gpg
+        dest: /etc/apt/trusted.gpg.d/hashicorp.asc
+        mode: u=rw,g=r,o=r
+
+    - name: Add Hashicorp Repository to Apt Sources
+      become: true
+      become_method: sudo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+        state: present
+        filename: hashicorp
+
+    - name: Install Hashicorp Packages
+      become: true
+      become_method: sudo
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      loop:
+        - terraform
+        - vagrant
+
+    ### Setup Azure CLI
+
+    - name: Add Microsoft Apt Key
+      become: true
+      become_method: sudo
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        dest: /etc/apt/trusted.gpg.d/microsoft.asc
+        mode: u=rw,g=r,o=r
+
+    - name: Add Azure CLI Repository to Apt Sources
+      become: true
+      become_method: sudo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
+        state: present
+        filename: azure-cli
+
+    - name: Install Azure CLI
+      become: true
+      become_method: sudo
+      ansible.builtin.package:
+        name: azure-cli
+        state: present
+        update_cache: true
+
+    ## PIP3 && Npm Packages
+
+    - name: Install python pip packages
+      ansible.builtin.pip:
+        executable: pip3
+        name: "{{ item }}"
+        state: present
+        extra_args: --user
+      loop:
+        - ansible-lint
+        - yamllint
+        - parquet-tools
+
+    ## NPM Packages
+
+    - name: Check if NVM was already installed
+      ansible.builtin.stat:
+        path: ~/.nvm/nvm.sh
+      register: nvm_check
+
+    - name: Download NVM installer
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh
+        dest: /tmp/nvm-installer.sh
+        mode: u=rx,g=r,o=r
+      when: not nvm_check.stat.exists
+
+    - name: Install NVM
+      ansible.builtin.command:
+        cmd: /tmp/nvm-installer.sh
+        creates: ~/.nvm/nvm.sh"
+      when: not nvm_check.stat.exists
+
+    - name: Install Node
+      ansible.builtin.shell:
+        cmd: source ~/.nvm/nvm.sh && nvm install --lts
+      args:
+        executable: /bin/bash
+
+    - name: Install NPM packages
+      ansible.builtin.shell:
+        cmd: source ~/.nvm/nvm.sh && npm install {{ item }}
+      args:
+        executable: /bin/bash
+      loop:
+        - prettier
+
+    ## Github CLI
+
+    - name: Download and setup Github cli
+      ansible.builtin.unarchive:
+        src: https://github.com/cli/cli/releases/download/v{{ github_cli_version }}/gh_{{ github_cli_version }}_linux_amd64.tar.gz
+        dest: ~/.local/
+        creates: ~/.local/bin/gh
+        extra_opts:
+          - --strip-components=1
+        remote_src: true
+
+    ## Git Diff Highlight
+
+    - name: Check that diff-highlight is not installed
+      ansible.builtin.stat:
+        path: ~/.local/bin/diff-highlight
+      register: diff_highlight_check
+
+    - name: Build Git diff-highlight if required
+      become: true
+      become_method: sudo
+      ansible.builtin.command:
+        cmd: make
+        chdir: /usr/share/doc/git/contrib/diff-highlight
+      when: not diff_highlight_check.stat.exists
+
+    - name: Copy Git diff-highlight to user ~/.local/bin/ directory
+      ansible.builtin.copy:
+        src: /usr/share/doc/git/contrib/diff-highlight/diff-highlight
+        dest: ~/.local/bin/diff-highlight
+        mode: u=rx,g=r,o=r
+      when: not diff_highlight_check.stat.exists
+
+    ### Install Bash Tools
+
+    #- name: Install shfmt formatter
+    #  ansible.builtin.get_url:
+    #    url: https://github.com/mvdan/sh/releases/download/v{{ shfmt_version }}/shfmt_v{{ shfmt_version }}_linux_amd64
+    #    dest: ~/.local/bin/shfmt
+    #    mode: u=rwx,g=rwx,o=rwx
+
+    ### Install Gnome Terminal Nord Profile
+
+    #- name: Download Gnome Terminal Nord Profile
+    #  ansible.builtin.get_url:
+    #    url: https://raw.githubusercontent.com/arcticicestudio/nord-gnome-terminal/develop/src/nord.sh
+    #    dest: /tmp/gnome-terminal-nord-installer.sh
+    #    mode: u=rx,g=r,o=r
+
+    #- name: Install Gnome Terminal Nord Profile
+    #  ansible.builtin.command:
+    #    cmd: /tmp/gnome-terminal-nord-installer.sh
+
+    ## Cleanup
+
+    - name: Remove installers
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /tmp/nvm-installer.sh
+        - /tmp/sdkman-installer.sh
+        - /tmp/rustup-installer.sh
+        - /tmp/coursier-installer.sh
+        - /tmp/gnome-terminal-nord-installer.sh
