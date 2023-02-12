@@ -1,0 +1,35 @@
+{
+  "sh": {
+    "prefix": ["sh", "#!", "shebang"],
+    "body": "#!/bin/sh\n\n"
+  },
+  "bash": {
+    "prefix": ["bash", "#!", "shebang"],
+    "body": "#!/usr/bin/env bash\n\n"
+  },
+  "echo": {
+    "prefix": "echo",
+    "body": "echo \"${0:message}\"",
+    "description": "Echo a message"
+  },
+  "safe": {
+    "prefix": "safe",
+    "body": "set -euxo pipefail\n",
+    "description": "Enable safe settings"
+  },
+  "ifempty": {
+    "prefix": ["ifempty", "ifz"],
+    "body": "if [[ -z \"$${1:variable}\" ]]; then\n\t$0\nfi",
+    "description": "Check if value is empty"
+  },
+  "ifnotempty": {
+    "prefix": ["ifnotempty", "ifn"],
+    "body": "if [[ -n \"$${1:variable}\" ]]; then\n\t$1\nfi",
+    "description": "Check if value is not empty"
+  },
+  "scriptdir": {
+    "prefix": ["scriptdir", "currentdir"],
+    "body": "SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" >/dev/null 2>&1 && pwd)",
+    "description": "Current script directory"
+  }
+}

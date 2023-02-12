@@ -1,0 +1,36 @@
+{
+  "name": "personal-nvim-snippets",
+  "author": "m.orazow",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "java",
+        "path": "./java.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "pom",
+        "path": "./pom.json"
+      },
+      {
+        "language": "scala",
+        "path": "./scala.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh"
+        ],
+        "path": "./shell.json"
+      }
+    ]
+  }
+}

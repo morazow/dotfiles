@@ -1,4 +1,5 @@
 ---
+
 - name: Setup Local Development System
   hosts: 127.0.0.1
   connection: local
@@ -109,7 +110,7 @@
       ansible.builtin.command: fc-cache -f -v
 
     ## Regolith Setup
-    
+
     - name: Install Regolith Desktop Manager
       block:
         - name: Register Regolith public key and repository
@@ -202,6 +203,12 @@
         dest: ~/.local/bin/nvim
         state: link
 
+    - name: Symlink Neovim configuration to ~/.config/nvim
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/config/nvim"
+        dest: ~/.config/nvim
+        state: link
+
     ## Kitty Terminal Setup
 
     - name: Make sure that Kitty folder exists
@@ -212,6 +219,7 @@
 
     - name: Download and unpack Kitty
       ansible.builtin.unarchive:
+        # yamllint disable-line rule:line-length
         src: https://github.com/kovidgoyal/kitty/releases/download/v{{ kitty_version }}/kitty-{{ kitty_version }}-x86_64.txz
         dest: ~/Devel/git/tools/kitty/
         remote_src: true
@@ -301,10 +309,11 @@
 
     - name: Install Cargo tools
       ansible.builtin.command:
-        cmd: ~/.cargo/bin/cargo install {{ item }}
+        cmd: ~/.cargo/bin/cargo install {{ item }} --locked
         creates: ~/.cargo/bin/{{ item }}
       loop:
         - bat
+        - deno
         - exa
         - fd-find
         - lsd
@@ -352,7 +361,7 @@
       ansible.builtin.shell:
         cmd: source ~/.sdkman/bin/sdkman-init.sh && sdk selfupdate
       args:
-         executable: /bin/bash
+        executable: /bin/bash
       register: sdk_selfupdate
       changed_when: sdk_selfupdate.stdout != 'No update available at this time.'
       when: sdkman_check.stat.exists
@@ -361,11 +370,12 @@
       ansible.builtin.shell:
         cmd: source ~/.sdkman/bin/sdkman-init.sh && sdk update
       args:
-         executable: /bin/bash
+        executable: /bin/bash
       when: sdkman_check.stat.exists
 
     - name: Download and unpack Maven
       ansible.builtin.unarchive:
+        # yamllint disable-line rule:line-length
         src: https://downloads.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
         dest: ~/Devel/git/tools/maven/
         extra_opts:
@@ -392,35 +402,35 @@
 
     ### Scala Language Tools
 
-    #- name: Coursier installation check
-    #  ansible.builtin.stat:
-    #    path: ~/.local/share/coursier/bin/cs
-    #  register: coursier_check
+    # - name: Coursier installation check
+    #   ansible.builtin.stat:
+    #     path: ~/.local/share/coursier/bin/cs
+    #   register: coursier_check
 
-    #- name: Download coursier-cli installer
-    #  ansible.builtin.get_url:
-    #    url: https://git.io/coursier-cli-linux
-    #    dest: /tmp/coursier-installer.sh
-    #    mode: u=rx,g=r,o=r
-    #  when: not coursier_check.stat.exists
+    # - name: Download coursier-cli installer
+    #   ansible.builtin.get_url:
+    #     url: https://git.io/coursier-cli-linux
+    #     dest: /tmp/coursier-installer.sh
+    #     mode: u=rx,g=r,o=r
+    #   when: not coursier_check.stat.exists
 
-    #- name: Install coursier
-    #  ansible.builtin.command:
-    #    cmd: /tmp/coursier-installer.sh install cs
-    #    creates: ~/.local/share/coursier/bin/cs
-    #  when: not coursier_check.stat.exists
+    # - name: Install coursier
+    #   ansible.builtin.command:
+    #     cmd: /tmp/coursier-installer.sh install cs
+    #     creates: ~/.local/share/coursier/bin/cs
+    #   when: not coursier_check.stat.exists
 
-    #- name: Update coursier if already installed
-    #  ansible.builtin.command:
-    #    cmd: ~/.local/share/coursier/bin/cs update cs
-    #  when: coursier_check.stat.exists
+    # - name: Update coursier if already installed
+    #   ansible.builtin.command:
+    #     cmd: ~/.local/share/coursier/bin/cs update cs
+    #   when: coursier_check.stat.exists
 
-    #- name: Install Coursier Applications
-    #  ansible.builtin.command:
-    #    cmd: ~/.local/share/coursier/bin/cs install {{ item }}
-    #  loop:
-    #    - bloop
-    #    - sbt
+    # - name: Install Coursier Applications
+    #   ansible.builtin.command:
+    #     cmd: ~/.local/share/coursier/bin/cs install {{ item }}
+    #   loop:
+    #     - bloop
+    #     - sbt
 
     ## Go Lang Tools
 
@@ -443,6 +453,7 @@
 
     - name: Download and unpack DbVisualizer
       ansible.builtin.unarchive:
+        # yamllint disable-line rule:line-length
         src: https://dbvis.com/product_download/dbvis-{{ dbvis_version }}/media/dbvis_linux_{{ dbvis_version | replace('.', '_') }}.tar.gz
         dest: ~/Devel/git/tools/DbVis/
         creates: ~/Devel/git/tools/DbVis/dbvis
@@ -562,6 +573,7 @@
 
     - name: Download and setup Github cli
       ansible.builtin.unarchive:
+        # yamllint disable-line rule:line-length
         src: https://github.com/cli/cli/releases/download/v{{ github_cli_version }}/gh_{{ github_cli_version }}_linux_amd64.tar.gz
         dest: ~/.local/
         creates: ~/.local/bin/gh
@@ -593,23 +605,23 @@
 
     ### Install Bash Tools
 
-    #- name: Install shfmt formatter
-    #  ansible.builtin.get_url:
-    #    url: https://github.com/mvdan/sh/releases/download/v{{ shfmt_version }}/shfmt_v{{ shfmt_version }}_linux_amd64
-    #    dest: ~/.local/bin/shfmt
-    #    mode: u=rwx,g=rwx,o=rwx
+    # - name: Install shfmt formatter
+    #   ansible.builtin.get_url:
+    #     url: https://github.com/mvdan/sh/releases/download/v{{ shfmt_version }}/shfmt_v{{ shfmt_version }}_linux_amd64
+    #     dest: ~/.local/bin/shfmt
+    #     mode: u=rwx,g=rwx,o=rwx
 
-    ### Install Gnome Terminal Nord Profile
+    # ## Install Gnome Terminal Nord Profile
 
-    #- name: Download Gnome Terminal Nord Profile
-    #  ansible.builtin.get_url:
-    #    url: https://raw.githubusercontent.com/arcticicestudio/nord-gnome-terminal/develop/src/nord.sh
-    #    dest: /tmp/gnome-terminal-nord-installer.sh
-    #    mode: u=rx,g=r,o=r
+    # - name: Download Gnome Terminal Nord Profile
+    #   ansible.builtin.get_url:
+    #     url: https://raw.githubusercontent.com/arcticicestudio/nord-gnome-terminal/develop/src/nord.sh
+    #     dest: /tmp/gnome-terminal-nord-installer.sh
+    #     mode: u=rx,g=r,o=r
 
-    #- name: Install Gnome Terminal Nord Profile
-    #  ansible.builtin.command:
-    #    cmd: /tmp/gnome-terminal-nord-installer.sh
+    # - name: Install Gnome Terminal Nord Profile
+    #   ansible.builtin.command:
+    #     cmd: /tmp/gnome-terminal-nord-installer.sh
 
     ## Cleanup
 

@@ -1,0 +1,7 @@
+{
+  "test": {
+    "prefix": "test",
+    "body": "@Test\nvoid ${1:testName}() {\n\t$0\n}",
+    "description": "Start JUnit test"
+  }
+}

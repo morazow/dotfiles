@@ -1,8 +1,8 @@
 # dotfiles
 
-## New Development Machine Setup
+## Setup Development Machine
 
-Setup passwordles sudo for main user:
+Setup passwordless sudo for main user:
 
 Add these to the `/etc/sudoers.d/<USER>` file:
 
@@ -44,3 +44,33 @@ Run minimal development machine setup:
 ```
 
 Restart and select `Regolith` as window manager on the next login.
+
+## Setup Java
+
+List the available Java versions:
+
+```sh
+sdk list java
+```
+
+Install Java 17 and 11 Temurin versions:
+
+```sh
+sdk install java 17.0.6-tem
+sdk install java 11.0.18-tem
+```
+
+Set Java 11 as default:
+
+```sh
+sdk default java 11.0.18-tem
+```
+
+## Clean Neovim State
+
+Remove `neovim` folders for fresh start:
+
+```sh
+rm -rf ~/.local/share/nvim/*
+rm -rf ~/.local/state/nvim/*
+```
