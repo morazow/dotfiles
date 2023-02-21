@@ -400,38 +400,6 @@
         dest: ~/.local/bin/gradle
         state: link
 
-    ### Scala Language Tools
-
-    # - name: Coursier installation check
-    #   ansible.builtin.stat:
-    #     path: ~/.local/share/coursier/bin/cs
-    #   register: coursier_check
-
-    # - name: Download coursier-cli installer
-    #   ansible.builtin.get_url:
-    #     url: https://git.io/coursier-cli-linux
-    #     dest: /tmp/coursier-installer.sh
-    #     mode: u=rx,g=r,o=r
-    #   when: not coursier_check.stat.exists
-
-    # - name: Install coursier
-    #   ansible.builtin.command:
-    #     cmd: /tmp/coursier-installer.sh install cs
-    #     creates: ~/.local/share/coursier/bin/cs
-    #   when: not coursier_check.stat.exists
-
-    # - name: Update coursier if already installed
-    #   ansible.builtin.command:
-    #     cmd: ~/.local/share/coursier/bin/cs update cs
-    #   when: coursier_check.stat.exists
-
-    # - name: Install Coursier Applications
-    #   ansible.builtin.command:
-    #     cmd: ~/.local/share/coursier/bin/cs install {{ item }}
-    #   loop:
-    #     - bloop
-    #     - sbt
-
     ## Go Lang Tools
 
     - name: Download and unarchive Go

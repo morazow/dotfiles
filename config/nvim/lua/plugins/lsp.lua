@@ -8,7 +8,6 @@ return {
                 'gopls',
                 'jdtls',
                 'lua-language-server',
-                -- 'metals',
                 'rust-analyzer',
                 'shfmt',
                 'shellcheck',
@@ -41,12 +40,16 @@ return {
         ft = 'java',
         dependencies = {
             'hrsh7th/nvim-cmp',
+            'mfussenegger/nvim-dap',
         },
         config = function()
             local on_attach = function(client, bufnr)
                 require('lazyvim.plugins.lsp.keymaps').on_attach(client, bufnr)
             end
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+
             local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
             local workspace_dir = vim.fn.stdpath('data') .. '/site/java/workspace-root/' .. project_name
             local install_path = require('mason-registry').get_package('jdtls'):get_install_path()
@@ -98,11 +101,60 @@ return {
                     },
                 },
             }
+
+            local jdtls_group = vim.api.nvim_create_augroup('nvim-jdtls', { clear = true })
             vim.api.nvim_create_autocmd('FileType', {
                 pattern = 'java',
                 callback = function()
                     require('jdtls').start_or_attach(config)
                 end,
+                group = jdtls_group,
+            })
+        end,
+    },
+
+    {
+        'scalameta/nvim-metals',
+        dependencies = {
+            'hrsh7th/nvim-cmp',
+            'mfussenegger/nvim-dap',
+        },
+        config = function()
+            local on_attach = function(client, bufnr)
+                require('lazyvim.plugins.lsp.keymaps').on_attach(client, bufnr)
+            end
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+            local config = require('metals').bare_config()
+            config.capabilities = capabilities
+            config.init_options.statusBarProvider = 'on'
+            config.settings = {
+                showInferredType = true,
+                showImplicitArguments = true,
+                showImplicitConversionsAndClasses = true,
+                superMethodLensesEnabled = true,
+                excludedPackages = {
+                    'akka.actor.typed.javadsl',
+                    'akka.stream.javadsl',
+                    'com.github.swagger.akka.javadsl',
+                },
+                -- fallbackScalaVersion = '2.13.6',
+            }
+
+            config.on_attach = function(client, bufnr)
+                require('metals').setup_dap()
+                on_attach(client, bufnr)
+            end
+
+            local metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = { 'scala', 'sbt' },
+                callback = function()
+                    require('metals').initialize_or_attach(config)
+                end,
+                group = metals_group,
             })
         end,
     },
@@ -151,7 +203,7 @@ return {
                     --     end,
                     -- }),
                     diagnostics.shellcheck,
-                    diagnostics.yamllint,
+                    -- diagnostics.yamllint,
                     actions.shellcheck,
                 },
             }
@@ -176,7 +228,7 @@ return {
             {
                 '<F5>',
                 function()
-                    require('dap').continue()
+                    require('dap').continue({})
                 end,
                 desc = 'Debug Continue',
             },
@@ -231,7 +283,6 @@ return {
             },
         },
         config = function()
-            local dap = require('dap')
             require('dapui').setup()
             require('nvim-dap-virtual-text').setup({})
             vim.cmd([[command -nargs=0 Into :lua require('dap').step_into()]])
@@ -240,22 +291,14 @@ return {
             vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
             vim.fn.sign_define('DapBreakpointRejected', { text = '⛔️', texthl = '', linehl = '', numhl = '' })
 
+            local dap = require('dap')
             dap.configurations.scala = {
                 {
                     type = 'scala',
                     request = 'launch',
-                    name = 'Run',
+                    name = 'RunOrTest',
                     metals = {
-                        runType = 'run',
-                        args = { 'firstArg', 'secondArg', 'thirdArg' },
-                    },
-                },
-                {
-                    type = 'scala',
-                    request = 'launch',
-                    name = 'Test File',
-                    metals = {
-                        runType = 'testFile',
+                        runType = 'runOrTestFile',
                     },
                 },
                 {

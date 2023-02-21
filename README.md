@@ -66,6 +66,16 @@ Set Java 11 as default:
 sdk default java 11.0.18-tem
 ```
 
+## Install Coursier
+
+Like Java installations, install coursier:
+
+```sh
+curl -fLo coursier https://github.com/coursier/launchers/raw/master/coursier
+mv coursier ~/.local/bin/
+chmod +x ~/.local/bin/coursier
+```
+
 ## Clean Neovim State
 
 Remove `neovim` folders for fresh start:
@@ -73,4 +83,5 @@ Remove `neovim` folders for fresh start:
 ```sh
 rm -rf ~/.local/share/nvim/*
 rm -rf ~/.local/state/nvim/*
+rm -rf ~/.cache/nvim/*
 ```
