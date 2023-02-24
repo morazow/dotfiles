@@ -160,3 +160,41 @@ g.loaded_spec = 1
 
 -- Set Python3 Program
 g.python3_host_prog = '/usr/bin/python3'
+
+-- Custom Tabline That Uses Colorscheme Highlights.
+-- Poor man's tabline, I am not yet satisfied with available plugins.
+
+local function buffername(bufnr)
+    local name = fn.fnamemodify(fn.bufname(bufnr), ':t')
+    if not name or name == '' then
+        return ' [No Name] '
+    else
+        return string.format(' %s ', name)
+    end
+end
+
+function _G.tabline()
+    local s = ''
+    for tabnr = 1, fn.tabpagenr('$') do
+        local winnr = fn.tabpagewinnr(tabnr)
+        local buflist = fn.tabpagebuflist(tabnr)
+        local bufnr = buflist[winnr]
+        local bufname = buffername(bufnr)
+        local bufmodified = fn.getbufvar(bufnr, '&mod')
+        s = s .. '%' .. tabnr .. 'T'
+        if tabnr == fn.tabpagenr() then
+            s = s .. '%#TabLineSel#'
+        else
+            s = s .. '%#TabLine#'
+        end
+        s = s .. ' ' .. tabnr .. ':' .. bufname
+        if bufmodified == 1 then
+            s = s .. '[+]'
+        end
+    end
+    s = s .. '%#TabLineFill#%T'
+    return s
+end
+
+g.showtabline = 1
+o.tabline = '%!v:lua.tabline()'

@@ -1,31 +1,3 @@
-" Set General Settings
-augroup GENERAL_SETTINGS
-  au!
-  au VimResized * :wincmd =
-  " Remove Trailing Whitespaces on Save
-  au BufWritePre * :%s/\s\+$//e
-augroup END
-
-augroup YANK_HIGHLIGHT
-    au!
-    " Highlight on Yank (Copy)
-    au TextYankPost * silent! lua require('vim.highlight').on_yank({on_visual=true,timeout=180})
-augroup END
-
-" Set Filetypes
-augroup FILETYPE_SETTINGS
-  au!
-  au BufNewFile,BufRead *.sbt   setlocal filetype=scala
-  au BufNewFile,BufRead pom.xml setlocal filetype=xml.pom
-  au BufWritePost packer.lua PackerCompile
-augroup END
-
-" Exit LspInfo Floating Window Using q Key
-augroup LSP_INFO_EXIT
-    au!
-    au FileType lspinfo nnoremap <silent> <buffer> q :q<cr>
-augroup END
-
 " Terminal Settings
 " Use C-o, <leader>x or C-d to close and exit terminal.
 augroup TERMINAL_SETTINGS

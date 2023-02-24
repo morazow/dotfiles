@@ -32,6 +32,11 @@ return {
                 terraformls = {},
                 yamlls = {},
             },
+            setup = {
+                jdtls = function(_, _)
+                    return true
+                end,
+            },
         },
     },
 
@@ -43,9 +48,8 @@ return {
             'mfussenegger/nvim-dap',
         },
         config = function()
-            local on_attach = function(client, bufnr)
-                require('lazyvim.plugins.lsp.keymaps').on_attach(client, bufnr)
-            end
+            local jdtls = require('jdtls')
+            local map = require('utils').buffer_keymap
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
             capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -55,7 +59,83 @@ return {
             local install_path = require('mason-registry').get_package('jdtls'):get_install_path()
             local config = {
                 cmd = { install_path .. '/bin/jdtls', '-data', workspace_dir },
-                on_attach = on_attach,
+                on_attach = function(client, bufnr)
+                    require('lazyvim.plugins.lsp.keymaps').on_attach(client, bufnr)
+                    jdtls.setup_dap({ hotcodereplace = 'auto' })
+                    jdtls.dap.setup_dap_main_class_configs()
+                    jdtls.setup.add_commands()
+                    print('on attach jdtls')
+
+                    -- Additional JDTLS Specific Key Mappings
+                    map(bufnr, 'n', '<A-o>', '<cmd>lua require("jdtls").organize_imports()<cr>', 'Organize imports')
+                    map(
+                        bufnr,
+                        'n',
+                        '<leader>ev',
+                        '<cmd>lua require("jdtls").extract_variable()<cr>',
+                        'Extract variable'
+                    )
+                    map(
+                        bufnr,
+                        'v',
+                        '<leader>ev',
+                        '<esc><cmd>lua require("jdtls").extract_variable(true)<cr>',
+                        'Extract variable'
+                    )
+                    map(
+                        bufnr,
+                        'n',
+                        '<leader>ec',
+                        '<cmd>lua require("jdtls").extract_constant()<cr>',
+                        'Extract constant'
+                    )
+                    map(
+                        bufnr,
+                        'v',
+                        '<leader>ec',
+                        '<esc><cmd>lua require("jdtls").extract_constant(true)<cr>',
+                        'Extract constant'
+                    )
+                    map(
+                        bufnr,
+                        'v',
+                        '<leader>em',
+                        '<esc><cmd>lua require("jdtls").extract_method(true)<cr>',
+                        'Extract method'
+                    )
+                    map(
+                        bufnr,
+                        'n',
+                        '<leader>df',
+                        '<cmd>lua require("jdtls").test_class()<cr>',
+                        'Run test class in debug'
+                    )
+                    map(
+                        bufnr,
+                        'n',
+                        '<leader>dn',
+                        '<cmd>lua require("jdtls").test_nearest_method()<cr>',
+                        'Run nearest method in debug'
+                    )
+                    -- Code Actions
+                    map(bufnr, 'n', '<A-CR>', '<cmd>lua require("jdtls").code_action()<cr>', 'Run code action')
+                    map(bufnr, 'v', '<A-CR>', '<esc><cmd>lua require("jdtls").code_action(true)<cr>', 'Run code action')
+                    map(
+                        bufnr,
+                        'n',
+                        '<leader>r',
+                        '<cmd>lua require("jdtls").code_action(false, "refactor")<cr>',
+                        'Run refactor action'
+                    )
+                    map(
+                        bufnr,
+                        'v',
+                        '<leader>r',
+                        '<esc><cmd>lua require("jdtls").code_action(true, "refactor")<cr>',
+                        'Run refactor action'
+                    )
+                    print('on attach jdtls: after mappings')
+                end,
                 capabilities = capabilities,
                 root_dir = vim.fs.dirname(
                     vim.fs.find({ '.gradlew', '.git', 'mvnw', 'pom.xml', 'build.gradle' }, { upward = true })[1]
