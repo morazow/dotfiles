@@ -4,6 +4,9 @@
 
 local map = vim.keymap.set
 
+-- Additional Code Actions
+map('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename' })
+
 -- Telescope resume
 map('n', '<leader>sx', require('telescope.builtin').resume, { desc = 'Resume' })
 

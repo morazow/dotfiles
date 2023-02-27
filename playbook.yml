@@ -16,6 +16,7 @@
     dbvis_version: "14.0.3"
     github_cli_version: "2.22.1"
     shfmt_version: "3.5.1"
+    eclipse_jdtls_version: "v1.20.0"
 
   tasks:
     - name: Check system is debian based
@@ -202,6 +203,7 @@
         src: ~/Devel/git/tools/neovim/bin/nvim
         dest: ~/.local/bin/nvim
         state: link
+        force: true
 
     - name: Symlink Neovim configuration to ~/.config/nvim
       ansible.builtin.file:
@@ -400,6 +402,32 @@
         dest: ~/.local/bin/gradle
         state: link
 
+    - name: Git clone eclipse.jdt.ls
+      ansible.builtin.git:
+        repo: https://github.com/eclipse/eclipse.jdt.ls
+        dest: ~/Devel/git/tools/eclipse.jdt.ls
+        version: "{{ eclipse_jdtls_version }}"
+        recursive: true
+        update: true
+        depth: 1
+
+    - name: Git clone java-debug
+      ansible.builtin.git:
+        repo: https://github.com/microsoft/java-debug
+        dest: ~/Devel/git/tools/java-debug
+        recursive: true
+        update: true
+        depth: 1
+
+    - name: Git clone vscode-java-test
+      ansible.builtin.git:
+        repo: https://github.com/microsoft/vscode-java-test
+        dest: ~/Devel/git/tools/vscode-java-test
+        force: true # npm commands modify the package.json in next step
+        recursive: true
+        update: true
+        depth: 1
+
     ## Go Lang Tools
 
     - name: Download and unarchive Go
@@ -528,14 +556,6 @@
         cmd: source ~/.nvm/nvm.sh && nvm install --lts
       args:
         executable: /bin/bash
-
-    - name: Install NPM packages
-      ansible.builtin.shell:
-        cmd: source ~/.nvm/nvm.sh && npm install {{ item }}
-      args:
-        executable: /bin/bash
-      loop:
-        - prettier
 
     ## Github CLI
 

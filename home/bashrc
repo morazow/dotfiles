@@ -64,7 +64,11 @@ if [ -r /usr/share/bash-completion/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # Make Bash complete the `g` alias just like it does `git`
-complete -o default -o nospace -F _git g
+# complete -o default -o nospace -F _git g
+# Enable tab completion for `g` by marking it as an alias for `git`
+if type __git_complete &>/dev/null; then
+    __git_complete g __git_main
+fi
 
 ## Exports
 

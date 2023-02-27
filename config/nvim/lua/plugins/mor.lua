@@ -1,4 +1,5 @@
 return {
+
     -- Misc Plugins
     { 'ellisonleao/gruvbox.nvim' },
     { 'ful1e5/onedark.nvim' },
@@ -35,31 +36,24 @@ return {
         dependencies = {
             'andymass/vim-matchup',
         },
-        opts = {
-            matchup = { enable = true },
-            ensure_installed = {
-                'bash',
-                'c',
-                'cmake',
-                'help',
-                'html',
-                'go',
-                'java',
-                'javascript',
-                'json',
-                'lua',
-                'make',
-                'markdown',
-                'markdown_inline',
-                'query',
-                'regex',
-                'rust',
-                'scala',
-                'toml',
-                'vim',
-                'yaml',
-            },
-        },
+        opts = function(_, opts)
+            opts.matchup = { enable = true }
+            if type(opts.ensure_installed) == 'table' then
+                vim.tbl_extend('force', opts.ensure_installed, {
+                    'bash',
+                    'go',
+                    'java',
+                    'json',
+                    'markdown',
+                    'markdown_inline',
+                    'rust',
+                    'lua',
+                    'scala',
+                    'vim',
+                    'yaml',
+                })
+            end
+        end,
     },
 
     -- Setup Snippets

@@ -66,6 +66,29 @@ Set Java 11 as default:
 sdk default java 11.0.18-tem
 ```
 
+### Build Java Tools
+
+Build `eclipse.jdt.ls`, it is required for `java-debug`:
+
+```sh
+cd ~/Devel/git/tools/eclipse.jdt.ls/
+./mvnw clean install -DskipTests
+```
+
+Build `java-debug`:
+
+```sh
+cd ~/Devel/git/tools/java-debug/
+./mvnw clean install -DskipTests
+```
+
+Build `vscode-java-test`:
+
+```sh
+cd ~/Devel/git/tools/vscode-java-test/
+npm i && npm run build-plugin
+```
+
 ## Install Coursier
 
 Like Java installations, install coursier:

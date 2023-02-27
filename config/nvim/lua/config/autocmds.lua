@@ -22,14 +22,21 @@ autocmd('BufEnter', {
 })
 
 -- Enable cursor line only in active window
-local cursorLineGroup = augroup('CursorLine', { clear = true })
 autocmd({ 'InsertLeave', 'WinEnter' }, {
-    pattern = '*',
-    command = 'set cursorline',
-    group = cursorLineGroup,
+    callback = function()
+        local ok, cursorline = pcall(api.nvim_win_get_var, 0, 'auto-cursorline')
+        if ok and cursorline then
+            vim.wo.cursorline = true
+            api.nvim_win_del_var(0, 'auto-cursorline')
+        end
+    end,
 })
 autocmd({ 'InsertEnter', 'WinLeave' }, {
-    pattern = '*',
-    command = 'set nocursorline',
-    group = cursorLineGroup,
+    callback = function()
+        local cursorline = vim.wo.cursorline
+        if cursorline then
+            api.nvim_win_set_var(0, 'auto-cursorline', cursorline)
+            vim.wo.cursorline = false
+        end
+    end,
 })
