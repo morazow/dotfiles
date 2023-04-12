@@ -4,8 +4,11 @@
 
 local map = vim.keymap.set
 
--- Remove 'gw', we use the default mapping for wrapping
+-- Disable 'gw' search word under cursor, use default mapping for text wrapping
 vim.keymap.del({ 'n', 'x' }, 'gw')
+-- Disable LazyGit keymaps, fugitive is enough
+vim.keymap.del({ 'n' }, '<leader>gg')
+vim.keymap.del({ 'n' }, '<leader>gG')
 
 -- Additional Code Actions
 map('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename' })

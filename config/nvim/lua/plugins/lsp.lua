@@ -6,6 +6,7 @@ return {
                 'bash-language-server',
                 'dockerfile-language-server',
                 'gopls',
+                'lemminx',
                 'luacheck',
                 'lua-language-server',
                 'prettierd',
@@ -26,18 +27,22 @@ return {
             diagnostics = {
                 virtual_text = false,
             },
+            autoformat = false,
             servers = {
                 bashls = {},
                 dockerls = {},
                 gopls = {},
                 jsonls = {},
+                lemminx = {},
                 terraformls = {},
-                yamlls = {},
-            },
-            setup = {
-                jdtls = function(_, _)
-                    return true
-                end,
+                yamlls = {
+                    settings = {
+                        yaml = {
+                            keyOrdering = false,
+                        },
+                    },
+                },
+                esbonio = {},
             },
         },
     },

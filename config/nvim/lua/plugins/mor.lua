@@ -30,6 +30,88 @@ return {
         end,
     },
 
+    {
+        'nvim-lualine/lualine.nvim',
+        opts = function()
+            local icons = require('lazyvim.config').icons
+            local function fg(name)
+                return function()
+                    local hl = vim.api.nvim_get_hl_by_name(name, true)
+                    return hl and hl.foreground and { fg = string.format('#%06x', hl.foreground) }
+                end
+            end
+
+            return {
+                options = {
+                    theme = 'onedark',
+                },
+                sections = {
+                    lualine_b = {
+                        { 'branch', separator = '|', padding = { left = 1, right = 0 } },
+                        {
+                            'diagnostics',
+                            symbols = {
+                                error = icons.diagnostics.Error,
+                                warn = icons.diagnostics.Warn,
+                                info = icons.diagnostics.Info,
+                                hint = icons.diagnostics.Hint,
+                            },
+                        },
+                    },
+                    lualine_c = {
+                        { 'filename', path = 1, symbols = { modified = '[+]', readonly = '[-]', unnamed = '' } },
+                    },
+                    lualine_x = {
+                        {
+                            require('lazy.status').updates,
+                            cond = require('lazy.status').has_updates,
+                            color = fg('Special'),
+                        },
+                        {
+                            'diff',
+                            symbols = {
+                                added = icons.git.added,
+                                modified = icons.git.modified,
+                                removed = icons.git.removed,
+                            },
+                        },
+                    },
+                    lualine_y = { 'filetype' },
+                    lualine_z = {
+                        { 'location', separator = '|', padding = { left = 1, right = 0 } },
+                        { 'progress', separator = '', padding = { left = 0, right = 1 } },
+                    },
+                },
+            }
+        end,
+    },
+
+    -- Setup Commenting
+    -- {
+    --     'numToStr/Comment.nvim',
+    --     keys = {
+    --         { 'g/', '<Plug>(comment_toggle_linewise_current)', desc = 'Comment Linewise' },
+    --         -- { '<C-/>', '<Plug>(comment_toggle_linewise_current)', desc = 'Comment Linewise' },
+    --         -- { '<C-?>', '<Plug>(comment_toggle_blockwise_current)', desc = 'Comment Blockwise' },
+    --         -- { mode = 'x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)', desc = 'Comment Linewise' },
+    --         -- { mode = 'x', '<C-?>', '<Plug>(comment_toggle_blockwise_visual)', desc = 'Comment Blockwise' },
+    --     },
+    --     opts = {
+    --         mappings = {
+    --             basic = false,
+    --             extra = false,
+    --         },
+    --         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+    --     },
+    -- },
+
+    {
+        'junegunn/vim-easy-align',
+        keys = {
+            { mode = 'x', 'ga', '<plug>(EasyAlign)', desc = 'Align selection' },
+        },
+    },
+
     -- Setup Treesitter Parsers
     {
         'nvim-treesitter/nvim-treesitter',
