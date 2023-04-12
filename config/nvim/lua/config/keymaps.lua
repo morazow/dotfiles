@@ -4,6 +4,9 @@
 
 local map = vim.keymap.set
 
+-- Remove 'gw', we use the default mapping for wrapping
+vim.keymap.del({ 'n', 'x' }, 'gw')
+
 -- Additional Code Actions
 map('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename' })
 

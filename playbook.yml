@@ -9,7 +9,7 @@
     nerd_fonts_version: "v2.3.3"
     neovim_version: "v0.8.3"
     kitty_version: "0.27.0"
-    maven_version: "3.9.0"
+    maven_version: "3.8.8"
     gradle_version: "7.6"
     nvm_version: "0.39.3"
     golang_version: "1.20"
@@ -17,6 +17,7 @@
     github_cli_version: "2.22.1"
     shfmt_version: "3.5.1"
     eclipse_jdtls_version: "v1.20.0"
+    vscode_java_dependency_version: "0.21.1"
 
   tasks:
     - name: Check system is debian based
@@ -67,8 +68,7 @@
         - less
         - tree
         - neofetch
-        # - ninja-build
-        # - npm
+        - python3-venv
         - shellcheck
         - silversearcher-ag
         - sshfs
@@ -424,6 +424,16 @@
         repo: https://github.com/microsoft/vscode-java-test
         dest: ~/Devel/git/tools/vscode-java-test
         force: true # npm commands modify the package.json in next step
+        recursive: true
+        update: true
+        depth: 1
+
+    - name: Git clone vscode-java-dependency
+      ansible.builtin.git:
+        repo: https://github.com/Microsoft/vscode-java-dependency
+        dest: ~/Devel/git/tools/vscode-java-dependency
+        version: "{{ vscode_java_dependency_version }}"
+        force: true
         recursive: true
         update: true
         depth: 1

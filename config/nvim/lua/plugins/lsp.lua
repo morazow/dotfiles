@@ -43,6 +43,28 @@ return {
     },
 
     {
+        'JavaHello/java-deps.nvim',
+        lazy = true,
+        ft = 'java',
+        dependencies = {
+            'mfussenegger/nvim-jdtls',
+        },
+        config = function()
+            require('java-deps').setup({})
+        end,
+    },
+
+    {
+        'simrat39/symbols-outline.nvim',
+        lazy = true,
+        cmd = {
+            'SymbolsOutline',
+            'SymbolsOutlineOpen',
+            'SymbolsOutlineClose',
+        },
+    },
+
+    {
         'mfussenegger/nvim-dap',
         event = 'VeryLazy',
     },

@@ -1,9 +1,5 @@
 return {
 
-    -- Misc Plugins
-    { 'ellisonleao/gruvbox.nvim' },
-    { 'ful1e5/onedark.nvim' },
-
     -- Configure LazyVim
     {
         'LazyVim/LazyVim',
@@ -11,6 +7,10 @@ return {
             colorscheme = 'onedark',
         },
     },
+
+    -- Misc Plugins
+    { 'ellisonleao/gruvbox.nvim' },
+    { 'ful1e5/onedark.nvim' },
 
     -- Setup Alpha
     {
@@ -60,10 +60,10 @@ return {
     {
         'rafamadriz/friendly-snippets',
         config = function()
-            require('luasnip.loaders.from_vscode').lazy_load({
+            require('luasnip/loaders/from_vscode').lazy_load({
                 paths = vim.fn.stdpath('config') .. '/snippets',
             })
-            require('luasnip.loaders.from_snipmate').lazy_load()
+            require('luasnip/loaders/from_vscode').lazy_load()
         end,
     },
 
@@ -101,4 +101,14 @@ return {
             vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
         end,
     },
+
+    -- Git
+    { 'tpope/vim-fugitive' },
+    { 'tpope/vim-rhubarb' },
+    { 'lewis6991/gitsigns.nvim' },
+
+    {
+        'stsewd/sphinx.nvim',
+        ft = 'rst',
+    }
 }

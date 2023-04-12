@@ -60,10 +60,10 @@ sdk install java 17.0.6-tem
 sdk install java 11.0.18-tem
 ```
 
-Set Java 11 as default:
+Set Java 17 as default:
 
 ```sh
-sdk default java 11.0.18-tem
+sdk default java 17.0.6-tem
 ```
 
 ### Build Java Tools
@@ -86,7 +86,14 @@ Build `vscode-java-test`:
 
 ```sh
 cd ~/Devel/git/tools/vscode-java-test/
-npm i && npm run build-plugin
+npm install && npm run build-plugin
+```
+
+Build `vscode-java-dependency`:
+
+```sh
+cd ~/Devel/git/tools/vscode-java-dependency/
+npm install && npm run build-server
 ```
 
 ## Install Coursier
