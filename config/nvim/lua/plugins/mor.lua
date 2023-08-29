@@ -34,12 +34,12 @@ return {
         'nvim-lualine/lualine.nvim',
         opts = function()
             local icons = require('lazyvim.config').icons
-            local function fg(name)
-                return function()
-                    local hl = vim.api.nvim_get_hl_by_name(name, true)
-                    return hl and hl.foreground and { fg = string.format('#%06x', hl.foreground) }
-                end
-            end
+            -- local function fg(name)
+            --     return function()
+            --         local hl = vim.api.nvim_get_hl_id_by_name(name)
+            --         return hl and hl.foreground and { fg = string.format('#%06x', hl.foreground) }
+            --     end
+            -- end
 
             return {
                 options = {
@@ -65,7 +65,7 @@ return {
                         {
                             require('lazy.status').updates,
                             cond = require('lazy.status').has_updates,
-                            color = fg('Special'),
+                            -- color = fg('Special'),
                         },
                         {
                             'diff',

@@ -16,6 +16,7 @@ require('lazy').setup({
     spec = {
         { 'LazyVim/LazyVim', import = 'lazyvim.plugins' },
         { import = 'lazyvim.plugins.extras.lang.json' },
+        { import = "lazyvim.plugins.extras.coding.copilot" },
         { import = 'plugins' },
         { import = 'plugins.extras.lang.java' },
     },

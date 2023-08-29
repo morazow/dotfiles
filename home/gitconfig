@@ -1,51 +1,59 @@
 [user]
-  name = morazow
-  email = m.orazow@gmail.com
+    name = morazow
+    # email = 916295+morazow@users.noreply.github.com
+    email = m.orazow@gmail.com
 [core]
-  autocrlf = input
-  # remove whitespaces
-  whitespace = trailing-space,-space-before-tab,indent-with-non-tab,cr-at-eol
-  excludesfile = ~/.gitignore
+    autocrlf = input
+    # remove whitespaces
+    whitespace = trailing-space,-space-before-tab,indent-with-non-tab,cr-at-eol
+    excludesfile = ~/.gitignore
 [init]
 [color]
-  ui = auto
-  interactive = auto
+    ui = auto
+    interactive = auto
 [push]
-  default = matching
+    default = matching
 [apply]
-  whitespace = nowarn
+    whitespace = nowarn
 [diff]
-  indentHeuristic = true
-  suppressBlankEmpty = true
+    indentHeuristic = true
+    suppressBlankEmpty = true
 [help]
-  autocorrect = 1
+    autocorrect = 1
 [status]
-  showUntrackedFiles = all
-  submodulesummary = true
+    showUntrackedFiles = all
+    submodulesummary = true
 [color "status"]
-  added = green
-  changed = yellow
-  untracked = red
+    added = green
+    changed = yellow
+    untracked = red
 [alias]
-  lg = log --graph --oneline --decorate
-  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-  lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
-  ci = commit
-  filelog = log -u
-  fl = log -u
-  lasttag = describe --tags --abrev=0
-  lt = describe --tags --abbrev=0
-  st = status -s
-  br = branch
-  cl = clone
-  co = checkout
-  tc = shortlog -sn
-  d = diff --color-words
+    lg = log --graph --oneline --decorate
+    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
+    ci = commit
+    filelog = log -u
+    fl = log -u
+    lasttag = describe --tags --abrev=0
+    lt = describe --tags --abbrev=0
+    st = status -s
+    br = branch
+    cl = clone
+    co = checkout
+    tc = shortlog -sn
+    d = diff --color-words
 [fetch]
-  fsckobjects = true
+    fsckobjects = true
 [credential]
-  helper = cache
-  helper = cache --timeout 18000
+    helper = cache
+    helper = cache --timeout 18000
+[merge]
+    tool = "nvim"
+[mergetool]
+    keepBackup = false
+    prompt = false
+[mergetool "nvim"]
+    cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 
 # vi: ft=gitconfig

@@ -6,14 +6,14 @@
   gather_facts: true
 
   vars:
-    nerd_fonts_version: "v2.3.3"
-    neovim_version: "v0.8.3"
+    nerd_fonts_version: "v3.0.2"
+    neovim_version: "v0.9.1"
     kitty_version: "0.27.0"
     maven_version: "3.8.8"
     gradle_version: "7.6"
     nvm_version: "0.39.3"
     golang_version: "1.20"
-    dbvis_version: "14.0.3"
+    dbvis_version: "23.2.3"
     github_cli_version: "2.22.1"
     shfmt_version: "3.5.1"
     eclipse_jdtls_version: "v1.20.0"

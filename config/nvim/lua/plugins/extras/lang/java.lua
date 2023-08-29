@@ -67,9 +67,13 @@ local function create_base_config()
                 configuration = {
                     updateBuildConfiguration = 'automatic',
                     runtimes = {
+                        -- {
+                        --     name = 'JavaSE-20',
+                        --     path = '~/.sdkman/candidates/java/20.0.1-tem/',
+                        -- },
                         {
                             name = 'JavaSE-17',
-                            path = '~/.sdkman/candidates/java/17.0.6-tem/',
+                            path = '~/.sdkman/candidates/java/17.0.8-tem/',
                         },
                         {
                             name = 'JavaSE-11',
@@ -198,16 +202,28 @@ local function custom_keymaps(buffer)
     local jdtls = require('jdtls')
     map('n', '<leader>co', function()
         jdtls.organize_imports()
-    end, { buffer = buffer, desc = 'Organize Imports' })
-    map('n', '<leader>ct', function()
+    end, {
+        buffer = buffer,
+        desc = 'Organize Imports',
+    })
+    map('n', '<leader>cT', function()
         jdtls.pick_test({ bufnr = buffer, after_test = print_test_results })
-    end, { buffer = buffer, desc = 'Run Test' })
+    end, {
+        buffer = buffer,
+        desc = 'Run Test',
+    })
     map('n', '<leader>ctf', function()
         jdtls.test_class()
-    end, { buffer = buffer, desc = 'Run test class in debug' })
+    end, {
+        buffer = buffer,
+        desc = 'Run test class in debug',
+    })
     map('n', '<leader>ctn', function()
         jdtls.test_nearest_method()
-    end, { buffer = buffer, desc = 'Run nearest method in debug' })
+    end, {
+        buffer = buffer,
+        desc = 'Run nearest method in debug',
+    })
 end
 
 M.config = function()
