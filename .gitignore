@@ -4,3 +4,5 @@
 node_modules
 config/nvim/plugin
 config/regolith/flags
+config/zsh/.zsh_history
+config/zsh/.zcompdump*
