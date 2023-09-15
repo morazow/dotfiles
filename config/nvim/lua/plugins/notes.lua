@@ -61,7 +61,7 @@ local obsidian = {
         'nvim-telescope/telescope.nvim',
     },
     opts = {
-        dir = vim.env.HOME .. '/Devel/git/mor/obsidian-notes/',
+        dir = vim.env.HOME .. '/Devel/git/mor/notes/',
         notes_subdir = 'roam',
         daily_notes = {
             folder = 'journal',
