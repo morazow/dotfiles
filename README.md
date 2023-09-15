@@ -1,5 +1,17 @@
 # dotfiles
 
+## Git Clone with Submodules
+
+```sh
+git clone --recurse-submodules https://github.com/morazow/dotfiles
+```
+
+Or update submodules:
+
+```sh
+git submodule update --init --recursive
+```
+
 ## Setup Development Machine
 
 Setup passwordless sudo for main user:
