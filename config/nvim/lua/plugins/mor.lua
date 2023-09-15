@@ -12,6 +12,9 @@ return {
     { 'ellisonleao/gruvbox.nvim' },
     { 'ful1e5/onedark.nvim' },
 
+    -- Filetypes
+    { 'stsewd/sphinx.nvim', ft = 'rst' },
+
     -- Setup Alpha
     {
         'goolord/alpha-nvim',
@@ -40,25 +43,6 @@ return {
             }
         end,
     },
-
-    -- Setup Commenting
-    -- {
-    --     'numToStr/Comment.nvim',
-    --     keys = {
-    --         { 'g/', '<Plug>(comment_toggle_linewise_current)', desc = 'Comment Linewise' },
-    --         -- { '<C-/>', '<Plug>(comment_toggle_linewise_current)', desc = 'Comment Linewise' },
-    --         -- { '<C-?>', '<Plug>(comment_toggle_blockwise_current)', desc = 'Comment Blockwise' },
-    --         -- { mode = 'x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)', desc = 'Comment Linewise' },
-    --         -- { mode = 'x', '<C-?>', '<Plug>(comment_toggle_blockwise_visual)', desc = 'Comment Blockwise' },
-    --     },
-    --     opts = {
-    --         mappings = {
-    --             basic = false,
-    --             extra = false,
-    --         },
-    --         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-    --     },
-    -- },
 
     {
         'junegunn/vim-easy-align',
@@ -90,6 +74,10 @@ return {
                     'yaml',
                 })
             end
+            opts.highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = { "markdown" },
+            }
         end,
     },
 
@@ -119,33 +107,9 @@ return {
         end,
     },
 
-    -- Setup Markdown Configurations
-    {
-        'toppair/peek.nvim',
-        ft = 'markdown',
-        build = 'deno task --quiet build:fast',
-        config = function()
-            require('peek').setup({
-                auto_load = true,
-                close_on_bdelete = true,
-                syntax = true,
-                theme = 'light',
-                update_on_change = true,
-                throttle_at = 200000,
-                throttle_time = 'auto',
-            })
-            vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
-            vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
-        end,
-    },
-
     -- Git
     { 'tpope/vim-fugitive' },
     { 'tpope/vim-rhubarb' },
     { 'lewis6991/gitsigns.nvim' },
 
-    {
-        'stsewd/sphinx.nvim',
-        ft = 'rst',
-    }
 }
