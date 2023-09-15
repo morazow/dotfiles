@@ -33,54 +33,9 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         opts = function()
-            local icons = require('lazyvim.config').icons
-            -- local function fg(name)
-            --     return function()
-            --         local hl = vim.api.nvim_get_hl_id_by_name(name)
-            --         return hl and hl.foreground and { fg = string.format('#%06x', hl.foreground) }
-            --     end
-            -- end
-
             return {
                 options = {
                     theme = 'onedark',
-                },
-                sections = {
-                    lualine_b = {
-                        { 'branch', separator = '|', padding = { left = 1, right = 0 } },
-                        {
-                            'diagnostics',
-                            symbols = {
-                                error = icons.diagnostics.Error,
-                                warn = icons.diagnostics.Warn,
-                                info = icons.diagnostics.Info,
-                                hint = icons.diagnostics.Hint,
-                            },
-                        },
-                    },
-                    lualine_c = {
-                        { 'filename', path = 1, symbols = { modified = '[+]', readonly = '[-]', unnamed = '' } },
-                    },
-                    lualine_x = {
-                        {
-                            require('lazy.status').updates,
-                            cond = require('lazy.status').has_updates,
-                            -- color = fg('Special'),
-                        },
-                        {
-                            'diff',
-                            symbols = {
-                                added = icons.git.added,
-                                modified = icons.git.modified,
-                                removed = icons.git.removed,
-                            },
-                        },
-                    },
-                    lualine_y = { 'filetype' },
-                    lualine_z = {
-                        { 'location', separator = '|', padding = { left = 1, right = 0 } },
-                        { 'progress', separator = '', padding = { left = 0, right = 1 } },
-                    },
                 },
             }
         end,
