@@ -53,7 +53,7 @@ local peek = {
 }
 
 local obsidian = {
-    'epwalsh/obsidian.nvim',
+    dir = '~/Devel/git/mor/obsidian.nvim',
     dependencies = {
         'hrsh7th/nvim-cmp',
         'nvim-lua/plenary.nvim',
@@ -62,7 +62,7 @@ local obsidian = {
     },
     opts = {
         dir = vim.env.HOME .. '/Devel/git/mor/notes/',
-        notes_subdir = 'roam',
+        notes_subdir = 'refile',
         daily_notes = {
             folder = 'journal',
         },
@@ -100,11 +100,6 @@ local obsidian = {
             prepend_note_id = false,
         },
         mappings = {},
-        templates = {
-            subdir = 'templates',
-            date_format = '%Y-%m-%d-%a',
-            time_format = '%H:%M',
-        },
     },
     config = function(_, opts)
         require('obsidian').setup(opts)

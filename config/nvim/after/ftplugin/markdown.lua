@@ -9,3 +9,4 @@ vim.opt_local.wrap = true
 
 vim.opt.spell = true
 vim.opt.spelllang = 'en_us'
+vim.cmd('setlocal conceallevel=0')
