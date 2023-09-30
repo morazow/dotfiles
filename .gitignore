@@ -6,3 +6,11 @@ config/nvim/plugin
 config/regolith/flags
 config/zsh/.zsh_history
 config/zsh/.zcompdump*
+home/emacs.d/elpa
+home/emacs.d/history
+home/emacs.d/recentf
+home/emacs.d/smex-items
+home/emacs.d/transient
+home/emacs.d/config.el
+home/emacs.d/config.bash
+home/emacs.d/custom.el
