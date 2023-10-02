@@ -1,0 +1,943 @@
+#+Title: morazow emacs configuration
+#+EMAIL: m.orazow@gmail.com
+#+PROPERTY: header-args :tangle yes
+
+* Introduction
+
+https://www.org-mode.com
+
+This is my personal Emacs configuration file. It is written using =org-mode= as
+a literate programming.
+
+Literate programming contain regular text and code blocks. Here the text is a
+documentation for myself. The code blocks are for Emacs, it parses the them and
+configures itself.
+
+Emacs is a system. That is, you do not have to leave it, there is a way to do
+your daily tasks without leaving it.
+
+I use Emacs for note taking, writing down ideas, journaling, reading and
+retaining previously written notes, budgeting, managing rss feeds, managing
+files and directories, for playing music, and last but not least as a IRC
+client.
+
+I do not use Emacs for software development, for that, I use Vim.
+
+** Goals
+
+- It helps easily to capture and categorize my notes.
+- It provides search for keywords, finding files and backlinking notes.
+- It smoothly integrates with GPG encryption and decryption.
+
+
+* General Configurations
+
+These general configuration settings to improve general user experience. It is
+heavily tailored to my personal taste and muscle memory.
+
+** Lexical Binding
+
+Make the resulting =config.el= file lexically bound.
+
+Lexical binding makes it easier for lambda expressions to find the values for
+variables, for example, when they look for variables in their surrounding
+context.
+
+In addition, it is easier for the compiler to optimize, since it know that
+variables cannot espace their lexical context.
+
+Finally, we enable read only mode for the =config.el= tangled file. Thus, we
+prevent accidental changes to that file. All new updates should be done in this
+=config.org= file.
+
+#+BEGIN_SRC emacs-lisp
+  ;; config.el -*- lexical-binding: t; buffer-read-only: t; -*-
+#+END_SRC
+
+** Package Management
+
+https://github.com/jwiegley/use-package
+
+We use =use-package= as our package manager. It helps to install and configure
+packages.
+
+We are going to follow this convention when installing a package using
+=use-package=:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package <package-name>
+    :init
+    <settings to be executed before loading the package>
+
+    :config
+    <settings to be executed after loading the package>
+
+    :bind
+    <key bindings specific for the package>)
+#+END_SRC
+
+*** Tips and Tricks
+
+Sometimes we are going to =:defer= the package until it is not
+needed. Usually, this already happens automatically when =:bind= or
+=:hook= is used.
+
+Settings that are specific for Emacs itself can be declared using
+=emacs= package name with use-package.
+
+For built in packages, you can use =ensure nil=, but continue
+configuring it in the =:config= block.
+
+*** Configure use-package
+
+Let's now setup up and configure =use-package=.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Set package sources
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  ;; Enable 'use-package on non Linux platforms
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (require 'use-package)
+#+END_SRC
+
+** Simple Modeline
+
+https://elpa.gnu.org/packages/delight.html
+
+We are going to use =delight= package to clean up the modeline lighters.
+
+Emacs packages add so called "lighter" to the modeline to indicate that they are
+running. For example, "Abbrev" for =Abbrev mode=. However, having many packages
+in your Emacs configuration can clutter the modeline and hide useful information
+that is relavant.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package delight
+    :ensure t
+    :after use-package)
+#+END_SRC
+
+** Default Settings
+
+Improve the Emacs usability with saner default settings.
+
+#+BEGIN_SRC emacs-lisp
+(use-package emacs
+  :ensure nil
+  :config
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq confirm-kill-emacs 'y-or-n-p)
+  (setq system-time-locale "en_US.UTF-8")
+  (setq-default fill-column 80)
+
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+
+  (setq buffer-file-coding-system 'utf-8)
+  (setq ring-bell-function 'ignore)
+
+  ;; (setq epg-gpg-program "/opt/homebrew/bin/gpg")
+  (custom-set-variables '(epg-gpg-program  "/opt/homebrew/bin/gpg"))
+  (fset 'epg-wait-for-status 'ignore)
+  (setq epg-pinentry-mode 'loopback)
+
+  (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
+
+  (global-hl-line-mode))
+#+END_SRC
+
+** Custom File
+
+When you change the Emacs interface with different customizations, it
+adds auto-generated Elisp code to your initialization file. This can
+cause inconsistencies if you keep your init files under the version
+control.
+
+Move it into its own file so that it does not clutter user init file
+with auto-generated code.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Separate custom settings into its own file
+  (use-package cus-edit
+    :config
+    (defconst mor/custom-file (concat user-emacs-directory "custom.el"))
+    (setq custom-file mor/custom-file)
+    (defun mor/load-custom-file ()
+      (let ((file mor/custom-file))
+        (unless (file-exists-p file)
+          (make-empty-file file))
+        (load-file file)))
+    :hook
+    (after-init-hook . mor/load-custom-file))
+#+END_SRC
+
+** Custom Settings
+
+Configure Emacs with custom settings that improve everyday workflow.
+
+*** Backup and Auto Save Settings
+
+Emacs creates backup and auto save files such as =foo~= and =#foo#=
+respectively in the current working directory. Instead of creating
+junk in the working directory move them into separate folders.
+
+Make sure that =~/.emacs.d/autsaves/= and =~/.emacs.d/backups/=
+folders are created before starting Emacs.
+
+#+BEGIN_SRC bash
+  mkdir -p ~/.emacs.d/auto-save-list/
+  mkdir -p ~/.emacs.d/backups/
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; Configure backup settings
+  (use-package emacs
+    :config
+    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/\\1" t)))
+    (setq backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
+    (setq backup-by-copying t)
+    (setq create-lockfiles nil)
+    (setq delete-old-versions t)
+    (setq kept-new-versions 6)
+    (setq kept-old-versions 2)
+    (setq version-control t))
+#+END_SRC
+
+*** Bidirectional Editing
+
+I am mostly writing and reading in English, or languages that go from
+left-to-right.
+
+Setting this default preffered display for all paragraphs improves the
+performace of the Emacs since it will perform fewer line scans.
+
+In addition, disable Bidirectional Parantheses Algorithm (BPA) so that
+redisplays are faster.
+
+For more information please the following articles:
+- [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Bidirectional-Editing.html][Emacs - Bidirectional Editing]]
+- [[https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html][Comprehensive guide on handling long lines in Emacs]]
+
+#+BEGIN_SRC emacs-lisp
+  ;; Configure bidirectional editing settings
+  (use-package emacs
+    :config
+    (setq-default bidi-display-reordering 'left-to-right)
+    (setq-default bidi-paragraph-direction 'left-to-right)
+    (setq bidi-inhibit-bpa t))
+#+END_SRC
+
+
+* Packages
+
+My preferred packages.
+
+** GPG Integration
+
+Here we setup which key to use for encrypting or decrypting =.gpg= extensions.
+
+#+BEGIN_SRC emacs-lisp
+(use-package epa-file
+  :ensure nil
+  :config
+  (setq epa-file-select-keys 'silent)
+  (setq epg-gpg-program  "/opt/homebrew/bin/gpg")
+  (setq epa-file-encrypt-to '("notes@morazow.com")))
+#+END_SRC
+
+** Garbage Collection
+
+https://github.com/emacsmirror/gcmh
+
+Enable sneaky =gcmh= garbage collector. It automatically sets high garbage
+collection threshold during normal usage. Then when idling, it sets lower
+threshold and triggers garbage collection.
+
+For now, we are going to use the default settings, for example,
+=gchm-idle-delay= is 15 seconds.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gcmh
+    :ensure t
+    :demand t
+    :config
+    (setq gcmh-verbose t)
+    (gcmh-mode t)
+    :delight)
+#+END_SRC
+
+** Save History
+
+Save minibuffer command history between sessions.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package savehist
+    :ensure t
+    :demand t
+    :config
+    (savehist-mode t)
+    :delight)
+#+END_SRC
+
+** ElDoc
+
+Disable =eldoc= mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc
+    :ensure nil
+    :delight)
+#+END_SRC
+
+** Appearance
+
+*** Set Font
+
+#+BEGIN_SRC emacs-lisp
+(use-package emacs
+  :ensure nil
+  :config
+  (if (eq system-type 'gnu/linux)
+    (set-frame-font "JetBrains Mono 12")))
+#+END_SRC
+
+*** General appearance functions
+
+Setup better theme switching.
+
+Credit: https://www.greghendershott.com/2017/02/emacs-themes.html
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    (defun mor/disable-all-themes ()
+      (interactive)
+      (mapc #'disable-theme custom-enabled-themes))
+
+    (defvar mor/theme-hooks nil
+      "((theme-id . function) ...)")
+
+    (defun mor/add-theme-hook (theme-id hook-func)
+      (add-to-list 'mor/theme-hooks (cons theme-id hook-func)))
+
+    (defun mor/load-theme-advice (f theme-id &optional no-confirm no-enable &rest args)
+      "Enhance `load-theme' by disabling enabled themes & calling registered hooks"
+      (unless no-enable
+        (mor/disable-all-themes))
+      (prog1
+        (apply f theme-id no-confirm no-enable args)
+        (unless no-enable
+          (pcase (assq theme-id mor/theme-hooks)
+            (`(,_ . ,f) (funcall f))))))
+
+    (advice-add 'load-theme
+                :around #'mor/load-theme-advice))
+#+END_SRC
+
+Other appearance related packages.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :demand t
+    :config
+    (setq nyan-bar-length 16)
+    (setq nyan-wavy-trail nil)
+    (nyan-mode t))
+
+  (use-package all-the-icons
+    :ensure t
+    :demand t
+    :config
+    (unless (find-font (font-spec :name "all-the-icons"))
+      (all-the-icons-install-fonts t))
+    (setq all-the-icons-scale-factor 1))
+
+  (use-package dashboard
+    :ensure t
+    :after all-the-icons
+    :config
+    (setq dashboard-items '((recents  . 5)))
+    (setq dashboard-set-init-info t)
+    (setq dashboard-center-content t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-startup-banner 'logo)
+    (setq dashboard-set-footer nil)
+    (dashboard-setup-startup-hook))
+#+END_SRC
+
+*** Themes
+
+Install several themes, =doom=, =spacemacs=, and =modus-operandi= themes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :defer t)
+
+  (use-package spacemacs-theme
+    :ensure t
+    :defer t
+    :config
+    ;; Disable color change for comment background.
+    (setq spacemacs-theme-comment-bg nil)
+    ;; Enable italics for comments.
+    (setq spacemacs-theme-comment-italic t))
+
+  (use-package modus-operandi-theme
+    :ensure t
+    :defer t)
+#+END_SRC
+
+Configure appearance and set up the =spacemacs-light= theme.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :config
+    (setq menu-bar-mode t)
+    ;; Disable compacting font caches during garbage collection
+    (setq inhibit-compacting-font-caches nil)
+    ;; Use the `spacemacs-light` theme.
+    (load-theme 'spacemacs-light t))
+#+END_SRC
+
+*** Box Quotes
+
+#+BEGIN_SRC emacs-lisp
+(use-package boxquote
+  :ensure t
+  :defer t
+  :config
+  (setq-default  boxquote-bottom-corner "╰"      ; U+2570
+                 boxquote-side          "│ "     ; U+2572 + space
+                 boxquote-top-and-tail  "────"   ; U+2500 (×4)
+                 boxquote-top-corner    "╭"))    ; U+256F
+;;   (when (package-installed-p 'hydra)
+;;     (eval-and-compile
+;;       (defhydra hydra-boxquote (:color blue :hint nil)
+;;        "
+;;                                                                     ╭──────────┐
+;;   Text           External           Apropos         Do              │ Boxquote │
+;; ╭───────────────────────────────────────────────────────────────────┴──────────╯
+;;   [_r_] region        [_f_] file      [_K_] describe-key        [_t_] title
+;;   [_p_] paragraph     [_b_] buffer    [_F_] describe-function   [_u_] unbox
+;;   [_a_] buffer        [_s_] shell     [_V_] describe-variable   [_w_] fill-paragraph
+;;   [_e_] text           ^ ^            [_W_] where-is            [_n_] narrow
+;;   [_d_] defun         [_y_] yank       ^ ^                      [_c_] narrow to content
+;;   [_q_] boxquote      [_Y_] yanked     ^ ^                      [_x_] kill
+;; --------------------------------------------------------------------------------
+;;        "
+;;       ("<esc>" nil "quit")
+;;       ("x" boxquote-kill)
+;;       ("Y" boxquote-yank)
+;;       ("e" boxquote-text)
+;;       ("u" boxquote-unbox)
+;;       ("d" boxquote-defun)
+;;       ("t" boxquote-title)
+;;       ("r" boxquote-region)
+;;       ("a" boxquote-buffer)
+;;       ("q" boxquote-boxquote)
+;;       ("W" boxquote-where-is)
+;;       ("p" boxquote-paragraph)
+;;       ("f" boxquote-insert-file)
+;;       ("K" boxquote-describe-key)
+;;       ("s" boxquote-shell-command)
+;;       ("b" boxquote-insert-buffer)
+;;       ("y" boxquote-kill-ring-save)
+;;       ("w" boxquote-fill-paragraph)
+;;       ("F" boxquote-describe-function)
+;;       ("V" boxquote-describe-variable)
+;;       ("n" boxquote-narrow-to-boxquote)
+;;       ("c" boxquote-narrow-to-boxquote-content)))))
+#+END_SRC
+
+** Enable Evil Mode
+
+#+BEGIN_SRC emacs-lisp
+;; Enable Evil Mode -- Vim Keybindings
+(use-package evil
+  :ensure t
+  :demand t
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (setq evil-want-integration t)
+  (setq evil-want-C-u-scroll t)
+  ;; Use C-g to switch from insert to normal mode
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (evil-mode t))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package evil-org
+  :ensure t
+  :after (org evil)
+  :hook
+  (org-mode . evil-org-mode))
+#+END_SRC
+
+** General Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package general
+    :ensure t
+    :after (evil evil-collection)
+    :config
+    (general-evil-setup t)
+    (general-auto-unbind-keys)
+    ;; general leader key
+    (general-create-definer mor/leader-keys
+      :keymaps '(normal insert visual emacs)
+      :prefix ","
+      :global-prefix "C-SPC")
+    (mor/leader-keys
+      "t"  '(:ignore t :which-key "toggles")
+      "tt" '(counsel-load-theme :which-key "choose theme")))
+#+END_SRC
+
+** Dired
+
+Dired allows to manage files and directories inside of the Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-dired
+    :ensure t
+    :after all-the-icons
+    :delight)
+
+  (use-package dired
+    :ensure nil
+    :after all-the-icons-dired
+    :hook
+    (dired-mode . all-the-icons-dired-mode)
+    :bind
+    ("C-x C-j" . dired-jump)
+    :config
+    (setq dired-auto-revert-buffer t)
+    (setq dired-ls-F-marks-symlinks t)
+    (setq delete-by-moving-to-trash t)
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    (setq dired-listing-switches "-lFaGh1v --group-directories-first"))
+
+  (use-package dired-narrow
+    :ensure t
+    :after dired
+    :bind
+    (:map dired-mode-map
+    ("C-/" . dired-narrow)
+    ("C-f" . dired-narrow-fuzzy)
+    ("C-r" . dired-narrow-regexp)))
+
+  (use-package dired-subtree
+    :ensure t
+    :after dired
+    :bind
+    (:map dired-mode-map
+    ("<backtab>" . dired-subtree-cycle)
+    ("<tab>"     . dired-subtree-toggle)))
+#+END_SRC
+
+** Enable Which Key
+
+#+BEGIN_SRC emacs-lisp
+  ;; Enable which-key -- provides overview of key bindings based on prefix
+  (use-package which-key
+    :ensure t
+    :config
+    (setq which-key-idle-delay 0.5)
+    (which-key-mode t)
+    :delight)
+#+END_SRC
+
+** Ivy Settings
+
+https://github.com/abo-abo/swiper
+
+Setup Ivy, Counsel and Swiper packages for better minibuffer completion.
+
+*** Smex
+
+Display recent completions first.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+    :ensure t
+    :delight)
+#+END_SRC
+
+*** Swiper
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :ensure t
+    :bind
+    ("C-s" . swiper-isearch)
+    :delight)
+#+END_SRC
+
+*** Ivy
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :hook
+    (after-init . ivy-mode)
+    :bind
+    ("C-x b" . ivy-switch-buffer)
+    ("C-x B" . ivy-switch-buffer-other-window)
+    (:map ivy-minibuffer-map
+    ("TAB" . ivy-alt-done)
+    ("C-l" . ivy-alt-done)
+    ("C-j" . ivy-next-line)
+    ("C-k" . ivy-previous-line))
+    :config
+    (setq ivy-height 20)
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "[%d/%d] ")
+    (setq ivy-format-function 'ivy-format-function-arrow)
+    (setq enable-recursive-minibuffers t)
+    (ivy-mode t)
+    :delight)
+#+END_SRC
+
+*** Counsel
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :ensure t
+    :hook
+    (ivy-mode . counsel-mode)
+    :bind
+    ("M-x" . counsel-M-x)
+    ("C-x C-f" . counsel-find-file)
+    ("C-x C-r" . counsel-recentf)
+    ("C-c s" . counsel-rg)
+    (:map counsel-find-file-map
+    ("RET" . ivy-alt-done))
+    (:map minibuffer-local-map
+    ("C-r" . counsel-minibuffer-history))
+    :config
+    ;; Remove the ^ prefix from M-x search
+    (setcdr (assoc 'counsel-M-x ivy-initial-inputs-alist) "")
+    (counsel-mode t)
+    :delight)
+#+END_SRC
+
+*** Ivy Goodies
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-rich
+    :ensure t
+    :after (ivy counsel)
+    :config
+    (ivy-rich-mode t))
+
+  (use-package all-the-icons-ivy-rich
+    :ensure t
+    :after (ivy ivy-rich)
+    :config
+    (all-the-icons-ivy-rich-mode t))
+#+END_SRC
+
+** Company
+
+Company is completion package for Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :hook
+    ((text-mode . company-mode)
+     (prog-mode . company-mode)
+     (conf-mode . company-mode))
+    :bind
+    (:map company-active-map
+    ("C-h" . nil)
+    ("M-n" . nil)
+    ("M-p" . nil)
+    ("TAB" . company-complete)
+    ("C-n" . company-select-next)
+    ("C-p" . company-select-previous))
+    :config
+    (setq company-idle-delay 0.3)
+    (setq company-minimum-prefix-length 2)
+    :delight)
+
+  (use-package company-quickhelp
+    :ensure t
+    :after company
+    :hook
+    (company-mode . company-quickhelp-mode))
+
+  (use-package company-posframe
+    :ensure t
+    :after company
+    :hook
+    (company-mode . company-posframe-mode)
+    :delight)
+#+END_SRC
+
+** Helpful
+
+The helpful package adds contextual information to the default Emacs help
+system.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :ensure t
+    :after counsel
+    :bind
+    ([remap describe-key] . helpful-key)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-function] . counsel-describe-function)
+    :config
+    (setq counsel-describe-function-function #'helpful-callable)
+    (setq counsel-describe-variable-function #'helpful-variable))
+#+END_SRC
+
+** Yasnippet
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :ensure t
+    :delight)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :after yasnippet-snippets
+    :config
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+    :delight)
+#+END_SRC
+
+
+* Org Mode
+
+Here we configure Org related packages.
+
+** Enable Org Mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :ensure nil
+  :bind
+  ("C-c a" . org-agenda)
+  :config
+  (setq org-ellipsis "↴")
+  ;; Custom todo keywords
+  (setq org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(p)" "|" "DONE(d)")))
+  (setq org-agenda-files '("~/Devel/git/notes/tasks.org.gpg"
+                           "~/Devel/git/notes/recurring.org.gpg"))
+  (setq org-agenda-span 10)
+  (setq org-agenda-start-day "-3d")
+  (setq org-startup-folded "SHOWEVERYTHING")
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer "LOGBOOK"))
+#+END_SRC
+
+** Org Contacts
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-contacts
+  :ensure nil
+  :after org
+  :config
+  (add-to-list 'org-modules 'org-contacts)
+  (setq org-contacts-files '("~/Devel/git/notes/contacts.org.gpg")))
+#+END_SRC
+
+** Org Habits
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-habit
+  :ensure nil
+  :after org
+  :config
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 80)
+  (setq org-habit-show-habits-only-for-today nil))
+#+END_SRC
+
+** Enable Org Indentation
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-indent
+    :ensure nil
+    :after org
+    :hook
+    (org-mode . org-indent-mode)
+    :delight)
+#+END_SRC
+
+** Org Bullets
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :after org
+    :hook
+    (org-mode . org-bullets-mode))
+#+END_SRC
+
+** Org Src
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-src
+  :ensure nil
+  :after org
+  :config
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-edit-src-content-indentation 0))
+#+END_SRC
+
+** Enable Org Roam Mode
+
+Update the path to the sqlite3 binary.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'exec-path "home/mo/Downloads/sqlite-amalgamation-3380200/sqlite3")
+#+END_SRC
+
+Setup the =org-roam= package:
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+  :ensure t
+  :after org
+  :hook
+  (after-init . org-roam-mode)
+  :bind (
+  ("C-c n l" . org-roam-buffer-toggle)
+  ("C-c n c" . org-roam-capture)
+  ("C-c n f" . org-roam-node-find)
+  ("C-c n i" . org-roam-node-insert)
+  ("C-c n b" . org-roam-switch-to-buffer)
+  ("C-c n g" . org-roam-graph))
+  :config
+  ; (org-roam-db-autosync-mode)
+  (setq org-roam-v2-ack t)
+  (setq org-roam-encrypt-files t)
+  (setq org-roam-directory (file-truename "~/Devel/git/notes/roam/"))
+  (setq org-roam-db-location (file-truename "~/Devel/git/notes/roam/roam.db"))
+  (setq org-roam-index-file (concat org-roam-directory "index.org.gpg"))
+  (setq org-roam-capture-templates
+    '(("d" "default" plain "%?"
+       :target
+       (file+head "${slug}.org"
+                  "#+TITLE: ${title}\n#+CREATED: %u\n#+MODIFIED: %U\n#+OPTIONS: toc:nil, ':t\n\n - tags :: \n\n\n* ${title}\n\n")
+       :unnarrowed t)))
+  :general
+  (mor/leader-keys
+    "n" '(:ignore t :which-key "org-roam")
+    "nl" 'org-roam-buffer-toggle
+    "nf" 'org-roam-node-find
+    "ni" 'org-roam-node-insert
+    "ng" 'org-roam-graph-show)
+  :delight)
+#+END_SRC
+
+** Enable Org Journal
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-journal
+    :ensure t
+    :after org-roam
+    :bind
+    ("C-c n j" . org-journal-new-entry)
+    :config
+    (setq org-journal-enable-agenda-integration t)
+    (setq org-journal-dir org-roam-directory)
+    ;; (setq org-journal-date-prefix "#+TITLE: ")
+    (setq org-journal-file-format "journal/Journal-%Y.org.gpg")
+    (setq org-journal-date-format "%A, %d %B %Y")
+    (setq org-journal-time-format "")
+    (setq org-journal-file-type 'yearly)
+    :general
+    (mor/leader-keys
+      "nj" 'org-journal-new-entry
+      "ns" 'org-journal-search))
+#+END_SRC
+
+** Enable Deft
+
+#+BEGIN_SRC emacs-lisp
+  (use-package deft
+    :ensure t
+    :after org-roam
+    :bind
+    ("C-c n d" . deft)
+    :config
+    (setq deft-auto-save-interval 0)
+    (setq deft-recursive t)
+    (setq deft-use-filter-string-for-filename t)
+    (setq deft-default-extension "org.gpg")
+    (setq deft-extensions '("org" "org.gpg" "gpg"))
+    (setq deft-directory org-roam-directory)
+    :general
+    (mor/leader-keys
+      "nd" 'deft))
+#+END_SRC
+
+** Tangle Configuration File
+
+#+BEGIN_SRC emacs-lisp
+(use-package emacs
+  :ensure nil
+  :config
+  (defun mor/tangle-config-file ()
+  "Tangle the org configuration file when saved"
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/.emacs.d/config.org"))
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'mor/tangle-config-file))))
+#+END_SRC
+
+
+* Applications
+
+** Elfeed
+I could not use. I think, I need something which is browser based.
+
+** IRC
+Similar here. Maybe I need something browser based.
+
+** Magit
+TODO: Setup Magit properly. Similarly add command to commit and push on notes directory.
+
+* Testing
+
+** Restart emacs
+
+#+BEGIN_SRC emacs-lisp
+(use-package restart-emacs
+:ensure t)
+#+END_SRC
+

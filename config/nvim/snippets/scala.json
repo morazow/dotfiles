@@ -1,0 +1,7 @@
+{
+  "wartremover": {
+    "prefix": ["wartremover", "suppresswart"],
+    "body": "@SuppressWarnings(Array(\"org.wartremover.warts.$0\"))",
+    "description": "Enable Wartremover suppression"
+  }
+}
