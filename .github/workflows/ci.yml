@@ -1,0 +1,36 @@
+name: Dotfiles CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+          fetch-depth: 1
+    - name: Symlink dotfiles
+      run: ./run
+    - name: Test dotfiles
+      run: ./test
+
+    # Neovim checks
+    - name: Install Neovim
+      uses: rhysd/action-setup-vim@v1
+      with:
+          neovim: true
+    - name: Install Neovim Dependencies
+      run: nvim --headless "+Lazy! sync" +qa

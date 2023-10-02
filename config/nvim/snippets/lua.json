@@ -1,0 +1,22 @@
+{
+  "M": {
+    "prefix": "M",
+    "body": ["local M = {}\n\n$0\n\nreturn M"]
+  },
+  "function": {
+    "prefix": "fun",
+    "body": ["function ${1:name}($2)", "\t${3:return}", "end"]
+  },
+  "localfunction": {
+    "prefix": "lfun",
+    "body": ["local function ${1:name}($2)", "\t${3:return}", "end"]
+  },
+  "vimapi": {
+    "prefix": "lapi",
+    "body": ["local api = vim.api"]
+  },
+  "vimfn": {
+    "prefix": "lfn",
+    "body": ["local fn = vim.fn"]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": {
+    "prefix": "parent",
+    "body": "<parent>\n\t<groupId>$1</groupId>\n\t<artifactId>$2</artifactId>\n\t<version>$3</version>\n</parent>",
+    "description": "Start <parent> tag"
+  },
+  "properties": {
+    "prefix": "properties",
+    "body": "<properties>\n\t$1\n</properties>\n",
+    "description": "Start <properties> tag"
+  },
+  "repository": {
+    "prefix": "repository",
+    "body": "<repository>\n\t<id>$1</id>\n\t<url>${2:https://repourl}</url>\n</repository>",
+    "description": "Start <repository> tag"
+  },
+  "repositories": {
+    "prefix": "repositories",
+    "body": "<repositories>\n\t<repository>\n\t\t<id>$1</id>\n\t\t<url>${2:https://repourl}</url>\n\t</repository>\n\t$3\n</repositories>",
+    "description": "Start <repositories> tag"
+  },
+  "dependency": {
+    "prefix": ["dep", "dependency"],
+    "body": "<dependency>\n\t<groupId>$1</groupId>\n\t<artifactId>$2</artifactId>\n\t<version>$3</version>\n\t${4:<scope>${5|test,provided,runtime|}</scope>}\n</dependency>",
+    "description": "Start pom <dependency> tag"
+  },
+  "dependencies": {
+    "prefix": ["deps", "dependencies"],
+    "body": "<dependencies>\n\t<dependency>\n\t\t<groupId>$1</groupId>\n\t\t<artifactId>$2</artifactId>\n\t\t<version>$3</version>\n\t\t${4:<scope>${5|test,provided,runtime|}</scope>}\n\t</dependency>\n\t$6\n</dependencies>",
+    "description": "Start pom <dependencies> tag"
+  }
+}

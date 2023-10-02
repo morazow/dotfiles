@@ -33,29 +33,26 @@ remove_not_needed () {
     rm -f ~/.bash_logout
 }
 
-create_symlinks () {
-    cd "${CWD}"/configs/
+create_home_symlinks () {
+    cd "${CWD}"/home/
     for dot in *
     do
-        if [ $dot = "vim" ]; then
+        if [[ "$dot" =~ ^vim.* ]] || [[ "$dot" =~ ^bash.* ]]; then
             continue
         fi
         echo "Linking ${dot} file."
         rm -f "$HOME/.${dot}"
-        ln -sf "${CWD}/configs/${dot}" "$HOME/.${dot}"
+        ln -sf "${CWD}/home/${dot}" "$HOME/.${dot}"
     done
 }
 
-setup_vim () {
-    mkdir -p ~/.vim/{autoload,backup,bundle,spell,tmp,undo}/
-    ln -sf "${CWD}/configs/vim/updatePlugins.sh" "$HOME/.vim/updatePlugins.sh"
-    ln -sf "${CWD}/configs/vim/spell/en.utf-8.add" "$HOME/.vim/spell/en.utf-8.add"
-
-    cd ~/.vim
-    wget "https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim" -O "autoload/pathogen.vim"
-    ./updatePlugins.sh
+create_neovim_symlink () {
+    cd "${CWD}"
+    echo "Linking config/nvim file."
+    rm -rf "$HOME"/.config/nvim
+    ln -sf "${CWD}/config/nvim" "$HOME/.config/nvim"
 }
 
 remove_not_needed
-create_symlinks
-setup_vim
+create_home_symlinks
+create_neovim_symlink
