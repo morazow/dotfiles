@@ -46,7 +46,7 @@
 [fetch]
     fsckobjects = true
 [credential]
-    helper = cache
+    helper = osxkeychain
     helper = cache --timeout 18000
 [merge]
     tool = "nvim"

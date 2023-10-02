@@ -150,6 +150,11 @@ Improve the Emacs usability with saner default settings.
   (setq buffer-file-coding-system 'utf-8)
   (setq ring-bell-function 'ignore)
 
+  ;; (setq epg-gpg-program "/opt/homebrew/bin/gpg")
+  (custom-set-variables '(epg-gpg-program  "/opt/homebrew/bin/gpg"))
+  (fset 'epg-wait-for-status 'ignore)
+  (setq epg-pinentry-mode 'loopback)
+
   (add-to-list 'load-path (concat user-emacs-directory "lisp/"))
 
   (global-hl-line-mode))

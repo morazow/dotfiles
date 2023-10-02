@@ -51,7 +51,7 @@ local function create_base_config()
                 },
                 maxConcurrentBuilds = 5,
                 saveActions = {
-                    organizeImports = true,
+                    organizeImports = false,
                 },
                 trace = {
                     server = 'verbose',
@@ -67,10 +67,10 @@ local function create_base_config()
                 configuration = {
                     updateBuildConfiguration = 'automatic',
                     runtimes = {
-                        -- {
-                        --     name = 'JavaSE-20',
-                        --     path = '~/.sdkman/candidates/java/20.0.1-tem/',
-                        -- },
+                        {
+                            name = 'JavaSE-20',
+                            path = '~/.sdkman/candidates/java/20.0.2-tem/',
+                        },
                         {
                             name = 'JavaSE-17',
                             path = '~/.sdkman/candidates/java/17.0.8-tem/',
@@ -279,6 +279,7 @@ M.config = function()
             config.on_attach = function(client, buffer)
                 require('lazyvim.plugins.lsp.format').on_attach(client, buffer)
                 require('lazyvim.plugins.lsp.keymaps').on_attach(client, buffer)
+                require("lazyvim.plugins.lsp.format").autoformat = false
                 custom_keymaps(buffer)
 
                 require('jdtls').setup_dap({ hotcodereplace = 'auto' })
