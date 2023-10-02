@@ -1,4 +1,11 @@
 return {
+    -- Misc Plugins
+    { 'ellisonleao/gruvbox.nvim' },
+    { 'ful1e5/onedark.nvim' },
+
+    -- Git
+    { 'tpope/vim-fugitive' },
+    { 'tpope/vim-rhubarb' },
 
     -- Configure LazyVim
     {
@@ -8,14 +15,7 @@ return {
         },
     },
 
-    -- Misc Plugins
-    { 'ellisonleao/gruvbox.nvim' },
-    { 'ful1e5/onedark.nvim' },
-
-    -- Filetypes
-    { 'stsewd/sphinx.nvim', ft = 'rst' },
-
-    -- Setup Alpha
+    -- Update Alpha
     {
         'goolord/alpha-nvim',
         opts = function(_, opts)
@@ -32,6 +32,9 @@ return {
             opts.section.header.val = vim.split(logo, '\n', { trimempty = true })
         end,
     },
+
+    -- Filetypes
+    { 'stsewd/sphinx.nvim', ft = 'rst' },
 
     {
         'nvim-lualine/lualine.nvim',
@@ -59,25 +62,24 @@ return {
         },
         opts = function(_, opts)
             opts.matchup = { enable = true }
-            if type(opts.ensure_installed) == 'table' then
-                vim.tbl_extend('force', opts.ensure_installed, {
-                    'bash',
-                    'go',
-                    'java',
-                    'json',
-                    'markdown',
-                    'markdown_inline',
-                    'rust',
-                    'lua',
-                    'scala',
-                    'vim',
-                    'yaml',
-                })
-            end
             opts.highlight = {
                 enable = true,
-                additional_vim_regex_highlighting = { "markdown" },
+                additional_vim_regex_highlighting = { 'markdown' },
             }
+            opts.ensure_installed = opts.ensure_installed or {}
+            vim.list_extend(opts.ensure_installed, {
+                'bash',
+                'go',
+                'java',
+                'json',
+                'markdown',
+                'markdown_inline',
+                'rust',
+                'lua',
+                'scala',
+                'vim',
+                'yaml',
+            })
         end,
     },
 
@@ -106,10 +108,5 @@ return {
             require('telescope').load_extension('file_browser')
         end,
     },
-
-    -- Git
-    { 'tpope/vim-fugitive' },
-    { 'tpope/vim-rhubarb' },
-    { 'lewis6991/gitsigns.nvim' },
 
 }
