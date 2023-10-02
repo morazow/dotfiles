@@ -1,6 +1,8 @@
 # ~/dotfiles
 
-My personal configuration files.
+[![Build Status](https://github.com/morazow/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/morazow/dotfiles/actions/workflows/ci.yml)
+
+Personal configuration files.
 
 ## Git Clone with Submodules
 
