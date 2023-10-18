@@ -15,6 +15,7 @@ return {
                 'rust-analyzer',
                 'shfmt',
                 'shellcheck',
+                'sonarlint-language-server',
                 'terraform-ls',
                 'yamlfmt',
                 'yaml-language-server',
@@ -28,11 +29,9 @@ return {
             diagnostics = {
                 virtual_text = false,
             },
-            autoformat = false,
             servers = {
                 bashls = {},
                 dockerls = {},
-                -- gopls = {},
                 jsonls = {},
                 lemminx = {},
                 terraformls = {},
@@ -152,5 +151,29 @@ return {
                 help = true,
             },
         },
+    },
+
+    {
+        'https://gitlab.com/schrieveslaach/sonarlint.nvim',
+        ft = { 'java', 'xml' },
+        opts = function()
+            local sonarlint_path = require('mason-registry').get_package('sonarlint-language-server'):get_install_path()
+            return {
+                server = {
+                    cmd = {
+                        'sonarlint-language-server',
+                        -- Ensure that sonarlint-language-server uses stdio channel
+                        '-stdio',
+                        '-analyzers',
+                        sonarlint_path .. '/extension/analyzers/sonarjava.jar',
+                        sonarlint_path .. '/extension/analyzers/sonarxml.jar',
+                    },
+                },
+                filetypes = {
+                    'java',
+                    'xml',
+                },
+            }
+        end,
     },
 }
