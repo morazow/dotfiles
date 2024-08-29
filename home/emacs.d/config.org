@@ -383,7 +383,7 @@ Other appearance related packages.
 
 *** Themes
 
-Install several themes, =doom=, =spacemacs=, and =modus-operandi= themes.
+Install several themes, =doom= and =spacemacs= themes.
 
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
@@ -398,10 +398,6 @@ Install several themes, =doom=, =spacemacs=, and =modus-operandi= themes.
     (setq spacemacs-theme-comment-bg nil)
     ;; Enable italics for comments.
     (setq spacemacs-theme-comment-italic t))
-
-  (use-package modus-operandi-theme
-    :ensure t
-    :defer t)
 #+END_SRC
 
 Configure appearance and set up the =spacemacs-light= theme.
