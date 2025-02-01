@@ -41,8 +41,10 @@
     br = branch
     cl = clone
     co = checkout
+    cb = checkout -b
     tc = shortlog -sn
     d = diff --color-words
+    pushf = push -f
 [fetch]
     fsckobjects = true
 [credential]
