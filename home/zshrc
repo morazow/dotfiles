@@ -121,24 +121,39 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # }}}
 
-## Shell Integrations {{{
-
-# FZF configuration
-eval "$(fzf --zsh)"
-# export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-
-eval "$(zoxide init zsh)"
-
-# }}}
-
-## Basic Aliases
+## Aliases {{{
 
 alias g='git'
 alias c='clear'
 alias cd='z'
 alias nv='nvim'
 alias ls='ls --color=auto'
-alias ll='ls -lah'
+alias la='ls -alh'
+alias ll='ls -l'
+
+# Safe
+alias cp="cp -v"
+alias mv="mv -v"
+alias rm="rm -i -v"
+
+# Tmux
+alias tl="tmux ls"
+alias tn="tmux new -s"
+alias ta="tmux attach -t"
+
+## }}}
+
+## Functions
+
+# Docker Clean: Remove dangling resources
+function docker-clean() {
+    echo "Removing dangling containers"
+    docker rm $(docker ps -a -q -f=status=exited) || true
+    echo "Removing dangling images"
+    docker rmi -f $(docker images -q -a -f dangling=true) || true
+    echo "Removing dangling volumes"
+    docker volume rm $(docker volume ls -qf dangling=true) || true
+}
 
 ## Basic Exports
 
@@ -166,5 +181,15 @@ export HOMEBREW_NO_ANALYTICS=1
 if [[ -f "$HOME/.exports" ]]; then
     source "$HOME/.exports"
 fi
+
+## Shell Integrations {{{
+
+# FZF configuration
+eval "$(fzf --zsh)"
+# export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+eval "$(zoxide init zsh)"
+
+# }}}
 
 # vim:foldmethod=marker:foldlevel=0
