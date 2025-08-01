@@ -155,13 +155,16 @@ function docker-clean() {
     docker volume rm $(docker volume ls -qf dangling=true) || true
 }
 
-## Basic Exports
+## Basic Exports {{{
 
 export LC_ALL=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
 export EDITOR=nvim
 export VISUAL=$EDITOR
+
+# For GitHub GPG Signing
+export GPG_TTY=$(tty)
 
 # XDG Paths
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -181,6 +184,8 @@ export HOMEBREW_NO_ANALYTICS=1
 if [[ -f "$HOME/.exports" ]]; then
     source "$HOME/.exports"
 fi
+
+# }}}
 
 ## Shell Integrations {{{
 

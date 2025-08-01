@@ -1,6 +1,5 @@
 [user]
     name = morazow
-    # email = 916295+morazow@users.noreply.github.com
     email = m.orazow@gmail.com
     signingkey = E9FF8EC820C2B4C9
 [core]
@@ -51,6 +50,10 @@
 [credential]
     helper = osxkeychain
     helper = cache --timeout 18000
+[commit]
+    gpgsign = true
+[tag]
+    gpgSign = true
 [merge]
     tool = "nvim"
 [mergetool]
