@@ -2,6 +2,7 @@
     name = morazow
     # email = 916295+morazow@users.noreply.github.com
     email = m.orazow@gmail.com
+    signingkey = E9FF8EC820C2B4C9
 [core]
     autocrlf = input
     # remove whitespaces

@@ -6,13 +6,11 @@ local preview = {
     ft = { 'markdown' },
     config = function()
         local wk = require('which-key')
-        wk.register({
-            m = {
-                name = 'Markdown',
-                p = { ':MarkdownPreview<CR>', 'Start Preview' },
-                s = { ':MarkdownPreviewStop<CR>', 'Stop Preview' },
-                t = { ':MarkdownPreviewToggle<CR>', 'Toggle Preview' },
-            },
+        wk.add({
+            { "<leader>m", group = "Markdown" },
+            { "<leader>mp", ":MarkdownPreview<CR>", desc = "Start Preview" },
+            { "<leader>ms", ":MarkdownPreviewStop<CR>", desc = "Stop Preview" },
+            { "<leader>mt", ":MarkdownPreviewToggle<CR>", desc = "Toggle Preview" },
         }, {
             prefix = '<leader>',
             mode = 'n',
@@ -116,23 +114,20 @@ local obsidian = {
             end,
         })
         local wk = require('which-key')
-        wk.register({
-            o = {
-                name = 'Obsidian',
-                b = { ':ObsidianBacklinks<CR>', 'Create location list of references to current buffer' },
-                l = { ':ObsidianLinkNew<CR>', 'Create a new note and link it to visual selection' },
-                n = {
-                    function()
-                        local title = vim.fn.input('title: ')
-                        if title ~= '' then
-                            vim.cmd('ObsidianNew ' .. title)
-                        end
-                    end,
-                    'Create a new note',
-                },
-                s = { ':ObsidianSearch<CR>', 'Search for notes' },
-                t = { ':ObsidianQuickSwitch<CR>', 'Quickly switch to another note' },
-            },
+        wk.add({
+            { "<leader>o", group = "Obsidian" },
+            { "<leader>ob", ":ObsidianBacklinks<CR>", desc = "Create location list of references to current buffer" },
+            { "<leader>ol", ":ObsidianLinkNew<CR>", desc = "Create a new note and link it to visual selection" },
+            { "<leader>on",
+                function()
+                    local title = vim.fn.input('title: ')
+                    if title ~= '' then
+                        vim.cmd('ObsidianNew ' .. title)
+                    end
+                end,
+                desc = "Create a new note" },
+            { "<leader>os", ":ObsidianSearch<CR>", desc = "Search for notes" },
+            { "<leader>ot", ":ObsidianQuickSwitch<CR>", desc = "Quickly switch to another note" },
         }, {
             prefix = '<leader>',
             mode = 'n',

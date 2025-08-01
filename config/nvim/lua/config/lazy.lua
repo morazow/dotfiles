@@ -16,7 +16,6 @@ require('lazy').setup({
     spec = {
         { 'LazyVim/LazyVim', import = 'lazyvim.plugins' },
         { import = 'lazyvim.plugins.extras.ui.alpha' },
-        { import = 'lazyvim.plugins.extras.coding.copilot' },
         { import = 'lazyvim.plugins.extras.coding.yanky' },
         { import = 'lazyvim.plugins.extras.lang.json' },
         { import = 'lazyvim.plugins.extras.test.core' },

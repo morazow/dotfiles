@@ -4,10 +4,6 @@
 
 local map = vim.keymap.set
 
--- Disable LazyGit keymaps, fugitive is enough
-vim.keymap.del({ 'n' }, '<leader>gg')
-vim.keymap.del({ 'n' }, '<leader>gG')
-
 -- Additional Code Actions
 map('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename' })
 
