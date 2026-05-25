@@ -161,6 +161,9 @@ g.loaded_spec = 1
 -- Set Python3 Program
 g.python3_host_prog = '/usr/bin/python3'
 
+-- Disable Autoformatting
+g.autoformat = false
+
 -- Custom Tabline That Uses Colorscheme Highlights.
 -- Poor man's tabline, I am not yet satisfied with available plugins.
 

@@ -26,6 +26,7 @@ return {
     {
         'neovim/nvim-lspconfig',
         opts = {
+            -- autoformat = false,
             diagnostics = {
                 virtual_text = false,
             },
@@ -33,7 +34,15 @@ return {
                 bashls = {},
                 dockerls = {},
                 jsonls = {},
-                lemminx = {},
+                lemminx = {
+                    settings = {
+                        xml = {
+                            format = {
+                                splitAttributes = false,
+                            },
+                        },
+                    },
+                },
                 terraformls = {},
                 yamlls = {
                     settings = {

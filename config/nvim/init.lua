@@ -1,7 +1,14 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
-require('config.lazy')
+if vim.g.vscode then
+    -- VSCode extension
+else
+    -- ordinary Neovim
+    require('config.lazy')
+end
+
+-- require('config.lazy')
 -- require('settings') -- Sane General Settings
 -- require('mappings') -- Extra Keymappings
 -- require('plugins') -- Plugin Settings

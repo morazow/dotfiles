@@ -1,0 +1,18 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "command": "vscode-neovim.escape",
+        "key": "Escape",
+        "when": "editorTextFocus && neovim.init"
+    },
+    {
+        "command": "whichkey.show",
+        "key": "space",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert && neovim.mode != replace"
+    },
+    {
+        "key": "cmd+shift+b",
+        "command": "workbench.action.tasks.build"
+        // → runs the default build task: "docker: mvn clean install"
+    }
+]

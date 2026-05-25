@@ -125,7 +125,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 alias g='git'
 alias c='clear'
-alias cd='z'
+# alias cd='z'
 alias nv='nvim'
 alias ls='ls --color=auto'
 alias la='ls -alh'
@@ -140,6 +140,46 @@ alias rm="rm -i -v"
 alias tl="tmux ls"
 alias tn="tmux new -s"
 alias ta="tmux attach -t"
+
+# Agents
+alias docker-claude='docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.claude:/home/user/.claude \
+  -v ~/.claude.json:/home/user/.claude.json \
+  -v ~/Devel/git/mor/notes:/home/user/notes \
+  morazow/agents-claude:latest'
+
+alias docker-codex='docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.codex:/home/user/.codex \
+  -v ~/Devel/git/mor/notes:/home/user/notes \
+  morazow/agents-codex:latest'
+
+alias docker-gemini='docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.gemini:/home/user/.gemini \
+  -v ~/Devel/git/mor/notes:/home/user/notes \
+  morazow/agents-gemini:latest'
+
+alias glm='docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.claude:/home/user/.claude \
+  -v ~/.claude.json:/home/user/.claude.json \
+  -v ~/Devel/git/mor/notes:/home/user/notes \
+  -e ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic \
+  -e ANTHROPIC_AUTH_TOKEN=$Z_AI_TOKEN \
+  -e ANTHROPIC_MODEL="glm-4.5" \
+  morazow/agents-claude:latest
+'
+
+alias amp='docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.config/amp:/home/user/.config/amp \
+  -v ~/.config/amp/settings.json:/home/user/.config/amp/settings.json \
+  -v ~/Devel/git/mor/notes:/home/user/notes \
+  -e AMP_API_KEY=$AMP_API_KEY \
+  morazow/agents-amp:latest
+'
 
 ## }}}
 

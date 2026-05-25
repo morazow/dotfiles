@@ -244,7 +244,7 @@ set highlightedyank
 set sneak
 set nerdtree
 set argtextobj
-set multicursor
+" set multicursor
 
 " Easymotion settings
 set easymotion

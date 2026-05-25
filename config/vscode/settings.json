@@ -1,0 +1,209 @@
+{
+  // Font
+  "editor.fontFamily": "JetBrainsMono Nerd Font",
+  "scm.inputFontFamily": "JetBrainsMono Nerd Font",
+  "chat.editor.fontFamily": "JetBrainsMono Nerd Font",
+  "debug.console.fontFamily": "JetBrainsMono Nerd Font",
+  "editor.codeLensFontFamily": "JetBrainsMono Nerd Font",
+  "notebook.output.fontFamily": "JetBrainsMono Nerd Font",
+  "editor.inlayHints.fontFamily": "JetBrainsMono Nerd Font",
+  "editor.fontSize": 12,
+
+  // Window
+  "window.newWindowDimensions": "inherit",
+  "window.title": "${rootName}",
+  "window.zoomLevel": 0,
+
+  // Workbench
+  "workbench.colorTheme": "GitHub Dark",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.revealIfOpen": true,
+  "workbench.list.horizontalScrolling": true,
+  "workbench.startupEditor": "none",
+  "workbench.tips.enabled": false,
+  "workbench.tree.indent": 16,
+  "workbench.tree.renderIndentGuides": "none",
+
+  // Editor
+  "editor.guides.indentation": false,
+  "diffEditor.codeLens": true,
+
+  // Files
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // Explorer
+  "explorer.compactFolders": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.decorations.badges": false,
+  "explorer.openEditors.visible": 1,
+
+  // Terminal
+  "terminal.integrated.cursorStyle": "block",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "terminal.integrated.fontSize": 12,
+
+  // Git / SCM
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "scm.diffDecorations": "all",
+
+  // Misc
+  "problems.decorations.enabled": false,
+  "markdown.preview.fontFamily": "JetBrainsMono Nerd Font",
+  "markdown.preview.markEditorSelection": false,
+  "claudeCode.preferredLocation": "panel",
+
+  // Neovim
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.darwin": "$HOME/.config/vscode/init.lua",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+
+  // Which-key (extension: VSpaceCode.whichkey)
+  "whichkey.bindings": [
+    {
+      "key": "f",
+      "name": "Files",
+      "type": "bindings",
+      "bindings": [
+        { "key": "f", "name": "Find file",            "type": "command", "command": "workbench.action.quickOpen" },
+        { "key": "r", "name": "Recent files",         "type": "command", "command": "workbench.action.openRecent" },
+        { "key": "s", "name": "Save",                 "type": "command", "command": "workbench.action.files.save" },
+        { "key": "n", "name": "New untitled file",    "type": "command", "command": "workbench.action.files.newUntitledFile" },
+        { "key": "p", "name": "Copy path",            "type": "command", "command": "copyFilePath" },
+        { "key": "P", "name": "Copy relative path",   "type": "command", "command": "copyRelativeFilePath" },
+        { "key": "e", "name": "Reveal in Finder",     "type": "command", "command": "revealFileInOS" }
+      ]
+    },
+    {
+      "key": "g",
+      "name": "Git",
+      "type": "bindings",
+      "bindings": [
+        { "key": "s", "name": "Open SCM view",        "type": "command", "command": "workbench.view.scm" },
+        { "key": "g", "name": "Stage all changes",    "type": "command", "command": "git.stageAll" },
+        { "key": "u", "name": "Unstage all",          "type": "command", "command": "git.unstageAll" },
+        { "key": "c", "name": "Commit",               "type": "command", "command": "git.commit" },
+        { "key": "p", "name": "Push",                 "type": "command", "command": "git.push" },
+        { "key": "P", "name": "Pull",                 "type": "command", "command": "git.pull" },
+        { "key": "f", "name": "Fetch",                "type": "command", "command": "git.fetch" },
+        { "key": "o", "name": "Open changes (diff)",  "type": "command", "command": "git.openChange" },
+        { "key": "j", "name": "Next change",          "type": "command", "command": "workbench.action.editor.nextChange" },
+        { "key": "k", "name": "Previous change",      "type": "command", "command": "workbench.action.editor.previousChange" },
+        { "key": "D", "name": "Discard ALL changes (destructive)", "type": "command", "command": "git.cleanAll" }
+      ]
+    },
+    {
+      "key": "c",
+      "name": "Code",
+      "type": "bindings",
+      "bindings": [
+        { "key": "r", "name": "Rename symbol",        "type": "command", "command": "editor.action.rename" },
+        { "key": "f", "name": "Format document",      "type": "command", "command": "editor.action.formatDocument" },
+        { "key": "F", "name": "Format selection",     "type": "command", "command": "editor.action.formatSelection" },
+        { "key": "a", "name": "Code action / fix",    "type": "command", "command": "editor.action.quickFix" },
+        { "key": "d", "name": "Go to definition",     "type": "command", "command": "editor.action.revealDefinition" },
+        { "key": "D", "name": "Peek definition",      "type": "command", "command": "editor.action.peekDefinition" },
+        { "key": "R", "name": "Find references",      "type": "command", "command": "editor.action.referenceSearch.trigger" },
+        { "key": "i", "name": "Show hover",           "type": "command", "command": "editor.action.showHover" },
+        { "key": "s", "name": "Symbol in file",       "type": "command", "command": "workbench.action.gotoSymbol" },
+        { "key": "S", "name": "Symbol in workspace",  "type": "command", "command": "workbench.action.showAllSymbols" },
+        { "key": "o", "name": "Organize imports",     "type": "command", "command": "editor.action.organizeImports" }
+      ]
+    },
+    {
+      "key": "s",
+      "name": "Search",
+      "type": "bindings",
+      "bindings": [
+        { "key": "s", "name": "Search in files",      "type": "command", "command": "workbench.action.findInFiles" },
+        { "key": "r", "name": "Replace in files",     "type": "command", "command": "workbench.action.replaceInFiles" },
+        { "key": "f", "name": "Find in current file", "type": "command", "command": "actions.find" },
+        { "key": "S", "name": "Symbol in workspace",  "type": "command", "command": "workbench.action.showAllSymbols" }
+      ]
+    },
+    {
+      "key": "t",
+      "name": "Toggles",
+      "type": "bindings",
+      "bindings": [
+        { "key": "s", "name": "Sidebar",              "type": "command", "command": "workbench.action.toggleSidebarVisibility" },
+        { "key": "t", "name": "Terminal",             "type": "command", "command": "workbench.action.terminal.toggleTerminal" },
+        { "key": "p", "name": "Problems panel",       "type": "command", "command": "workbench.actions.view.problems" },
+        { "key": "m", "name": "Minimap",              "type": "command", "command": "editor.action.toggleMinimap" },
+        { "key": "b", "name": "Breadcrumbs",          "type": "command", "command": "breadcrumbs.toggle" },
+        { "key": "w", "name": "Word wrap",            "type": "command", "command": "editor.action.toggleWordWrap" },
+        { "key": "z", "name": "Zen mode",             "type": "command", "command": "workbench.action.toggleZenMode" }
+      ]
+    },
+    {
+      "key": "b",
+      "name": "Buffers",
+      "type": "bindings",
+      "bindings": [
+        { "key": "b", "name": "List open editors",    "type": "command", "command": "workbench.action.showAllEditors" },
+        { "key": "d", "name": "Close current",        "type": "command", "command": "workbench.action.closeActiveEditor" },
+        { "key": "o", "name": "Close others",         "type": "command", "command": "workbench.action.closeOtherEditors" },
+        { "key": "n", "name": "Next",                 "type": "command", "command": "workbench.action.nextEditor" },
+        { "key": "p", "name": "Previous",             "type": "command", "command": "workbench.action.previousEditor" }
+      ]
+    },
+    {
+      "key": "w",
+      "name": "Windows",
+      "type": "bindings",
+      "bindings": [
+        { "key": "v", "name": "Split vertical",       "type": "command", "command": "workbench.action.splitEditor" },
+        { "key": "s", "name": "Split horizontal",     "type": "command", "command": "workbench.action.splitEditorDown" },
+        { "key": "h", "name": "Focus left",           "type": "command", "command": "workbench.action.focusLeftGroup" },
+        { "key": "j", "name": "Focus below",          "type": "command", "command": "workbench.action.focusBelowGroup" },
+        { "key": "k", "name": "Focus above",          "type": "command", "command": "workbench.action.focusAboveGroup" },
+        { "key": "l", "name": "Focus right",          "type": "command", "command": "workbench.action.focusRightGroup" },
+        { "key": "c", "name": "Close group",          "type": "command", "command": "workbench.action.closeEditorsInGroup" }
+      ]
+    }
+  ],
+
+  // Rust
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.lens.implementations.enable": false,
+  "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
+  "rust-analyzer.inlayHints.renderColons": false,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+
+  // C / C++ / Make
+  "makefile.configureOnOpen": true,
+  "C_Cpp.intelliSenseEngine": "disabled",
+
+  // Java
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-17",
+      "path": "/Users/morazow/.sdkman/candidates/java/17.0.11-tem"
+    },
+    {
+      "name": "JavaSE-11",
+      "path": "/Users/morazow/.sdkman/candidates/java/11.0.22-tem"
+    },
+    {
+      "name": "JavaSE-25",
+      "path": "/Users/morazow/.sdkman/candidates/java/25.0.2-tem",
+      "default": true
+    }
+  ],
+  "editor.minimap.enabled": false,
+  "[java]": {
+    "editor.suggest.snippetsPreventQuickSuggestions": false
+  }
+}
